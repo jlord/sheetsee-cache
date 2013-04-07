@@ -14,12 +14,14 @@
   "author": "jllord",
   "license": "BSD",
   "devDependencies": {
-    "browserify": "~2.7.2",
-    "browservefy": "0.0.9"
+    "browserify": "~2.7.2"
   },
   "dependencies": {
     "jsonp": "0.0.3",
     "feed-tables": "~0.1.3",
-    "mapbox.js": "~0.6.7"
+    "mapbox.js": "~0.6.7",
+    "filesystem-browserify": "0.0.1",
+    "beefy": "0.0.11",
+    "tabletop": "git://github.com/maxogden/tabletop.git#nodejs"
   }
 }
