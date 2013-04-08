@@ -5,40 +5,35 @@ var Tabletop = require('tabletop').Tabletop
 var sheetData = []
 var lastFetch 
 var KEY = '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE'
+// console.log("doesn't exist:", !sheetData.length, "date now:", Date.now(), "last fetch:", lastFetch)
 
-// What to do when our server gets a request
 function requestHandler (request, response) {
-	var options = {key: KEY, callback: loadSheet, simpleSheet: true}
-	console.log("doesn't exist:", !sheetData.length, "date now:", Date.now(), "last fetch:", lastFetch)
+	var options = {key: KEY, callback: function(data, tabletop){
+		loadSheet(data, tabletop)
+		buildPage().pipe(response)
+	}, simpleSheet: true}
+
 	if (!sheetData.length || (Date.now() - lastFetch) > 300000) {
 		Tabletop.init(options)
-		// var fileLocation = __dirname + '/index.html';
-		// var fileStream = fs.createReadStream(fileLocation)
-		// console.log(fileStream)
-		response.end(JSON.stringify(sheetData))
 	}
 	else {
-		// var fileLocation = __dirname + '/index.html';
-		// var fileStream = fs.createReadStream(fileLocation)
-		// console.log(fileStream)
-		response.end(JSON.stringify(sheetData))
+		buildPage().pipe(response)
 	}
 }
 
-function loadSheet(data, tabletop, callback) {
+function loadSheet(data, tabletop) {
 	sheetData = data
 	lastFetch = Date.now()
-	console.log(sheetData)
-	fs.writeFile(KEY + '.json', JSON.stringify(sheetData))
+	console.log("this is sheetData:", sheetData)
+	fs.writeFile('data.json', JSON.stringify(sheetData))
 }
 
-// function buildPage() {
-// 	var fileLocation = __dirname + '/index.html';
-// 	var fileStream = fs.createReadStream(fileLocation)
-// 	console.log("file stream", fileStream)
-// 	return fileStream
-//   // fileStream.pipe(response);
-// }
+function buildPage() {
+	var fileLocation = __dirname + '/index.html';
+	var fileStream = fs.createReadStream(fileLocation)
+	console.log("file stream", fileStream)
+	return fileStream
+}
 
 // Create the server
 var server = http.createServer(requestHandler);
