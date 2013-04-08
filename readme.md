@@ -2,10 +2,6 @@ Not done yet!
 
 ## To Run
 
-    npm start
+		node server.js 
 
-## Example
 
-    var createMap = require('sheetsee-maplist')
-    
-	 var map = createMap(URL, mapID, wrapperDiv)
