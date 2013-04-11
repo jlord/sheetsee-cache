@@ -1,6 +1,7 @@
 var fs = require('fs')
 var http = require('http')
 var Tabletop = require('tabletop').Tabletop
+var dns = require('dns')
 
 var sheetData = []
 var lastFetch 
@@ -8,11 +9,15 @@ var KEY = '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE'
 // console.log("doesn't exist:", !sheetData.length, "date now:", Date.now(), "last fetch:", lastFetch)
 
 function requestHandler (request, response) {
+fs.readFile('data.json', function (err, data) {
+  if (err) throw err;
+ 	var staleData = JSON.parse(data)
+  console.log("click", staleData);
+});
 	var options = {key: KEY, callback: function(data, tabletop){
 		loadSheet(data, tabletop)
 		buildPage().pipe(response)
 	}, simpleSheet: true}
-
 	if (!sheetData.length || (Date.now() - lastFetch) > 300000) {
 		Tabletop.init(options)
 	}
@@ -21,17 +26,29 @@ function requestHandler (request, response) {
 	}
 }
 
+function freshData() {
+
+}
+
+function checkWww(cb){
+	dns.lookup('www.google.com', function(err, addresses) {
+	  if (err) return cb(err) // no www
+	  	console.log(cb)
+	  return cb(false) // www
+	})
+}
+
 function loadSheet(data, tabletop) {
 	sheetData = data
 	lastFetch = Date.now()
-	console.log("this is sheetData:", sheetData)
+	// console.log("this is sheetData:", sheetData) 
 	fs.writeFile('data.json', JSON.stringify(sheetData))
 }
 
 function buildPage() {
 	var fileLocation = __dirname + '/index.html';
 	var fileStream = fs.createReadStream(fileLocation)
-	console.log("file stream", fileStream)
+	// console.log("file stream", fileStream) // to term
 	return fileStream
 }
 
@@ -41,9 +58,3 @@ var server = http.createServer(requestHandler);
 var port = process.env.PORT || 3000;
 server.listen(port);
 console.log('Listening on port 3000');
-
-// when you get a request, check date of last cache
-// if no cache or cache > 5 mins old
-// delete old cache
-// go to Google and get data, save to cache
-// 
