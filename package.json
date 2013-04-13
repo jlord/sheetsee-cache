@@ -23,6 +23,7 @@
     "filesystem-browserify": "0.0.1",
     "beefy": "0.0.11",
     "tabletop": "git://github.com/maxogden/tabletop.git#nodejs",
-    "hasinternet": "0.0.0"
+    "hasinternet": "0.0.0",
+    "cheerio": "~0.10.8"
   }
 }
