@@ -13,16 +13,15 @@ var KEY = '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE'
 function requestHandler (request, response) {
 	hasInternet(function answer(err, internet) {
 		if (internet) freshData(request, response)
-		else localData(buildPage(request, response))
+		else localData(request, response, buildPage)
 	})
 }
 
-function localData(cb) {
+function localData(request, response, cb) {
 	fs.readFile('data.json', function (err, data) {
 	  if (err) throw err;
 	 	var staleData = JSON.parse(data)
-	  return staleData
-	  cb(staleData)
+	  cb(request, response, staleData)
 	});
 }
 
@@ -33,14 +32,14 @@ function fetchData() {
 function freshData(request, response) {
 	function tabletopCb(data, tabletop){
 		loadSheet(data, tabletop)
-		buildPage(request, response)
+		buildPage(request, response, data)
 	}
 	var options = {key: KEY, callback: tabletopCb, simpleSheet: true}
 	if (!sheetData.length || (Date.now() - lastFetch) > 300000) {
 		Tabletop.init(options)
 	}
 	else {
-		buildPage(request, response)
+		buildPage(request, response, data)
 	}
 }
 
@@ -55,14 +54,11 @@ function loadSheet(data, tabletop) {
 }
 
 function buildPage(request, response, data) {
-	// var theData = data
 	var fileLocation = __dirname + '/index.html';
 	var fileStream = fs.readFile(fileLocation, 'utf8', function (err, contents){
 		var $ = cheerio.load(contents)
-		console.log("page", $)
-		$("body").append("<script>alert('hello world');<\/script>");
+		$("body").append("<script type='text/javascript'>var gData = JSON.parse('" + JSON.stringify(data) + "')</script>");
 		var completePage = $.html()
-		console.log("complete page", completePage)
 		return response.end(completePage)
 	})
 }
