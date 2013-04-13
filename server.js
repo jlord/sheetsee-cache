@@ -2,6 +2,7 @@ var fs = require('fs')
 var http = require('http')
 var Tabletop = require('tabletop').Tabletop
 var dns = require('dns')
+var hasInternet = require('hasinternet')
 
 var sheetData = []
 var lastFetch 
@@ -9,15 +10,30 @@ var KEY = '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE'
 // console.log("doesn't exist:", !sheetData.length, "date now:", Date.now(), "last fetch:", lastFetch)
 
 function requestHandler (request, response) {
-fs.readFile('data.json', function (err, data) {
-  if (err) throw err;
- 	var staleData = JSON.parse(data)
-  console.log("click", staleData);
-});
-	var options = {key: KEY, callback: function(data, tabletop){
+	hasInternet(function answer(err, internet) {
+		if (internet) freshData(request, response)
+		else localData()
+	})
+}
+
+function localData() {
+	fs.readFile('data.json', function (err, data) {
+	  if (err) throw err;
+	 	var staleData = JSON.parse(data)
+	  console.log("click", staleData);
+	});
+}
+
+function fetchData() {
+
+}
+
+function freshData(request, response) {
+	function tabletopCb(data, tabletop){
 		loadSheet(data, tabletop)
 		buildPage().pipe(response)
-	}, simpleSheet: true}
+	}
+	var options = {key: KEY, callback: tabletopCb, simpleSheet: true}
 	if (!sheetData.length || (Date.now() - lastFetch) > 300000) {
 		Tabletop.init(options)
 	}
@@ -26,17 +42,8 @@ fs.readFile('data.json', function (err, data) {
 	}
 }
 
-function freshData() {
 
-}
 
-function checkWww(cb){
-	dns.lookup('www.google.com', function(err, addresses) {
-	  if (err) return cb(err) // no www
-	  	console.log(cb)
-	  return cb(false) // www
-	})
-}
 
 function loadSheet(data, tabletop) {
 	sheetData = data
