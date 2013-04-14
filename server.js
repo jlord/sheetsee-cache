@@ -1,3 +1,4 @@
+// dependencies
 var fs = require('fs')
 var http = require('http')
 var Tabletop = require('tabletop').Tabletop
@@ -5,30 +6,32 @@ var dns = require('dns')
 var hasInternet = require('hasinternet')
 var cheerio = require('cheerio')
 
+// globals
 var sheetData = []
 var lastFetch 
 var KEY = '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE'
-// console.log("doesn't exist:", !sheetData.length, "date now:", Date.now(), "last fetch:", lastFetch)
 
+// ready, set, go!
 function requestHandler (request, response) {
 	hasInternet(function answer(err, internet) {
 		if (internet) freshData(request, response)
-		else localData(request, response, buildPage)
+		else {
+			console.log("you are offline, fetching stored data")
+			localData(request, response, buildPage)
+		}
 	})
 }
 
+// if you're offline
 function localData(request, response, cb) {
-	fs.readFile('data.json', function (err, data) {
+	fs.readFile(KEY + '.json', function (err, data) {
 	  if (err) throw err;
 	 	var staleData = JSON.parse(data)
 	  cb(request, response, staleData)
 	});
 }
 
-function fetchData() {
-
-}
-
+// if online
 function freshData(request, response) {
 	function tabletopCb(data, tabletop){
 		loadSheet(data, tabletop)
@@ -36,21 +39,19 @@ function freshData(request, response) {
 	}
 	var options = {key: KEY, callback: tabletopCb, simpleSheet: true}
 	if (!sheetData.length || (Date.now() - lastFetch) > 300000) {
+		console.log("you are online with old data, fetching new")
 		Tabletop.init(options)
 	}
 	else {
-		buildPage(request, response, data)
+		console.log("you are online with fresh data")
+		localData(request, response, buildPage)
 	}
 }
-
-
-
 
 function loadSheet(data, tabletop) {
 	sheetData = data
 	lastFetch = Date.now()
-	// console.log("this is sheetData:", sheetData) 
-	fs.writeFile('data.json', JSON.stringify(sheetData))
+	fs.writeFile(KEY +'.json', JSON.stringify(sheetData))
 }
 
 function buildPage(request, response, data) {
@@ -62,9 +63,6 @@ function buildPage(request, response, data) {
 		return response.end(completePage)
 	})
 }
-
-
-
 
 var server = http.createServer(requestHandler);
 var port = process.env.PORT || 3000;
