@@ -24,6 +24,9 @@
     "beefy": "0.0.11",
     "tabletop": "git://github.com/maxogden/tabletop.git#nodejs",
     "hasinternet": "0.0.0",
-    "cheerio": "~0.10.8"
+    "cheerio": "~0.10.8",
+    "ecstatic": "~0.4.2",
+    "filed": "0.0.7",
+    "router": "~0.6.2"
   }
 }

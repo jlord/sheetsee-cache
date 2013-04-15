@@ -5,6 +5,8 @@ var Tabletop = require('tabletop').Tabletop
 var dns = require('dns')
 var hasInternet = require('hasinternet')
 var cheerio = require('cheerio')
+var filed = require('filed')
+var router = require('router')
 
 // globals
 var sheetData = []
@@ -13,13 +15,19 @@ var KEY = '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE'
 
 // ready, set, go!
 function requestHandler (request, response) {
-	hasInternet(function answer(err, internet) {
-		if (internet) freshData(request, response)
-		else {
-			console.log("you are offline, fetching stored data")
-			localData(request, response, buildPage)
-		}
-	})
+	var route = router()
+	console.log(request.url)
+  route.get('/', function (request, response) {
+  	hasInternet(function answer(err, internet) {
+			if (internet) freshData(request, response)
+			else {
+				console.log("you are offline, fetching stored data")
+				localData(request, response, buildPage)
+			}
+		})
+  })
+	route.get('/js/*', serveStatic)
+	route(request, response)
 }
 
 // if you're offline
@@ -56,15 +64,19 @@ function loadSheet(data, tabletop) {
 
 function buildPage(request, response, data) {
 	var fileLocation = __dirname + '/index.html';
-	var fileStream = fs.readFile(fileLocation, 'utf8', function (err, contents){
+	var fileStream = fs.readFile(fileLocation, function (err, contents){
 		var $ = cheerio.load(contents)
-		$("body").append("<script type='text/javascript'>var gData = JSON.parse('" + JSON.stringify(data) + "')</script>");
+		$("head").append("<script type='text/javascript'>var gData = JSON.parse('" + JSON.stringify(data) + "')</script>");
 		var completePage = $.html()
 		return response.end(completePage)
 	})
 }
 
-var server = http.createServer(requestHandler);
-var port = process.env.PORT || 3000;
-server.listen(port);
-console.log('Listening on port 3000');
+function serveStatic (request, response) {
+    filed(__dirname +	 request.url).pipe(response);
+}
+
+var server = http.createServer(requestHandler)
+var port = process.env.PORT || 3000
+server.listen(port)
+console.log('Listening on port 3000')

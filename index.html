@@ -1,10 +1,28 @@
 <html>
 	<head>
 		<title>Yo, yo, yo!</title>
+		<script type="text/javascript" src="js/ICanHaz.js"></script>  
 	</head>
 <body>
 	<h1>Hello I am a page, world.</h1>
+	<div id="test">waiting</div>
 
+	<script id="test" type="text/html">
+		<table><tr>
+		  {{#rows}}
+		  	<td>{{name}}{{category}}</td>
+		  {{/rows}}
+	  </tr><table>
+	</script>
 
+	<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
+    var test = ich.test({
+      rows: gData	
+    })
+    document.getElementById('test').innerHTML = test
+   }) 
+
+	</script>
 </body>
 </html>
