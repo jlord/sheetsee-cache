@@ -14,36 +14,37 @@ var lastFetch
 var KEY = '0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE'
 
 // ready, set, go!
-function requestHandler (request, response) {
+function reqHandler (req, res) {
 	var route = router()
-	console.log(request.url)
-  route.get('/', function (request, response) {
-  	hasInternet(function answer(err, internet) {
-			if (internet) freshData(request, response)
-			else {
-				console.log("you are offline, fetching stored data")
-				localData(request, response, buildPage)
-			}
-		})
-  })
+  route.get('/', serveRoot)
 	route.get('/js/*', serveStatic)
-	route(request, response)
+	route.get('/css/*', serveStatic)
+	route.get('/img/*', serveStatic)
+	route(req, res)
+}
+
+function serveRoot(req, res) {
+	hasInternet(function answer(err, internet) {
+		if (internet) return freshData(req, res)
+		console.log("you are offline, fetching stored data")
+		localData(req, res, buildPage)
+	})
 }
 
 // if you're offline
-function localData(request, response, cb) {
+function localData(req, res, cb) {
 	fs.readFile(KEY + '.json', function (err, data) {
 	  if (err) throw err;
 	 	var staleData = JSON.parse(data)
-	  cb(request, response, staleData)
-	});
+	  cb(req, res, staleData)
+	})
 }
 
 // if online
-function freshData(request, response) {
+function freshData(req, res) {
 	function tabletopCb(data, tabletop){
 		loadSheet(data, tabletop)
-		buildPage(request, response, data)
+		buildPage(req, res, data)
 	}
 	var options = {key: KEY, callback: tabletopCb, simpleSheet: true}
 	if (!sheetData.length || (Date.now() - lastFetch) > 300000) {
@@ -52,7 +53,7 @@ function freshData(request, response) {
 	}
 	else {
 		console.log("you are online with fresh data")
-		localData(request, response, buildPage)
+		localData(req, res, buildPage)
 	}
 }
 
@@ -62,21 +63,21 @@ function loadSheet(data, tabletop) {
 	fs.writeFile(KEY +'.json', JSON.stringify(sheetData))
 }
 
-function buildPage(request, response, data) {
+function buildPage(req, res, data) {
 	var fileLocation = __dirname + '/index.html';
 	var fileStream = fs.readFile(fileLocation, function (err, contents){
 		var $ = cheerio.load(contents)
 		$("head").append("<script type='text/javascript'>var gData = JSON.parse('" + JSON.stringify(data) + "')</script>");
 		var completePage = $.html()
-		return response.end(completePage)
+		return res.end(completePage)
 	})
 }
 
-function serveStatic (request, response) {
-    filed(__dirname +	 request.url).pipe(response);
+function serveStatic (req, res) {
+  filed(__dirname +	req.url).pipe(res);
 }
 
-var server = http.createServer(requestHandler)
+var server = http.createServer(reqHandler)
 var port = process.env.PORT || 3000
 server.listen(port)
 console.log('Listening on port 3000')
