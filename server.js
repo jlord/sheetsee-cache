@@ -50,6 +50,8 @@ function freshData(req, res) {
 	if (!sheetData.length || (Date.now() - lastFetch) > 300000) {
 		console.log("you are online with old data, fetching new")
 		Tabletop.init(options)
+
+
 	}
 	else {
 		console.log("you are online with fresh data")
@@ -67,7 +69,7 @@ function buildPage(req, res, data) {
 	var fileLocation = __dirname + '/index.html';
 	var fileStream = fs.readFile(fileLocation, function (err, contents){
 		var $ = cheerio.load(contents)
-		$("head").append("<script type='text/javascript'>var gData = JSON.parse('" + JSON.stringify(data) + "')</script>");
+		$("head").append("<script type='text/javascript'>var gData = " + JSON.stringify(data) + "</script>");
 		var completePage = $.html()
 		return res.end(completePage)
 	})
