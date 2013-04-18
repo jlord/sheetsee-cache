@@ -11,7 +11,7 @@ var router = require('router')
 // globals
 var sheetData = []
 var lastFetch 
-var KEY = '0AoXVKFw1Uci5dFNpRGdWd2pXZTN4a3Fza0VhVTRVaGc'
+var KEY = '0Ao5u1U6KYND7dGN5QngweVJUWE16bTRob0d2a3dCbnc'
 
 // ready, set, go!
 function reqHandler (req, res) {

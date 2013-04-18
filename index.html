@@ -1,18 +1,20 @@
 <html>
 	<head>
 		<title>Yo, yo, yo!</title>
-		<script type="text/javascript" src="js/ICanHaz.js"></script>  
+		<script type="text/javascript" src="js/ICanHaz.js"></script> 
+		<link media="screen" rel="stylesheet" type="text/css" href="/css/style.css"> 
 	</head>
 <body>
-	<h1>Hello I am a page, world.</h1>
+	<h1>Sheetsee.js</h1>
 	<div id="test">waiting</div>
 
 	<script id="test" type="text/html">
-		<table><tr>
+		<table>
+		<tr><th>City</th><th>Place</th></tr>
 		  {{#rows}}
-		  	<tr><td>{{neighborhood}}{{name}}</td></tr>
+		  	<tr><td>{{city}}</td><td>{{place-name}}</td></tr>
 		  {{/rows}}
-	  </tr><table>
+	  <table>
 	</script>
 
 	<script type="text/javascript">
