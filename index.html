@@ -2,13 +2,16 @@
 	<head>
 		<title>Yo, yo, yo!</title>
 		<script type="text/javascript" src="js/ICanHaz.js"></script> 
+		<script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js'></script>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
 		<link media="screen" rel="stylesheet" type="text/css" href="/css/style.css"> 
 	</head>
 <body>
 	<h1>Sheetsee.js</h1>
-	<div id="test">waiting</div>
+	<div id="map"></div>
+	<div id="temp">waiting</div>
 
-	<script id="test" type="text/html">
+	<script id="temp" type="text/html">
 		<table>
 		<tr><th>City</th><th>Place</th></tr>
 		  {{#rows}}
@@ -19,11 +22,73 @@
 
 	<script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
-    var test = ich.test({
+    var temp = ich.temp({
       rows: gData	
     })
-    document.getElementById('test').innerHTML = test
+    document.getElementById('temp').innerHTML = temp	
    }) 
+
+	</script>
+
+	<script type='text/javascript'>
+		function displayAddress(map, project) {
+		  var markerLocation = new L.LatLng(project.lat, project.long);
+		  setCenter(map, markerLocation)
+		  var marker = new L.Marker(markerLocation).addTo(map)
+		  // var markerLayer = L.mapbox.markerLayer(markerLocation).addTo(map)
+		  // marker.bindPopup(project[focusAreaColumn]).openPopup();
+		}
+
+// L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+		var myIcon = L.icon({
+	    iconUrl: '/images/marker-icon.png',
+	    iconRetinaUrl: '/images/marker-icon.png',
+	    iconSize: [25, 41],
+	    iconAnchor: [22, 94],
+	    popupAnchor: [-3, -76],
+	    shadowUrl: '/images/marker-shadow.png',
+	    shadowRetinaUrl: '/images/marker-shadow.png',
+	    shadowSize: [41, 95],
+	    shadowAnchor: [22, 94]
+	});
+
+		function createGeoJSON(data){
+			var geoJSON = []
+			data.forEach(function(lineItem){
+				var feature = {
+					type: 'Feature',
+					"geometry": { "type": "Point", "coordinates": [lineItem.long, lineItem.lat]},
+					"properties": {
+    				"image": "hello",
+    				"url": "hi",
+    				"marker-symbol": "star",
+    				"title": lineItem.placename,
+    				"city": "heya"
+					}
+				}
+				geoJSON.push(feature)
+			})
+			return	geoJSON
+		}
+
+		function loadMap() {
+			var map = L.mapbox.map('map', 'examples.map-4l7djmvo')
+			// var mapTiles = new L.mapbox.tileLayer('http://a.tiles.mapbox.com/v3/examples.map-0l53fhk2.json');
+			return map
+		}
+
+		function setCenter(map, markerLocation) {
+			map.setView(markerLocation, 8)
+		}
+
+		var map = loadMap()
+		var geoJSON = createGeoJSON(gData)
+		map.markerLayer.setGeoJSON(geoJSON);
+		// var markerLayer = L.mapbox.markerLayer(geoJSON).addTo(map);
+		map.setView(geoJSON[0].geometry.coordinates.reverse(), 8)
+		// gData.forEach(function (gData){ 
+		// 	displayAddress(map, gData)
+		// })
 
 	</script>
 </body>
