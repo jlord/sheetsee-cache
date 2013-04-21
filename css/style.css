@@ -5,4 +5,27 @@ th {padding: 10px 0px;}
 td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 
 #map {height: 400px; width: 600px; background: #acacac;}
-#holder {height: 500px; width: 600px; background: #FFE7E7;}
+#holder {height: 400px; width: 600px; background: #FFE7E7;}
+
+.bar rect {fill: #e6e6e6;}
+
+.bar text.value {
+  fill: #333;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.axis path {
+  fill: none;
+}
+
+.x.axis line {
+  stroke: #fff;
+  stroke-opacity: .7;
+}
+
+.y.axis path {
+  stroke: #333;
+}

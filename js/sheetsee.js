@@ -63,7 +63,7 @@ function getOccurance(data) {
 function makeArrayOfObject(data) {
   var keys = Object.keys(data)
   return keys.map(function(key){ 
-    var h = {label: key, units: data[key], hexcolor: "#FFE7E7"}        
+    var h = {label: key, units: data[key], hexcolor: "#FDBDBD"}        
     return h
   })
 }
@@ -130,31 +130,30 @@ var svg = d3.select(divTown).append("svg")
   y.domain(data.map(function(d) { return d.label; }));
 
   var bar = svg.selectAll("g.bar")
-      .data(data)
+    .data(data)
     .enter().append("g")
-      .attr("class", "bar")
-      .attr("transform", function(d) { return "translate(0," + y(d.label) + ")"; });
+    .attr("class", "bar")
+    .attr("transform", function(d) { return "translate(0," + y(d.label) + ")"; });
 
   bar.append("rect")
-      .attr("width", function(d) { return x(d.units); })
-      .attr("height", y.rangeBand())
-      .style("fill", function(d) { return d.hexcolor; });
+    .attr("width", function(d) { return x(d.units); })
+    .attr("height", y.rangeBand())
+    .style("fill", function(d) { return d.hexcolor; });
 
   bar.append("text")
-      .attr("class", "value")
-      .attr("x", function(d) { return x(d.units); })
-      .attr("y", y.rangeBand() / 2)
-      .attr("dx", 60)
-      .attr("dy", ".35em")
-      .attr("text-anchor", "end")
-      .text(function(d) { return format(d.units); });
+    .attr("class", "value")
+    .attr("x", function(d) { return x(d.units); })
+    .attr("y", y.rangeBand() / 2)
+    .attr("dx", 12)
+    .attr("dy", ".35em")
+    .attr("text-anchor", "end")
+    .text(function(d) { return format(d.units); });
       
+  svg.append("g")
+    .attr("class", "x axis")
+    .call(xAxis);
 
   svg.append("g")
-      .attr("class", "x axis")
-      .call(xAxis);
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
+    .attr("class", "y axis")
+    .call(yAxis);
 };
