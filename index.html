@@ -3,11 +3,14 @@
 		<title>Yo, yo, yo!</title>
 		<script type="text/javascript" src="js/ICanHaz.js"></script> 
 		<script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js'></script>
+		<script type="text/javascript" src='js/d3.js'></script>
+		<script type="text/javascript" src='js/sheetsee.js'></script>
     <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
 		<link media="screen" rel="stylesheet" type="text/css" href="/css/style.css"> 
 	</head>
 <body>
 	<h1>Sheetsee.js</h1>
+	<div id="holder"></div>
 	<div id="map"></div>
 	<div id="temp">waiting</div>
 
@@ -15,7 +18,7 @@
 		<table>
 		<tr><th>City</th><th>Place</th></tr>
 		  {{#rows}}
-		  	<tr><td>{{city}}</td><td>{{place-name}}</td></tr>
+		  	<tr><td>{{city}}</td><td>{{placename}}</td></tr>
 		  {{/rows}}
 	  <table>
 	</script>
@@ -31,65 +34,15 @@
 	</script>
 
 	<script type='text/javascript'>
-		function displayAddress(map, project) {
-		  var markerLocation = new L.LatLng(project.lat, project.long);
-		  setCenter(map, markerLocation)
-		  var marker = new L.Marker(markerLocation).addTo(map)
-		  // var markerLayer = L.mapbox.markerLayer(markerLocation).addTo(map)
-		  // marker.bindPopup(project[focusAreaColumn]).openPopup();
-		}
-
-// L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
-		var myIcon = L.icon({
-	    iconUrl: '/images/marker-icon.png',
-	    iconRetinaUrl: '/images/marker-icon.png',
-	    iconSize: [25, 41],
-	    iconAnchor: [22, 94],
-	    popupAnchor: [-3, -76],
-	    shadowUrl: '/images/marker-shadow.png',
-	    shadowRetinaUrl: '/images/marker-shadow.png',
-	    shadowSize: [41, 95],
-	    shadowAnchor: [22, 94]
-	});
-
-		function createGeoJSON(data){
-			var geoJSON = []
-			data.forEach(function(lineItem){
-				var feature = {
-					type: 'Feature',
-					"geometry": { "type": "Point", "coordinates": [lineItem.long, lineItem.lat]},
-					"properties": {
-    				"image": "hello",
-    				"url": "hi",
-    				"marker-symbol": "star",
-    				"title": lineItem.placename,
-    				"city": "heya"
-					}
-				}
-				geoJSON.push(feature)
-			})
-			return	geoJSON
-		}
-
-		function loadMap() {
-			var map = L.mapbox.map('map', 'examples.map-4l7djmvo')
-			// var mapTiles = new L.mapbox.tileLayer('http://a.tiles.mapbox.com/v3/examples.map-0l53fhk2.json');
-			return map
-		}
-
-		function setCenter(map, markerLocation) {
-			map.setView(markerLocation, 8)
-		}
-
 		var map = loadMap()
 		var geoJSON = createGeoJSON(gData)
-		map.markerLayer.setGeoJSON(geoJSON);
-		// var markerLayer = L.mapbox.markerLayer(geoJSON).addTo(map);
-		map.setView(geoJSON[0].geometry.coordinates.reverse(), 8)
-		// gData.forEach(function (gData){ 
-		// 	displayAddress(map, gData)
-		// })
+		addMarkerLayer()
+		addPopups()
+	</script>
 
+	<script type="text/javascript">
+		var chartData = makeArrayOfObject(getOccurance(gData))
+		renderGraph(chartData, chartData.length, "#holder")
 	</script>
 </body>
 </html>

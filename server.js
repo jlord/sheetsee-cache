@@ -19,7 +19,7 @@ function reqHandler (req, res) {
   route.get('/', serveRoot)
 	route.get('/js/*', serveStatic)
 	route.get('/css/*', serveStatic)
-	route.get('/images/*', serveStatic)
+	route.get('/img/*', serveStatic)
 	route(req, res)
 }
 

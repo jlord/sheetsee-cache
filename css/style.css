@@ -2,6 +2,7 @@ body {font-family: Merriweather; padding: 18px; background: #F8F0F0; color: #333
 
 table {text-align: left;}
 th {padding: 10px 0px;}
-td {padding: 3px 20px 3px 0px; font-size: 10px;}
+td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 
 #map {height: 400px; width: 600px; background: #acacac;}
+#holder {height: 500px; width: 600px; background: #FFE7E7;}
