@@ -9,6 +9,7 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 
 .bar rect {fill: #e6e6e6;}
 
+
 .bar text.value {
   fill: #333;
 }
@@ -27,5 +28,5 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 }
 
 .y.axis path {
-  stroke: #333;
+  stroke: #fff;
 }

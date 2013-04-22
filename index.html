@@ -11,14 +11,15 @@
 <body>
 	<h1>Sheetsee.js</h1>
 	<div id="holder"></div>
+	<label><input type="checkbox"> Sort values</label>	
 	<div id="map"></div>
 	<div id="temp">waiting</div>
 
 	<script id="temp" type="text/html">
 		<table>
-		<tr><th>City</th><th>Place</th></tr>
+		<tr><th>City</th><th>Place</th><th>Image</th></tr>
 		  {{#rows}}
-		  	<tr><td>{{city}}</td><td>{{placename}}</td></tr>
+		  	<tr><td>{{city}}</td><td>{{placename}}</td><td><em>{{image}}</em></td></tr>
 		  {{/rows}}
 	  <table>
 	</script>
@@ -34,15 +35,22 @@
 	</script>
 
 	<script type='text/javascript'>
-		var map = loadMap()
-		var geoJSON = createGeoJSON(gData)
-		addMarkerLayer()
-		addPopups()
+		// var map = loadMap()
+		// var geoJSON = createGeoJSON(gData)
+		// addMarkerLayer()
+		// addPopups()
 	</script>
 
 	<script type="text/javascript">
 		var chartData = makeArrayOfObject(getOccurance(gData))
-		renderGraph(chartData, chartData.length, "#holder")
+		var barChart = renderGraph(chartData, chartData.length, "#holder")
+		// var button = document.getElementById("button")
+
+		// button.onclick = sortChart(barChart)
+
+
+
+
 	</script>
 </body>
 </html>
