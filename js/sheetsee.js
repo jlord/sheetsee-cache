@@ -139,9 +139,15 @@ var svg = d3.select(divTown).append("svg")
     .attr("transform", function(d) { return "translate(0," + y(d.label) + ")"; });
 
   bar.append("rect")
-    .attr("width", function(d) { return x(d.units); })
+    .attr("width", function(d) { return x(d.units)})
     .attr("height", y.rangeBand())
-    .style("fill", function(d) { return d.hexcolor; });
+    .style("fill", function(d) { return d.hexcolor})
+    .on("mouseover", function(d) { 
+                      d3.select(this).style("fill", "#ff00ff")
+                      d3.select(y0).attr("fill", "#ff00ff")
+                    })
+    
+    .on("mouseout", function(d) { d3.select(this).style("fill", function(d) { return d.hexcolor})})
 
   bar.append("text")
     .attr("class", "value")
@@ -158,38 +164,39 @@ var svg = d3.select(divTown).append("svg")
 
   svg.append("g")
     .attr("class", "y axis")
-    .call(yAxis);
+    .call(yAxis)
 
 // return chartInfo = {"data": data, "y": y, "bar": bar}
 
-d3.select("input").on("change", change);
+d3.select("input").on("change", change)
 
 // var sortTimeout = setTimeout(function() {
 //   d3.select("input").property("checked", true).each(change);
 // }, 2000);
 
-  function change() {
-    // clearTimeout(sortTimeout);
+function change() {
+  // clearTimeout(sortTimeout);
 
-    // Copy-on-write since tweens are evaluated after a delay.
-    var y0 = y.domain(data.sort(this.checked
-        ? function(a, b) { return b.units - a.units; }
-        : function(a, b) { return d3.ascending(a.label, b.label); })
-        .map(function(d) { return d.label; }))
-        .copy();
+  // Copy-on-write since in betweens are evaluated after a delay.
+  var y0 = y.domain(data.sort(this.checked
+      ? function(a, b) { return b.units - a.units; }
+      : function(a, b) { return d3.ascending(a.label, b.label); })
+      .map(function(d) { return d.label }))
+      .copy()
+      console.log("y0 is", y0)
 
-    var transition = svg.transition().duration(750),
-        delay = function(d, i) { return i * 50; };
+  var transition = svg.transition().duration(750),
+      delay = function(d, i) { return i * 50; }
 
-    transition.selectAll(".bar")
-        .delay(delay)
-        .attr("transform", function(d) { return "translate(0," + y(d.label) + ")"; });
+  transition.selectAll(".bar")
+      .delay(delay)
+      .attr("transform", function(d) { return "translate(0," + y(d.label) + ")" })
 
-    transition.select(".y.axis")
-        .call(yAxis)
-      .selectAll("g")
-        .delay(delay);
-  }
+  transition.select(".y.axis")
+      .call(yAxis)
+    .selectAll("g")
+      .delay(delay)
+}
 
 
 

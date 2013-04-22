@@ -9,6 +9,9 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 
 .bar rect {fill: #e6e6e6;}
 
+.bar rect:hover {
+  fill: #333;
+}
 
 .bar text.value {
   fill: #333;
