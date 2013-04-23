@@ -9,7 +9,7 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 
 .bar rect {fill: #e6e6e6;}
 
-.bar rect:hover {
+.theBar:hover {
   fill: #333;
 }
 
@@ -24,6 +24,7 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 .axis path {
   fill: none;
 }
+
 
 .x.axis line {
   stroke: #fff;

@@ -49,6 +49,18 @@ function mostFrequent(data) {
       return  sortable;
 }
 
+
+
+function addUnitsLabels(arrayObj, oldLabel, oldUnits) {
+  for (var i = 0; i < arrayObj.length; i++) {
+    arrayObj[i].label = arrayObj[i].oldLabel
+    arrayObj[i].units = arrayObj[i].oldUnits
+    delete arrayObj[i].oldLabel
+    delete arrayObj[i].oldUnits
+  }
+return arrayObj
+}
+
 function getOccurance(data) {
   var occuranceCount = {}
   for (var i = 0; i < data.length; i++)  {
@@ -60,10 +72,17 @@ function getOccurance(data) {
   return occuranceCount
 }
 
-function makeArrayOfObject(data) {
+function makeArrayOfObject(data, color) {
   var keys = Object.keys(data)
+  var counter = 0
+  var colorIndex = color.length % counter
+  if (counter < color.length) {
+    colorIndex = counter
+  }
   return keys.map(function(key){ 
-    var h = {label: key, units: data[key], hexcolor: "#FDBDBD"}        
+    console.log("counter", counter, "color length", color.length, "colorINdex", colorIndex)
+    var h = {label: key, units: data[key], hexcolor: color[colorIndex]} 
+    counter++       
     return h
   })
 }
@@ -84,7 +103,8 @@ function loadMap() {
 
 function addMarkerLayer() {
 	map.markerLayer.setGeoJSON(geoJSON)
-	map.setView(geoJSON[0].geometry.coordinates.reverse(), 4)
+	// map.setView(geoJSON[0].geometry.coordinates.reverse(), 4)
+  map.fitBounds(geoJSON)
 }
 
 function addPopups() {
@@ -134,7 +154,7 @@ var svg = d3.select(divTown).append("svg")
 
   var bar = svg.selectAll("g.bar")
     .data(data)
-    .enter().append("g")
+  .enter().append("g")
     .attr("class", "bar")
     .attr("transform", function(d) { return "translate(0," + y(d.label) + ")"; });
 
@@ -142,11 +162,7 @@ var svg = d3.select(divTown).append("svg")
     .attr("width", function(d) { return x(d.units)})
     .attr("height", y.rangeBand())
     .style("fill", function(d) { return d.hexcolor})
-    .on("mouseover", function(d) { 
-                      d3.select(this).style("fill", "#ff00ff")
-                      d3.select(y0).attr("fill", "#ff00ff")
-                    })
-    
+    .on("mouseover", function(d) { d3.select(this).style("fill", "#ff00ff")})
     .on("mouseout", function(d) { d3.select(this).style("fill", function(d) { return d.hexcolor})})
 
   bar.append("text")
@@ -164,6 +180,8 @@ var svg = d3.select(divTown).append("svg")
 
   svg.append("g")
     .attr("class", "y axis")
+    .on("mouseover", function(d) { d3.select("rect").style("fill", "#ff00ff")})
+    .on("mouseout", function(d) { d3.select("rect").style("fill", function(d) { return d.hexcolor})})
     .call(yAxis)
 
 // return chartInfo = {"data": data, "y": y, "bar": bar}
@@ -197,11 +215,54 @@ function change() {
     .selectAll("g")
       .delay(delay)
 }
-
-
-
-
 };
+
+function makePie(data, colorData){
+var width = 400,
+    height = 400,
+    radius = Math.min(width, height) / 2;
+
+var color = d3.scale.ordinal()
+    .range(colorData.map(function(d) { return d.hexcolor; }));
+
+//   y.domain(); // makes array of labels
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(0);
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.units; });
+
+var svg = d3.select("#holder").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+var data = data
+
+  data.forEach(function(d) {
+    d.units = +d.units;
+  });
+
+  var g = svg.selectAll(".arc")
+      .data(pie(data))
+    .enter().append("g")
+      .attr("class", "arc");
+
+  g.append("path")
+      .attr("d", arc)
+      .style("fill", function(d) { return color(d.data.label); });
+
+  g.append("text")
+      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.data.label; });
+
+}
 
 
 
