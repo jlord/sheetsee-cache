@@ -72,7 +72,7 @@ function getOccurance(data) {
   return occuranceCount
 }
 
-function makeArrayOfObject(data, color) {
+function makeColorArrayOfObject(data, color) {
   var keys = Object.keys(data)
   var counter = 0
   var colorIndex = color.length % counter
@@ -83,6 +83,14 @@ function makeArrayOfObject(data, color) {
     console.log("counter", counter, "color length", color.length, "colorINdex", colorIndex)
     var h = {label: key, units: data[key], hexcolor: color[colorIndex]} 
     counter++       
+    return h
+  })
+}
+
+function makeArrayOfObject(data) {
+  var keys = Object.keys(data)
+  return keys.map(function(key){ 
+    var h = {label: key, units: data[key], hexcolor: "#FDBDBD"}        
     return h
   })
 }
@@ -217,13 +225,13 @@ function change() {
 }
 };
 
-function makePie(data, colorData){
-var width = 400,
+function makePie(data){
+var width = 600,
     height = 400,
     radius = Math.min(width, height) / 2;
 
-var color = d3.scale.ordinal()
-    .range(colorData.map(function(d) { return d.hexcolor; }));
+var color = d3.scale.category20c() // d3.scale.ordinal()
+    // .range(data.map(function(d) { return d.hexcolor; }));
 
 //   y.domain(); // makes array of labels
 
@@ -231,9 +239,14 @@ var arc = d3.svg.arc()
     .outerRadius(radius - 10)
     .innerRadius(0);
 
+var arcOver = d3.svg.arc()
+    .outerRadius(radius + 10)
+
 var pie = d3.layout.pie()
     .sort(null)
     .value(function(d) { return d.units; });
+
+
 
 var svg = d3.select("#holder").append("svg")
     .attr("width", width)
@@ -250,17 +263,128 @@ var data = data
   var g = svg.selectAll(".arc")
       .data(pie(data))
     .enter().append("g")
-      .attr("class", "arc");
+      .attr("class", "arc")
+      .attr("class", "slice")
+      .on("mouseover", function(d) {
+          d3.select(this).select("path").transition()
+             .duration(1000)
+             .attr("d", arcOver);
+      })
+      .on("mouseout", function(d) {
+          d3.select(this).select("path").transition()
+             .duration(1000)
+             .attr("d", arc);
+      });
+//  arcs.append("path")
+
+
+
+
+
+
+
 
   g.append("path")
       .attr("d", arc)
-      .style("fill", function(d) { return color(d.data.label); });
+      .style("fill", function(d) { return color(d.data.label); })
+      .attr("fill", function (d, i) { return color(i); })
 
   g.append("text")
       .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
       .attr("dy", ".35em")
       .style("text-anchor", "middle")
-      .text(function(d) { return d.data.label; });
+      .text(function(d) { return d.data.units + " " + d.data.label })
+
+}
+
+function makeLineChart(data){
+
+var margin = {top: 20, right: 50, bottom: 30, left: 50},
+    width = 600 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// var parseDate = d3.time.format("%d-%b-%y").parse,
+//     bisectDate = d3.bisector(function(d) { return d.date; }).left,
+//     formatValue = d3.format(",.2f"),
+//     formatCurrency = function(d) { return "$" + formatValue(d); };
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.units); })
+    .y(function(d) { return y(d.label); });
+
+var svg = d3.select("#holder").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var data = data
+
+  x.domain([data[0].units, data[data.length - 1].units]);
+  y.domain(d3.extent(data, function(d) { return d.label; }));
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Price ($)");
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line);
+
+  var focus = svg.append("g")
+      .attr("class", "focus")
+      .style("display", "none");
+
+  focus.append("circle")
+      .attr("r", 4.5);
+
+  focus.append("text")
+      .attr("x", 9)
+      .attr("dy", ".35em");
+
+  svg.append("rect")
+      .attr("class", "overlay")
+      .attr("width", width)
+      .attr("height", height)
+      .on("mouseover", function() { focus.style("display", null); })
+      .on("mouseout", function() { focus.style("display", "none"); })
+      //.on("mousemove", mousemove);
+
+  function mousemove() {
+    var x0 = x.invert(d3.mouse(this)[0]),
+        i = bisectDate(data, x0, 1),
+        d0 = data[i - 1],
+        d1 = data[i],
+        d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+    focus.attr("transform", "translate(" + x(d.units) + "," + y(d.label) + ")");
+    focus.select("text").text(d.label);
+  }
 
 }
 
