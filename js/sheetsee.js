@@ -2,6 +2,27 @@
 // Filtering + Organizing Data
 //
 
+function sortThings(data, sorter){
+// console.log("the data", data)
+var sorter = sorter.valueOf()
+console.log("the sorter", sorter)
+data.sort(function(a,b){
+  console.log("what think sorter is", sorter)
+  if(a.city<b.city) return -1;
+  if(a.city>b.city) return 1;
+  return 0;
+})
+console.log("sorted data", data)
+reWriteTable(data)
+}
+
+function reWriteTable(sortedData){
+  var siteTable = ich.siteTable({
+  rows: sortedData 
+  })
+  document.getElementById('siteTable').innerHTML = siteTable
+}
+
 // create geoJSON from your spreadsheets coordinates
 function createGeoJSON(data){
 	var geoJSON = []

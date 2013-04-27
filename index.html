@@ -13,11 +13,11 @@
 	<div id="holder"></div>
 	<label><input type="checkbox"> Sort values</label>	
 	<div id="map"></div>
-	<div id="temp">waiting</div>
+	<div id="siteTable">waiting</div>
 
-	<script id="temp" type="text/html">
+	<script id="siteTable" type="text/html">
 		<table>
-		<tr><th>City</th><th>Place</th><th>Image</th></tr>
+		<tr><th class="tHeader">City</th><th>Place</th><th>Image</th></tr>
 		  {{#rows}}
 		  	<tr><td>{{city}}</td><td>{{placename}}</td><td><em>{{image}}</em></td></tr>
 		  {{/rows}}
@@ -26,11 +26,19 @@
 
 	<script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
-    var temp = ich.temp({
+    var siteTable = ich.siteTable({
       rows: gData	
     })
-    document.getElementById('temp').innerHTML = temp	
+    document.getElementById('siteTable').innerHTML = siteTable
+
+  	var el = document.querySelector(".tHeader")
+		el.addEventListener("click", function sendToSort() {
+			var sortBy = this.innerHTML.toLowerCase()
+			sortThings(gData, sortBy)
+		})
+
    }) 
+
 
 	</script>
 
@@ -43,11 +51,11 @@
 
 	<script type="text/javascript">
 		var color = ["#F7CE86", "FFDDA3"] // , "#E9D7B7", "#F3E3D8","#F7CE86", "FFDDA3", "#E9D7B7", "#F3E3D8", "#F7CE86", "FFDDA3", "#E9D7B7", "#F3E3D8"]
-		var chartData = makeArrayOfObject(getOccurance(gData))
+		// var chartData = makeArrayOfObject(getOccurance(gData))
 		// var barChart = renderGraph(chartData, chartData.length, "#holder")
 		// var button = document.getElementById("button")
-	 //	makeLineChart(chartData)
-		// button.onclick = sortChart(barChart)
+	 //		makeLineChart(chartData)
+
 
 
 
