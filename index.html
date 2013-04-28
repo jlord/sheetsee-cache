@@ -9,37 +9,27 @@
 		<link media="screen" rel="stylesheet" type="text/css" href="/css/style.css"> 
 	</head>
 <body>
-	<h1>Sheetsee.js</h1>
-	<div id="holder"></div>
-	<label><input type="checkbox"> Sort values</label>	
-	<div id="map"></div>
-	<div id="siteTable">waiting</div>
+	<div id="wrapper">
+		<h1>Sheetsee.js</h1>
+		<div id="holder"></div>
+		<label><input type="checkbox"> Sort values</label>	
+		<div id="map"></div>
+		<div id="siteTable">waiting</div>
+	</div><!-- end wrapper -->
 
 	<script id="siteTable" type="text/html">
 		<table>
-		<tr><th class="tHeader">City</th><th>Place</th><th>Image</th></tr>
+		<tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Image</th></tr>
 		  {{#rows}}
 		  	<tr><td>{{city}}</td><td>{{placename}}</td><td><em>{{image}}</em></td></tr>
 		  {{/rows}}
-	  <table>
+	  </table>
 	</script>
 
 	<script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
-    var siteTable = ich.siteTable({
-      rows: gData	
-    })
-    document.getElementById('siteTable').innerHTML = siteTable
-
-  	var el = document.querySelector(".tHeader")
-		el.addEventListener("click", function sendToSort() {
-			var sortBy = this.innerHTML.toLowerCase()
-			sortThings(gData, sortBy)
-		})
-
+    reWriteTable(gData)
    }) 
-
-
 	</script>
 
 	<script type='text/javascript'>

@@ -1,5 +1,6 @@
-body {font-family: Merriweather; padding: 18px; background: #F8F0F0; color: #333;}
+body {font-family: Merriweather; padding: 18px; background: #F8F0F0; color: #333; margin: 0px auto;}
 
+#wrapper {margin: 0px auto; width: 600px;⩔}
 table {text-align: left;}
 th {padding: 10px 0px;}
 td, text {padding: 3px 20px 3px 0px; font-size: 10px;}

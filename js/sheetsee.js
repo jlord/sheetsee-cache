@@ -1,30 +1,65 @@
 // 
 // Filtering + Organizing Data
 //
+var sortedData
 
 function sortThings(data, sorter){
-// console.log("the data", data)
-var sorter = sorter.valueOf()
-console.log("the sorter", sorter)
+console.log("hi i got here is my sorter", sorter)
+// var sorter = sorter.valueOf()
 data.sort(function(a,b){
-  console.log("what think sorter is", sorter)
-  if(a.city<b.city) return -1;
-  if(a.city>b.city) return 1;
+  if(a[sorter]<b[sorter]) return -1;
+  if(a[sorter]>b[sorter]) return 1;
   return 0;
 })
-console.log("sorted data", data)
-reWriteTable(data)
+sortedData = data
+reWriteTable(sortedData)
+// return sortedData
+}
+
+function resolveDataTitle(string) {
+  var adjusted = string.toLowerCase().replace(/\s/g, '').replace(/\W/g, '')
+  console.log("the adjusted title:", adjusted)
+  return adjusted
+}
+
+function sendToSort() {
+  console.log("you clicked!")
+  if (!sortedData) {
+    var sorter = resolveDataTitle(this.innerHTML)
+    console.log("send to sorts sorter:", sorter)
+    sortThings(gData, sorter)
+  }
+  else {
+    var reverseSort = sortedData.reverse()
+    reWriteTable(reverseSort)
+  }
 }
 
 function reWriteTable(sortedData){
   var siteTable = ich.siteTable({
-  rows: sortedData 
+    rows: sortedData 
   })
   document.getElementById('siteTable').innerHTML = siteTable
+  // reset listeners
+  tableClickListeners()
+}
+
+// because the DOM is crazy, we have to array for it
+function toArray(list) {
+  var i, array = []
+  for  (i=0; i<list.length;i++) { array[i] = list[i] }
+  return array
+}
+
+function tableClickListeners() {
+  var els = toArray(document.querySelectorAll(".tHeader"))
+  els.forEach(function addListener(el) {
+    el.addEventListener("click", sendToSort)
+  })
 }
 
 // create geoJSON from your spreadsheets coordinates
-function createGeoJSON(data){
+function createGeoJSON(data) {
 	var geoJSON = []
 	data.forEach(function(lineItem){
 		var feature = {
