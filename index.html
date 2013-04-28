@@ -6,6 +6,7 @@
 		<script src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js '></script>
 		<script type="text/javascript" src='js/d3.js'></script>
 		<script type="text/javascript" src='js/sheetsee.js'></script>
+		<script type="text/javascript" src='js/log.js'></script>
     <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
 		<link media="screen" rel="stylesheet" type="text/css" href="/css/style.css"> 
 	</head>
@@ -16,13 +17,12 @@
 		<div id="holder"></div>
 		<label><input type="checkbox"> Sort values</label>	
 		<div id="map"></div>
-		<table style="background: #ff00ff;">
-		<tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Year</th><th class="tHeader">Image</th></tr></table>
 		<div id="siteTable">waiting</div>
 	</div><!-- end wrapper -->
 
 	<script id="siteTable" type="text/html">
-		<table style="background: #acacac;">
+		<table style="background: #ff00ff;">
+		<tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Year</th><th class="tHeader">Image</th></tr>
 		  {{#rows}}
 		  	<tr><td>{{city}}</td><td>{{placename}}</td><td>{{year}}</td><td>{{image}}</td></tr>
 		  {{/rows}}
@@ -31,7 +31,7 @@
 
 	<script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
-    reWriteTable(gData)
+    reWriteTable(gData, null, tableClickListeners)
    }) 
 	</script>
 

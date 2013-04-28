@@ -4,7 +4,8 @@
 var sortedData
 
 function sortThings(data, sorter, event){
-// console.log("hi i got here is my sorter", sorter)
+console.log("hi i'm sorting things by: ", sorter)
+console.log("am I here because of an event? ", event)
 // var sorter = sorter.valueOf()
 data.sort(function(a,b){
   if(a[sorter]<b[sorter]) return -1;
@@ -12,7 +13,7 @@ data.sort(function(a,b){
   return 0;
 })
 sortedData = data
-reWriteTable(sortedData, event)
+reWriteTable(sortedData, event, tableClickListeners)
 // return sortedData
 }
 
@@ -22,47 +23,49 @@ function resolveDataTitle(string) {
   return adjusted
 }
 
-function sendToSort1() {
-  console.log("you clicked!")
-  if (!sortedData) {
-    var sorter = resolveDataTitle(this.innerHTML)
-    console.log("send to sorts sorter:", sorter)
-    sortThings(gData, sorter)
+
+function sendToSort(event) {
+  log('_sendToSorts event_', (event.target).className)
+  if ($(event.target).hasClass("lastSort")) {
+      log('_THIS WAS CLICKED LAST TIME, REVERSING SORT_')
+      var reverseSort = sortedData.reverse()
+      //console.log("sendToSort's sortedData:", sortedData)
+      //console.log("sendToSort's sortedData reversed:", reverseSort)
+      reWriteTable(sortedData.reverse(), event, tableClickListeners)
   }
   else {
-    console.log("sorter in else", sorter)
-    if (sorter === resolveDataTitle(this.innerHTML)) {
-      var reverseSort = sortedData.reverse()
-      reWriteTable(reverseSort)
-    }
-    else {
-      var sorter = resolveDataTitle(this.innerHTML)
-      sortThings(gData, sorter)
-    }
+    log("_THIS IS A NEW CLICK CATEGORY, SENDING IT TO GET SORTED_")
+    var sorter = resolveDataTitle(event.target.innerHTML)
+    sortThings(gData, sorter, event)
   }
+  return event
 }
 
-function sendToSort(evt) {
-  if ($(evt.target).hasClass("lastSort")) {
-      console.log("this is the if", evt.target.className)
-      var reverseSort = sortedData.reverse()
-      reWriteTable(reverseSort)
-  }
-  else {
-    console.log("this is the else", evt.target.className)
-    var sorter = resolveDataTitle(evt.target.innerHTML)
-    sortThings(gData, sorter, evt.target)
-  }
-  return evt.target
-}
-
-function reWriteTable(sortedData, event){
+function reWriteTable(sortedData, event, cb){
+  console.log("reWriteTable has this data: ", sortedData)
+  console.log("reWriteTable received this event:", event)
   var siteTable = ich.siteTable({
     rows: sortedData 
   })
   document.getElementById('siteTable').innerHTML = siteTable
   // reset listeners
-  tableClickListeners(event)
+  // tableClickListeners(event)
+  cb(event)
+}
+
+function tableClickListeners(event, cb) {
+  console.log("adding listeners")
+  console.log("tableClickListeners got this event:", event)
+  var els = toArray(document.querySelectorAll(".tHeader"))
+  els.forEach(function addListener(el) {
+    $(el).click(sendToSort)
+  })
+  if (event) {
+    console.log("had an event")
+    $(event.target).css("background-color", "ffffff")
+    $(event.target).addClass("lastSort")
+    console.log("added class:", event.target)
+  }
 }
 
 // because the DOM is crazy, we have to array for it
@@ -70,17 +73,6 @@ function toArray(list) {
   var i, array = []
   for  (i=0; i<list.length;i++) { array[i] = list[i] }
   return array
-}
-
-function tableClickListeners(event) {
-  if (event) {
-    console.log("the clicklisterns event:", event.className)
-    $(event).addClass("lastSort")
-  }
-  var els = toArray(document.querySelectorAll(".tHeader"))
-  els.forEach(function addListener(el) {
-    $(el).click(sendToSort)
-  })
 }
 
 // 
