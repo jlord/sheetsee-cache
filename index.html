@@ -3,6 +3,7 @@
 		<title>Yo, yo, yo!</title>
 		<script type="text/javascript" src="js/ICanHaz.js"></script> 
 		<script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js'></script>
+		<script src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js '></script>
 		<script type="text/javascript" src='js/d3.js'></script>
 		<script type="text/javascript" src='js/sheetsee.js'></script>
     <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
@@ -11,17 +12,19 @@
 <body>
 	<div id="wrapper">
 		<h1>Sheetsee.js</h1>
+		<small><a href="https://docs.google.com/spreadsheet/ccc?key=0Ao5u1U6KYND7dGN5QngweVJUWE16bTRob0d2a3dCbnc#gid=0" target="_blank">data</a></small>
 		<div id="holder"></div>
 		<label><input type="checkbox"> Sort values</label>	
 		<div id="map"></div>
+		<table style="background: #ff00ff;">
+		<tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Year</th><th class="tHeader">Image</th></tr></table>
 		<div id="siteTable">waiting</div>
 	</div><!-- end wrapper -->
 
 	<script id="siteTable" type="text/html">
-		<table>
-		<tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Image</th></tr>
+		<table style="background: #acacac;">
 		  {{#rows}}
-		  	<tr><td>{{city}}</td><td>{{placename}}</td><td><em>{{image}}</em></td></tr>
+		  	<tr><td>{{city}}</td><td>{{placename}}</td><td>{{year}}</td><td>{{image}}</td></tr>
 		  {{/rows}}
 	  </table>
 	</script>
@@ -33,15 +36,16 @@
 	</script>
 
 	<script type='text/javascript'>
-		// var map = loadMap()
 		// var geoJSON = createGeoJSON(gData)
-		// addMarkerLayer()
+		// var map = loadMap()
+		// addTileLayer(map)
+		// addMarkerLayer(geoJSON, map)
 		// addPopups()
 	</script>
 
 	<script type="text/javascript">
 		var color = ["#F7CE86", "FFDDA3"] // , "#E9D7B7", "#F3E3D8","#F7CE86", "FFDDA3", "#E9D7B7", "#F3E3D8", "#F7CE86", "FFDDA3", "#E9D7B7", "#F3E3D8"]
-		// var chartData = makeArrayOfObject(getOccurance(gData))
+		 // var chartData = makeArrayOfObject(getOccurance(gData))
 		// var barChart = renderGraph(chartData, chartData.length, "#holder")
 		// var button = document.getElementById("button")
 	 //		makeLineChart(chartData)

@@ -1,65 +1,39 @@
 body {font-family: Merriweather; padding: 18px; background: #F8F0F0; color: #333; margin: 0px auto;}
-
-#wrapper {margin: 0px auto; width: 600px;⩔}
-table {text-align: left;}
+a {color: #333;}
+small {padding: 10px 0px;}
+#wrapper {margin: 0px auto; max-width: 600px;}
+table {text-align: left; width: 100%}
 th {padding: 10px 0px;}
 td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 
-#map {height: 400px; width: 600px; background: #acacac;}
-#holder {height: 400px; width: 600px; background: #FFE7E7;}
+#map {height: 400px; width: 600px; background: #DADADA;}
+#holder {height: 400px; width: 600px; background: #FFE4E4;}
 
 .bar rect {fill: #e6e6e6;}
 
-.theBar:hover {
-  fill: #333;
-}
+.theBar:hover {fill: #333;}
 
-.bar text.value {
-  fill: #333;
-}
+.bar text.value {fill: #333;}
 
-.axis {
-  shape-rendering: crispEdges;
-}
+.axis {shape-rendering: crispEdges;}
 
-.axis path {
-  fill: none;
-}
+.axis path {fill: none;}
 
+.x.axis line {stroke: #fff; stroke-opacity: .7;}
 
-.x.axis line {
-  stroke: #fff;
-  stroke-opacity: .7;
-}
-
-.y.axis path {
-  stroke: #fff;
-}
+.y.axis path {stroke: #fff;}
 
 .axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
+.axis line {fill: none; stroke: #000; shape-rendering: crispEdges;}
 
-.x.axis path {
-  display: none;
-}
+.x.axis path {display: none;}
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
+.line {fill: none; stroke: steelblue; stroke-width: 1.5px;}
 
-.overlay {
-  fill: none;
-  pointer-events: all;
-}
+.overlay {fill: none; pointer-events: all;}
 
-.focus circle {
-  fill: none;
-  stroke: steelblue;
-}
+.focus circle {fill: none; stroke: steelblue;}
+
+.leaflet-popup-content {font-family: Merriweather;}
+.leaflet-popup-content h2 {margin-bottom: 4px;}
 

@@ -3,8 +3,8 @@
 //
 var sortedData
 
-function sortThings(data, sorter){
-console.log("hi i got here is my sorter", sorter)
+function sortThings(data, sorter, event){
+// console.log("hi i got here is my sorter", sorter)
 // var sorter = sorter.valueOf()
 data.sort(function(a,b){
   if(a[sorter]<b[sorter]) return -1;
@@ -12,17 +12,17 @@ data.sort(function(a,b){
   return 0;
 })
 sortedData = data
-reWriteTable(sortedData)
+reWriteTable(sortedData, event)
 // return sortedData
 }
 
 function resolveDataTitle(string) {
   var adjusted = string.toLowerCase().replace(/\s/g, '').replace(/\W/g, '')
-  console.log("the adjusted title:", adjusted)
+  // console.log("the adjusted title:", adjusted)
   return adjusted
 }
 
-function sendToSort() {
+function sendToSort1() {
   console.log("you clicked!")
   if (!sortedData) {
     var sorter = resolveDataTitle(this.innerHTML)
@@ -30,18 +30,39 @@ function sendToSort() {
     sortThings(gData, sorter)
   }
   else {
-    var reverseSort = sortedData.reverse()
-    reWriteTable(reverseSort)
+    console.log("sorter in else", sorter)
+    if (sorter === resolveDataTitle(this.innerHTML)) {
+      var reverseSort = sortedData.reverse()
+      reWriteTable(reverseSort)
+    }
+    else {
+      var sorter = resolveDataTitle(this.innerHTML)
+      sortThings(gData, sorter)
+    }
   }
 }
 
-function reWriteTable(sortedData){
+function sendToSort(evt) {
+  if ($(evt.target).hasClass("lastSort")) {
+      console.log("this is the if", evt.target.className)
+      var reverseSort = sortedData.reverse()
+      reWriteTable(reverseSort)
+  }
+  else {
+    console.log("this is the else", evt.target.className)
+    var sorter = resolveDataTitle(evt.target.innerHTML)
+    sortThings(gData, sorter, evt.target)
+  }
+  return evt.target
+}
+
+function reWriteTable(sortedData, event){
   var siteTable = ich.siteTable({
     rows: sortedData 
   })
   document.getElementById('siteTable').innerHTML = siteTable
   // reset listeners
-  tableClickListeners()
+  tableClickListeners(event)
 }
 
 // because the DOM is crazy, we have to array for it
@@ -51,13 +72,20 @@ function toArray(list) {
   return array
 }
 
-function tableClickListeners() {
+function tableClickListeners(event) {
+  if (event) {
+    console.log("the clicklisterns event:", event.className)
+    $(event).addClass("lastSort")
+  }
   var els = toArray(document.querySelectorAll(".tHeader"))
   els.forEach(function addListener(el) {
-    el.addEventListener("click", sendToSort)
+    $(el).click(sendToSort)
   })
 }
 
+// 
+// Map
+//
 // create geoJSON from your spreadsheets coordinates
 function createGeoJSON(data) {
 	var geoJSON = []
@@ -68,8 +96,10 @@ function createGeoJSON(data) {
 			"properties": {
 				"image": "hello",
 				"url": "hi",
-				"marker-color": "#FFE7E7",
 				"marker-size": "small",
+        "marker-color": lineItem.hexcolor,
+        "id": lineItem.id,
+        "year": lineItem.year,
 				"title": lineItem.placename,
 				"city": lineItem.city
 			}
@@ -157,26 +187,39 @@ function makeArrayOfObject(data) {
 
 // load basic map with tiles
 function loadMap() {
-	var map = L.mapbox.map('map', 'jllord.pennies')
+	var map = L.mapbox.map('map')
+      map.setView(geoJSON[0].geometry.coordinates.reverse(), 4)
 	// map.addLayer(L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'));
 	map.touchZoom.disable()
 	map.doubleClickZoom.disable()
 	map.scrollWheelZoom.disable()
 	return map
 }
+function addTileLayer(map) {
+  var layer = L.mapbox.tileLayer('tmcw.map-2f4ad161')
+  layer.addTo(map)
+}
 
-function addMarkerLayer() {
-	map.markerLayer.setGeoJSON(geoJSON)
-	// map.setView(geoJSON[0].geometry.coordinates.reverse(), 4)
-  map.fitBounds(geoJSON)
+function addMarkerLayer(geoJSON, map) { 
+console.log("addMarkerLayer geoJSON: ", geoJSON) 
+var markerLayer = L.mapbox.markerLayer(geoJSON)
+  markerLayer.setGeoJSON(geoJSON)
+  // map.fitBounds(geoJSON)
+  markerLayer.addTo(map)
+  markerLayer.on('click', function(e) {
+    var feature = e.layer.feature
+    var popupContent = '<h2>' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
+    e.layer.bindPopup(popupContent,{
+    closeButton: false,
+    })
+  })
 }
 
 function addPopups() {
+  console.log("I got called!")
 	map.markerLayer.on('click', function(e) {
     var feature = e.layer.feature
-    var popupContent = 
-        '<h2>' + feature.properties.title + '</h2>' +
-        '<p>' + feature.properties.city + '</p>'
+    var popupContent = '<h2>' + feature.properties.year + '</h2>'
     e.layer.bindPopup(popupContent,{
         closeButton: false,
     })
@@ -226,7 +269,7 @@ var svg = d3.select(divTown).append("svg")
     .attr("width", function(d) { return x(d.units)})
     .attr("height", y.rangeBand())
     .style("fill", function(d) { return d.hexcolor})
-    .on("mouseover", function(d) { d3.select(this).style("fill", "#ff00ff")})
+    .on("mouseover", function(d) { d3.select(this).style("fill", "#FC9595")})
     .on("mouseout", function(d) { d3.select(this).style("fill", function(d) { return d.hexcolor})})
 
   bar.append("text")
@@ -244,7 +287,7 @@ var svg = d3.select(divTown).append("svg")
 
   svg.append("g")
     .attr("class", "y axis")
-    .on("mouseover", function(d) { d3.select("rect").style("fill", "#ff00ff")})
+    .on("mouseover", function(d) { d3.select("rect").style("fill", "#FC9595")})
     .on("mouseout", function(d) { d3.select("rect").style("fill", function(d) { return d.hexcolor})})
     .call(yAxis)
 
