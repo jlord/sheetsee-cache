@@ -234,7 +234,7 @@ var format = d3.format(",.0f");
 var x = d3.scale.linear().range([0, w]),
     y = d3.scale.ordinal().rangeRoundBands([0, h], .1);
 
-var xAxis = d3.svg.axis().scale(x).orient("top").tickSize(-h).tickFormat(d3.format(".2s")),
+var xAxis = d3.svg.axis().scale(x).orient("top").tickSize(-h).tickFormat(d3.format("1s")),
     yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
 
 var svg = d3.select(divTown).append("svg")
@@ -251,39 +251,95 @@ var svg = d3.select(divTown).append("svg")
   x.domain([0, d3.max(data, function(d) { return d.units; })]); // 0 to max of units
   y.domain(data.map(function(d) { return d.label; })); // makes array of labels
 
+  var synchronizedMouseOver = function() {
+    var rect = d3.select(this)
+    var indexValue = rect.attr("index_value")
+
+    var barSelector = "." + "rect-" + indexValue;
+    var selectedBar = d3.selectAll(barSelector);
+    selectedBar.style("fill", "#FF5C5C");
+
+    var valueSelector = "." + "value-" + indexValue;
+    var selectedValue = d3.selectAll(valueSelector);
+    selectedValue.style("fill", "#FF5C5C");
+
+    var textSelector = "." + "labels-" + indexValue;
+    var selectedText = d3.selectAll(textSelector);
+    selectedText.style("fill", "#FF5C5C");
+
+};
+
+var synchronizedMouseOut = function() {
+    var rect = d3.select(this);
+    var indexValue = rect.attr("index_value");
+
+    var barSelector = "." + "rect-" + indexValue;
+    var selectedBar = d3.selectAll(barSelector);
+    selectedBar.style("fill", function(d) { return d.hexcolor})
+
+    var valueSelector = "." + "value-" + indexValue
+    var selectedValue = d3.selectAll(valueSelector)
+    selectedValue.style("fill", "#333333")
+
+    var textSelector = "." + "labels-" + indexValue;
+    var selectedText = d3.selectAll(textSelector);
+    selectedText.style("fill", "#333")
+};
+
   var bar = svg.selectAll("g.bar")
     .data(data)
   .enter().append("g")
     .attr("class", "bar")
-    .attr("transform", function(d) { return "translate(0," + y(d.label) + ")"; });
+    .attr("transform", function(d) { return "translate(0," + y(d.label) + ")"; })
+    // .attr("index_value", function(d, i) { return "index-" + i; })
+    // .attr("uniqueID", function(d, i) { return "text-" + "index-" + i; })
+    
+svg.selectAll("g.labels")
+  .data(data) // Instruct to bind dataSet to text elements
+  .enter().append("g") // Append legend elements
+    // .attr("xlink:href", function(d) { return d.link; })
+      .append("text")
+        .attr("text-anchor", "end")
+        .attr("x", -3)
+        //.attr("y", function(d, i) { return legendOffset + i*20 - 10; })
+        .attr("y", function(d, i) { return 14 + i*26; })
+        .attr("dx", 0)
+        .attr("dy", "5px") // Controls padding to place text above bars
+        .text(function(d) { return d.label;})
+        .style("fill", "#333")
+        .attr("index_value", function(d, i) { return "index-" + i; })
+        .attr("class", function(d, i) { return "labels-" + "index-" + i + " aLabel "; })
+        .on('mouseover', synchronizedMouseOver)
+        .on("mouseout", synchronizedMouseOut);
 
   bar.append("rect")
     .attr("width", function(d) { return x(d.units)})
     .attr("height", y.rangeBand())
+    .attr("index_value", function(d, i) { return "index-" + i; })
     .style("fill", function(d) { return d.hexcolor})
-    .on("mouseover", function(d) { d3.select(this).style("fill", "#FC9595")})
-    .on("mouseout", function(d) { d3.select(this).style("fill", function(d) { return d.hexcolor})})
+    .on('mouseover', synchronizedMouseOver)
+    .on("mouseout", synchronizedMouseOut)
+    .attr("class", function(d, i) { return "rect-" + "index-" + i; })
 
   bar.append("text")
-    .attr("class", "value")
     .attr("x", function(d) { return x(d.units); })
     .attr("y", y.rangeBand() / 2)
     .attr("dx", 12)
     .attr("dy", ".35em")
     .attr("text-anchor", "end")
-    .text(function(d) { return format(d.units); });
+    .attr("index_value", function(d, i) { return "index-" + i; })
+    .text(function(d) { return format(d.units); })
+    .attr("class", function(d, i) { return "value-" + "index-" + i; })
+    .on('mouseover', synchronizedMouseOver)
+    .on("mouseout", synchronizedMouseOut)
       
   svg.append("g")
     .attr("class", "x axis")
     .call(xAxis);
 
-  svg.append("g")
-    .attr("class", "y axis")
-    .on("mouseover", function(d) { d3.select("rect").style("fill", "#FC9595")})
-    .on("mouseout", function(d) { d3.select("rect").style("fill", function(d) { return d.hexcolor})})
-    .call(yAxis)
-
-// return chartInfo = {"data": data, "y": y, "bar": bar}
+  // svg.append("g")
+  //   .attr("class", "y axis")
+  //   .call(yAxis)
 
 d3.select("input").on("change", change)
 
@@ -300,7 +356,6 @@ function change() {
       : function(a, b) { return d3.ascending(a.label, b.label); })
       .map(function(d) { return d.label }))
       .copy()
-      console.log("y0 is", y0)
 
   var transition = svg.transition().duration(750),
       delay = function(d, i) { return i * 50; }
@@ -309,12 +364,15 @@ function change() {
       .delay(delay)
       .attr("transform", function(d) { return "translate(0," + y(d.label) + ")" })
 
-  transition.select(".y.axis")
-      .call(yAxis)
-    .selectAll("g")
+  transition.selectAll(".aLabel")
       .delay(delay)
+      .attr("transform", function(d) { return "translate(0," + y(d.label) + ")" })
+
+
 }
-};
+}
+
+/////////////////////////////////////////////////////////
 
 function makePie(data){
 var width = 600,

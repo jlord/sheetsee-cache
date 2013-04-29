@@ -18,7 +18,8 @@
 * Line Chart
 ** Set up, should just work with times
 * Bar Chart
-** Add hover features
+** -Add hover features-
+** Fix that final transition
 * Pie Chart
 ** Finesse text, styling
 

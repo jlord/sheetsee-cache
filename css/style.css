@@ -9,13 +9,13 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px; border: 1px dotted #333;}
 #map {height: 400px; width: 600px; background: #DADADA;}
 #holder {height: 400px; width: 600px; background: #FFE4E4;}
 
-.bar rect {fill: #e6e6e6;}
+.labels text {text-align: right;}
 
-.theBar:hover {fill: #333;}
+.bar rect {fill: #e6e6e6;}
 
 .bar text.value {fill: #333;}
 
-.axis {shape-rendering: crispEdges;}
+.axis {shape-rendering: crispEdges; fill: #fff;}
 
 .axis path {fill: none;}
 
