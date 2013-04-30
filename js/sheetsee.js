@@ -386,16 +386,19 @@ function synchronizedMouseOver(d) {
 
   var pathSelector = "." + "path-" + indexValue;
   var selectedPath = d3.selectAll(pathSelector);
-  selectedPath.style("fill", "#FF9BFF")
+  selectedPath.style("fill", "#333")
 
   var textSelector = "." + "labels-" + indexValue
   var selectedText = d3.selectAll(textSelector)
-  selectedText.style("fill", "#FF9BFF")
-  selectedText.transition().ease("bounce").duration(600); 
+  //selectedText.style("fill", "#FF9BFF")
+  selectedText.transition()
+    .duration(150)
+    .style("font-size", "12px").style("font-weight", "bold")
+  selectedText.attr("class", function(d, i) { return "labels-" + indexValue + " bigg "; })
 }
 function synchronizedMouseOut(d) {
   d3.select(this).select("path").transition()
-     .duration(500)
+     .duration(150)
      .attr("d", arc);
   var slice = d3.select(this);
   var indexValue = slice.attr("index_value");
@@ -406,7 +409,9 @@ function synchronizedMouseOut(d) {
 
   var textSelector = "." + "labels-" + indexValue;
   var selectedText = d3.selectAll(textSelector);
-  selectedText.style("fill", "#333")
+  selectedText.transition()
+    .duration(200)
+    .style("font-size", "10px").style("font-weight", "normal").style("fill", "#333")
   
 }
 
