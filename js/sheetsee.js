@@ -348,7 +348,7 @@ function change() {
 function makePie(data){
 var width = 600,
     height = 400,
-    radius = Math.min(width, height) / 2;
+    radius = Math.min(width, height) / 2.3;
 
 var color = d3.scale.category20c() // d3.scale.ordinal()
     // .range(data.map(function(d) { return d.hexcolor; }));
@@ -360,60 +360,115 @@ var arc = d3.svg.arc()
     .innerRadius(0);
 
 var arcOver = d3.svg.arc()
-    .outerRadius(radius + 10)
+    .outerRadius(radius + .1)
 
 var pie = d3.layout.pie()
     .sort(null)
     .value(function(d) { return d.units; });
 
-
-
 var svg = d3.select("#holder").append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    .attr("transform", "translate(" + width / 3 + "," + height / 2 + ")");
 
 var data = data
 
   data.forEach(function(d) {
-    d.units = +d.units;
-  });
+    d.units = +d.units
+  })
+function synchronizedMouseOver(d) {
+  d3.select(this).select("path").transition()
+     .duration(500)
+     .attr("d", arcOver);
+  var slice = d3.select(this);
+  var indexValue = slice.attr("index_value");
+
+  var pathSelector = "." + "path-" + indexValue;
+  var selectedPath = d3.selectAll(pathSelector);
+  selectedPath.style("fill", "#FF9BFF")
+
+  var textSelector = "." + "labels-" + indexValue
+  var selectedText = d3.selectAll(textSelector)
+  selectedText.style("fill", "#FF9BFF")
+  selectedText.transition().ease("bounce").duration(600); 
+}
+function synchronizedMouseOut(d) {
+  d3.select(this).select("path").transition()
+     .duration(500)
+     .attr("d", arc);
+  var slice = d3.select(this);
+  var indexValue = slice.attr("index_value");
+
+  var pathSelector = "." + "path-" + indexValue;
+  var selectedPath = d3.selectAll(pathSelector);
+  selectedPath.style("fill", function(d) { return color(d.data.label); })
+
+  var textSelector = "." + "labels-" + indexValue;
+  var selectedText = d3.selectAll(textSelector);
+  selectedText.style("fill", "#333")
+  
+}
 
   var g = svg.selectAll(".arc")
       .data(pie(data))
     .enter().append("g")
-      .attr("class", "arc")
-      .attr("class", "slice")
-      .on("mouseover", function(d) {
-          d3.select(this).select("path").transition()
-             .duration(1000)
-             .attr("d", arcOver);
-      })
-      .on("mouseout", function(d) {
-          d3.select(this).select("path").transition()
-             .duration(1000)
-             .attr("d", arc);
-      });
-//  arcs.append("path")
-
-
-
-
-
-
-
+      // .attr("class", "arc")
+      // .attr("class", "slice")
+      .attr("index_value", function(d, i) { return "index-" + i; })
+      .attr("class", function(d, i) { return "slice-" + "index-" + i + " slice arc"; })
+      .on("mouseover", synchronizedMouseOver)
+      .on("mouseout", synchronizedMouseOut)
 
   g.append("path")
       .attr("d", arc)
+      .attr("index_value", function(d, i) { return "index-" + i; })
+      .attr("class", function(d, i) { return "path-" + "index-" + i; })
       .style("fill", function(d) { return color(d.data.label); })
       .attr("fill", function (d, i) { return color(i); })
 
+  // g.append("text")
+  //     .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+  //     .attr("dy", ".35em")
+  //     .attr("dx", ".35em")
+  //     .style("text-anchor", "middle")
+  //     .text(function(d) { return d.data.units })
+
+var labelr = radius + 8 // radius for label anchor
   g.append("text")
-      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-      .attr("dy", ".35em")
-      .style("text-anchor", "middle")
-      .text(function(d) { return d.data.units + " " + d.data.label })
+    .attr("transform", function(d) {
+        var c = arc.centroid(d),
+            x = c[0],
+            y = c[1],
+            // pythagorean theorem for hypotenuse
+            h = Math.sqrt(x*x + y*y);
+        return "translate(" + (x/h * labelr) +  ',' +
+           (y/h * labelr) +  ")"; 
+    })
+    .attr("dy", ".35em")
+    .attr("fill", "#333")
+    .attr("text-anchor", function(d) {
+        // are we past the center?
+        return (d.endAngle + d.startAngle)/2 > Math.PI ?
+            "end" : "start";
+    })
+    .text(function(d, i) { return d.value.toFixed(1); });
+
+svg.selectAll("g.labels")
+  .data(data)
+  .enter().append("g") // Append legend elements
+      .append("text")
+        .attr("text-anchor", "start")
+        .attr("x", width / 2.5)
+        .attr("y", function(d, i) { return 14 + i*26; })
+        .attr("dx", 0)
+        .attr("dy", "-140px") // Controls padding to place text above bars
+        .text(function(d) { return d.label + ", " + d.units;})
+        .style("fill", "#333")
+        .attr("index_value", function(d, i) { return "index-" + i; })
+        .attr("class", function(d, i) { return "labels-" + "index-" + i + " aLabel "; })
+        .on('mouseover', synchronizedMouseOver)
+        .on("mouseout", synchronizedMouseOut)
 
 }
 
