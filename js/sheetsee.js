@@ -1,78 +1,49 @@
 // 
 // Filtering + Organizing Data
 //
-var sortedData
+$(document).on("click", ".tHeader", sendToSort)
 
-function sortThings(data, sorter, event){
+
+function sortThings (data, sorter, sorted) {
 console.log("hi i'm sorting things by: ", sorter)
-console.log("am I here because of an event? ", event)
-// var sorter = sorter.valueOf()
 data.sort(function(a,b){
   if(a[sorter]<b[sorter]) return -1;
   if(a[sorter]>b[sorter]) return 1;
   return 0;
 })
-sortedData = data
-reWriteTable(sortedData, event, tableClickListeners)
-// return sortedData
+if (sorted === "descending") data.reverse()
+makeTable(data, "#siteTable")
+var header 
+$("#siteTable .tHeader").each(function(i, el){
+  var contents = resolveDataTitle($(el).text())
+  if (contents === sorter) header = el
+})
+$(header).attr("data-sorted", sorted)
 }
 
 function resolveDataTitle(string) {
   var adjusted = string.toLowerCase().replace(/\s/g, '').replace(/\W/g, '')
-  // console.log("the adjusted title:", adjusted)
   return adjusted
 }
 
-
 function sendToSort(event) {
-  log('_sendToSorts event_', (event.target).className)
-  if ($(event.target).hasClass("lastSort")) {
-      log('_THIS WAS CLICKED LAST TIME, REVERSING SORT_')
-      var reverseSort = sortedData.reverse()
-      //console.log("sendToSort's sortedData:", sortedData)
-      //console.log("sendToSort's sortedData reversed:", reverseSort)
-      reWriteTable(sortedData.reverse(), event, tableClickListeners)
+  var sorted = $(event.target).attr("data-sorted")
+  if (sorted) {
+    if (sorted === "descending") sorted = "ascending"
+    else sorted = "descending"
   }
   else {
-    log("_THIS IS A NEW CLICK CATEGORY, SENDING IT TO GET SORTED_")
-    var sorter = resolveDataTitle(event.target.innerHTML)
-    sortThings(gData, sorter, event)
+    sorted = "ascending"
   }
-  return event
+  var sorter = resolveDataTitle(event.target.innerHTML)
+  sortThings(gData, sorter, sorted)
 }
 
-function reWriteTable(sortedData, event, cb){
-  console.log("reWriteTable has this data: ", sortedData)
-  console.log("reWriteTable received this event:", event)
+function makeTable(data, targetDiv) {
   var siteTable = ich.siteTable({
-    rows: sortedData 
+    rows: data 
   })
-  document.getElementById('siteTable').innerHTML = siteTable
-  // reset listeners
-  // tableClickListeners(event)
-  cb(event)
-}
-
-function tableClickListeners(event, cb) {
-  console.log("adding listeners")
-  console.log("tableClickListeners got this event:", event)
-  var els = toArray(document.querySelectorAll(".tHeader"))
-  els.forEach(function addListener(el) {
-    $(el).click(sendToSort)
-  })
-  if (event) {
-    console.log("had an event")
-    $(event.target).css("background-color", "ffffff")
-    $(event.target).addClass("lastSort")
-    console.log("added class:", event.target)
-  }
-}
-
-// because the DOM is crazy, we have to array for it
-function toArray(list) {
-  var i, array = []
-  for  (i=0; i<list.length;i++) { array[i] = list[i] }
-  return array
+  $(targetDiv).html(siteTable) 
 }
 
 // 
@@ -115,13 +86,13 @@ function mostFrequent(data) {
   var stateCount = {};
   for (var i = 0; i < data.length; i++)  {
    if (!stateCount[data[i].state]) {
-       stateCount[data[i].state] = 0;
+       stateCount[data[i].state] = 0
    }
    stateCount[data[i].state]++
 }
     var sortable = [];
     for (var state in stateCount) {
-      sortable.push([state, stateCount[state]]);
+      sortable.push([state, stateCount[state]])
   }
       sortable.sort(function(a, b) {return b[1] - a[1]})
       return  sortable;
