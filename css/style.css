@@ -39,3 +39,31 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px; border: 1px dotted #333;}
 .leaflet-popup-content {font-family: Merriweather;}
 .leaflet-popup-content h2 {margin-bottom: 4px;}
 
+    path {
+        stroke: #14ECC8;
+        stroke-width: 3;
+        fill: none;
+      }
+      
+      .axis {
+        shape-rendering: crispEdges;
+      }
+
+      .x.axis line {
+        stroke: #acacac;
+      }
+
+      .x.axis .minor, .y.axis .minor {
+        stroke-opacity: .5;
+      }
+
+      .x.axis path {
+        display: none;
+      }
+
+      .y.axis line, .y.axis path, .x.axis line, .x.axis path {
+        fill: none;
+        stroke: #acacac;
+        stroke-width: 1;
+      }
+

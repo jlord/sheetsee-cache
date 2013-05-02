@@ -478,129 +478,67 @@ svg.selectAll("g.labels")
 }
 
 function makeLineChart(data){
+    /* implementation heavily influenced by http://bl.ocks.org/1166403 */
+    
+    // define dimensions of graph
+    var m = [80, 80, 80, 80]; // margins
+    var w = 600 - m[1] - m[3]; // width
+    var h = 400 - m[0] - m[2]; // height
+    
+    // create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
+    var data = data.map(function(d) { return d.units; })
+    log("_DATA_", data)
+    // [3, 6, 2, 7, 5, 2, 0, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 2, 7];
 
-var margin = {top: 20, right: 50, bottom: 30, left: 50},
-    width = 600 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    // X scale will fit all values from data[] within pixels 0-w
+    var x = d3.scale.linear().domain([0, data.length - 1]).range([0, w]);
+    // Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
+    var y = d3.scale.linear().domain([0, d3.max(data, function(d) { return d + 2; })]).range([h, 0]);
+      // automatically determining max range can work something like this
+      // var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
 
-// var parseDate = d3.time.format("%d-%b-%y").parse,
-//     bisectDate = d3.bisector(function(d) { return d.date; }).left,
-//     formatValue = d3.format(",.2f"),
-//     formatCurrency = function(d) { return "$" + formatValue(d); };
+    // create a line function that can convert data[] into x and y points
+    var line = d3.svg.line()
+      // assign the X function to plot our line as we wish
+      .x(function(d,i) { 
+        // verbose logging to show what's actually being done
+        console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+        // return the X coordinate where we want to plot this datapoint
+        return x(i); 
+      })
+      .y(function(d) { 
+        // verbose logging to show what's actually being done
+        console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+        // return the Y coordinate where we want to plot this datapoint
+        return y(d); 
+      })
 
-var x = d3.scale.linear()
-    .range([0, width]);
+      // Add an SVG element with the desired dimensions and margin.
+      var graph = d3.select("#holder").append("svg:svg")
+            .attr("width", w + m[1] + m[3])
+            .attr("height", h + m[0] + m[2])
+          .append("svg:g")
+            .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-var y = d3.scale.linear()
-    .range([height, 0]);
+      // create yAxis
+      var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
+      // Add the x-axis.
+      graph.append("svg:g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + h + ")")
+            .call(xAxis);
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
-
-var line = d3.svg.line()
-    .x(function(d) { return x(d.units); })
-    .y(function(d) { return y(d.label); });
-
-var svg = d3.select("#holder").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-var data = data
-
-  x.domain([data[0].units, data[data.length - 1].units]);
-  y.domain(d3.extent(data, function(d) { return d.label; }));
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Price ($)");
-
-  svg.append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", line);
-
-  var focus = svg.append("g")
-      .attr("class", "focus")
-      .style("display", "none");
-
-  focus.append("circle")
-      .attr("r", 4.5);
-
-  focus.append("text")
-      .attr("x", 9)
-      .attr("dy", ".35em");
-
-  svg.append("rect")
-      .attr("class", "overlay")
-      .attr("width", width)
-      .attr("height", height)
-      .on("mouseover", function() { focus.style("display", null); })
-      .on("mouseout", function() { focus.style("display", "none"); })
-      //.on("mousemove", mousemove);
-
-  function mousemove() {
-    var x0 = x.invert(d3.mouse(this)[0]),
-        i = bisectDate(data, x0, 1),
-        d0 = data[i - 1],
-        d1 = data[i],
-        d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-    focus.attr("transform", "translate(" + x(d.units) + "," + y(d.label) + ")");
-    focus.select("text").text(d.label);
-  }
-
+      // create left yAxis
+      var yAxisLeft = d3.svg.axis().scale(y).ticks(4).tickSize(-w).tickSubdivide(true).orient("left");
+      // Add the y-axis to the left
+      graph.append("svg:g")
+            .attr("class", "y axis")
+            .attr("dx", "25")
+            .attr("transform", "translate(0,0)")
+            .call(yAxisLeft);
+      
+        // Add the line by appending an svg:path element with the data line we created above
+      // do this AFTER the axes above so that the line is above the tick-lines
+        graph.append("svg:path").attr("d", line(data));
 }
-
-
-
-
-
-
-
-
-// function sortChart(chartInfo) {
-//   console.log('hey why')
-//   chartInfo.data.forEach(function(d) { d.units = +d.units; });
-//   chartInfo.data.sort(function(a, b) { return b.units - a.units; });
-//   console.log("chartinfodata is", chartInfo.data)
-//  // chartInfo.y.domain(chartInfo.data.map(function(d) { return d.label; })); 
-
-//   chartInfo.bar.transition()
-//       .duration(1000)
-//       .delay(function(d, i) { return i * 50; })
-//       // .attr("transform", function(d, i) { return "translate(0," + chartInfo.y(d.label, i) + ")"; })
-//       .attr("transform", function(d, i) { return "translate(0," + chartInfo.y(d.units, i) + ")"; });
-
-//   return  chartInfo
-// }
-
-// function sortChart() {
-//     index.sort(function(a, b) { return data[a] - data[b]; });
-
-//   y.domain(index);
-
-//   bar.transition()
-//       .duration(750)
-//       .delay(function(d, i) { return i * 50; })
-//       .attr("transform", function(d, i) { return "translate(0," + y(i) + ")"; });
-
-// }
-
-
