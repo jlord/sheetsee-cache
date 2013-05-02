@@ -67,3 +67,4 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
         stroke-width: 1;
       }
 
+#tableFilter {margin: 12px 0px; border: none; border-bottom: 1px solid #333; background-color: transparent; padding: 0px; font-family: Merriweather; color: #FCB688; font-size: 13px;}

@@ -17,6 +17,7 @@
 		<div id="holder"></div>
 		<label><input type="checkbox"> Sort values</label>	
 		<div id="map"></div>
+		<div><input id="tableFilter" type="text" placeholder="filter by.."></input></div>
 		<div id="siteTable">waiting</div>
 	</div><!-- end wrapper -->
 
@@ -33,6 +34,12 @@
   document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
     // reWriteTable(gData, null, tableClickListeners)
   	makeTable(gData, "#siteTable")
+
+	$('#tableFilter').keyup(function(e) {
+	  var text = $(e.target).val()
+	  console.log(text)
+	})
+
    }) 
 	</script>
 

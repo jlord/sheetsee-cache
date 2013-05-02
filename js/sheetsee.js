@@ -46,9 +46,12 @@ function makeTable(data, targetDiv) {
   $(targetDiv).html(siteTable) 
 }
 
-// 
-// Map
+// // // // // // // // // // // // // // // // // // // // // // // //  // //
 //
+// // // Map
+//
+// // // // // // // // // // // // // // // // // // // // // // // //  // //
+
 // create geoJSON from your spreadsheets coordinates
 function createGeoJSON(data) {
 	var geoJSON = []
@@ -552,3 +555,6 @@ function makeLineChart(data){
       // do this AFTER the axes above so that the line is above the tick-lines
         graph.append("svg:path").attr("d", line(data));
 }
+
+
+
