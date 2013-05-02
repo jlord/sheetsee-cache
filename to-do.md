@@ -6,19 +6,18 @@
 -- GeoJSON Content
 - Have off-map interactions
 - Click markers, respond in table
+- Why isn't it reversing the 0 index item in geoJSON?
 
 ### TABLES
-- Fix sorting once and for all
--- Make headers their own table?
 - Add text filtering
 -- Like in DIY Challenge project, but can I do it without Underscore?
-- Make it easy to set up multiple through filters
+- Make it easy to set up multiple tables through filters
 
 ### CHARTS
 - Line Chart
 -- Set up, should just work with times
+-- Should let you customize x-axis
 - Bar Chart
--- -Add hover features-
 -- Fix that final transition
 - Pie Chart
 -- Finesse text, styling
@@ -38,3 +37,4 @@
 - Other useful JS filtering functions?
 - Update site
 - Make client-side version
+- Do the sheetsee.____ thing

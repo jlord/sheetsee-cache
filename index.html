@@ -21,10 +21,10 @@
 	</div><!-- end wrapper -->
 
 	<script id="siteTable" type="text/html">
-		<table style="background: #ff00ff;">
+		<table>
 		<tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Year</th><th class="tHeader">Image</th></tr>
 		  {{#rows}}
-		  	<tr><td>{{city}}</td><td>{{placename}}</td><td>{{year}}</td><td>{{image}}</td></tr>
+		  	<tr class="{{id}}"><td>{{city}}</td><td>{{placename}}</td><td>{{year}}</td><td>{{image}}</td></tr>
 		  {{/rows}}
 	  </table>
 	</script>
@@ -37,19 +37,19 @@
 	</script>
 
 	<script type='text/javascript'>
-		// var geoJSON = createGeoJSON(gData)
-		// var map = loadMap()
-		// addTileLayer(map)
-		// addMarkerLayer(geoJSON, map)
-		// addPopups()
+		var geoJSON = createGeoJSON(gData)
+		var map = loadMap()
+		addTileLayer(map)
+		addMarkerLayer(geoJSON, map)
+		addPopups()
 	</script>
 
 	<script type="text/javascript">
 		// var color = ["#F7CE86", "FFDDA3"] // , "#E9D7B7", "#F3E3D8","#F7CE86", "FFDDA3", "#E9D7B7", "#F3E3D8", "#F7CE86", "FFDDA3", "#E9D7B7", "#F3E3D8"]
-		  var chartData = makeArrayOfObject(getOccurance(gData))
+		 // var chartData = makeArrayOfObject(getOccurance(gData))
 		//  var barChart = renderGraph(chartData, chartData.length, "#holder")
 		// var button = document.getElementById("button")
-	 		makeLineChart(chartData)
+	 	// makeLineChart(chartData)
 	 // makePie(chartData)
 
 

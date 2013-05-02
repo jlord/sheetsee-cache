@@ -41,7 +41,7 @@ function sendToSort(event) {
 
 function makeTable(data, targetDiv) {
   var siteTable = ich.siteTable({
-    rows: data 
+    rows: data
   })
   $(targetDiv).html(siteTable) 
 }
@@ -144,14 +144,16 @@ function makeArrayOfObject(data) {
   })
 }
 
+// // // // // // // // // // // // // // // // // // // // // // //  // //
 // 
 // Mapbox + Leaflet Map
 //
+// // // // // // // // // // // // // // // // // // // // // // // // //  
 
 // load basic map with tiles
 function loadMap() {
 	var map = L.mapbox.map('map')
-      map.setView(geoJSON[0].geometry.coordinates.reverse(), 4)
+  // map.setView(, 4)
 	// map.addLayer(L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'));
 	map.touchZoom.disable()
 	map.doubleClickZoom.disable()
@@ -165,12 +167,20 @@ function addTileLayer(map) {
 
 function addMarkerLayer(geoJSON, map) { 
 console.log("addMarkerLayer geoJSON: ", geoJSON) 
+  // var viewLat = geoJSON[0].geometry.coordinates[1]
+  // var viewLong = geoJSON[0].geometry.coordinates[0]
+  var viewCoords = [geoJSON[0].geometry.coordinates[1], geoJSON[0].geometry.coordinates[0]]
 var markerLayer = L.mapbox.markerLayer(geoJSON)
   markerLayer.setGeoJSON(geoJSON)
+  map.setView(viewCoords, 10)
+  console.log(viewCoords)
   // map.fitBounds(geoJSON)
   markerLayer.addTo(map)
   markerLayer.on('click', function(e) {
     var feature = e.layer.feature
+    // $("td").css("background", "none")
+    // $("." + feature.properties.id).css("background", "#ff00ff")
+    console.log(feature.properties.id)
     var popupContent = '<h2>' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
     e.layer.bindPopup(popupContent,{
     closeButton: false,
@@ -179,10 +189,10 @@ var markerLayer = L.mapbox.markerLayer(geoJSON)
 }
 
 function addPopups() {
-  console.log("I got called!")
 	map.markerLayer.on('click', function(e) {
+
     var feature = e.layer.feature
-    var popupContent = '<h2>' + feature.properties.year + '</h2>'
+    // var popupContent = '<h2>' + feature.properties.year + '</h2>'
     e.layer.bindPopup(popupContent,{
         closeButton: false,
     })
