@@ -7,6 +7,8 @@
 		<script type="text/javascript" src='js/d3.js'></script>
 		<script type="text/javascript" src='js/sheetsee.js'></script>
 		<script type="text/javascript" src='js/log.js'></script>
+		<script type="text/javascript" src='js/underscore.js'></script>
+
     <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
 		<link media="screen" rel="stylesheet" type="text/css" href="/css/style.css"> 
 	</head>
@@ -17,7 +19,7 @@
 		<div id="holder"></div>
 		<label><input type="checkbox"> Sort values</label>	
 		<div id="map"></div>
-		<div><input id="tableFilter" type="text" placeholder="filter by.."></input></div>
+		<div><input id="tableFilter" type="text" placeholder="filter by.."></input><span class="noMatches"></span></div>
 		<div id="siteTable">waiting</div>
 	</div><!-- end wrapper -->
 
@@ -34,11 +36,9 @@
   document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
     // reWriteTable(gData, null, tableClickListeners)
   	makeTable(gData, "#siteTable")
+  	initiateTableFilter()
 
-	$('#tableFilter').keyup(function(e) {
-	  var text = $(e.target).val()
-	  console.log(text)
-	})
+
 
    }) 
 	</script>

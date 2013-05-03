@@ -556,5 +556,74 @@ function makeLineChart(data){
         graph.append("svg:path").attr("d", line(data));
 }
 
+function initiateTableFilter() {
+  $('#tableFilter').keyup(function(e) {
+    var text = $(e.target).val()
+    searchTable(text)
+  })
+}
+
+// function searchTable(searchTerm) {
+//   var filteredList = []
+//   gData.forEach(function(obj) {
+//     $.each(obj, function(key, value) {
+//         var objVal = obj[key][value]
+//         console.log("obj", objVal)
+//       if (objVal.match(searchTerm)) filteredList.push(gData[e])
+//     })
+//   console.log(filteredList)
+//   return filteredList
+//   })
+// }
+
+// for(var key in objects) {
+//     var value = objects[key];
+// }
+
+// function searchTable(searchTerm) {
+//   var filteredList = []
+//   gData.forEach(function(object) {
+//     for (var key in object) {
+//       var value = object[key]
+//       // console.log("the key, value", key, value)
+//       if (typeof value != "number" && value.match(searchTerm)) filteredList.push(object)
+//     }
+//   console.log("filteredList", filteredList)
+//   makeTable(filteredList, "#siteTable")
+//   return filteredList
+//   })
+// }
+
+function searchTable(searchTerm) {
+  var filteredList = []
+  gData.forEach(function(object) {
+    var stringObject = JSON.stringify(object).toLowerCase()
+    if (stringObject.match(searchTerm)) filteredList.push(object)
+  })
+  if (filteredList = []) {
+    console.log("no matchie")
+    $(".noMatches").html("no matches")
+    makeTable("no matches", "#siteTable")
+  }
+  makeTable(filteredList, "#siteTable") 
+  return filteredList
+}
+
+// $.each(obj, function(key, value) {
+//     console.log(this, value, obj[key]);
+// });
 
 
+// function searchTools(searchTerm) {
+//   var filterTools = _.filter(_.values(gData), function(tool) {
+//     var position = tool.title.toLowerCase().indexOf(searchTerm)
+//     if (position === -1) return false
+//     else return true 
+//   });     
+//   var results = ich.results({
+//     "rows": filterTools
+//   })
+//   $('#results').html(results)
+  
+//   return filterTools
+// }
