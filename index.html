@@ -19,7 +19,11 @@
 		<div id="holder"></div>
 		<label><input type="checkbox"> Sort values</label>	
 		<div id="map"></div>
-		<div><input id="tableFilter" type="text" placeholder="filter by.."></input><span class="noMatches"></span></div>
+		<div>
+			<input id="tableFilter" type="text" placeholder="filter by.."></input>
+			<span class="clear button">Clear</span>
+			<span class="noMatches">no matches</span>
+		</div>
 		<div id="siteTable">waiting</div>
 	</div><!-- end wrapper -->
 
@@ -35,8 +39,8 @@
 	<script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
     // reWriteTable(gData, null, tableClickListeners)
-  	makeTable(gData, "#siteTable")
-  	initiateTableFilter()
+  	Sheetsee.makeTable(gData, "#siteTable")
+  	Sheetsee.initiateTableFilter()
 
 
 
@@ -44,11 +48,11 @@
 	</script>
 
 	<script type='text/javascript'>
-		var geoJSON = createGeoJSON(gData)
-		var map = loadMap()
-		addTileLayer(map)
-		addMarkerLayer(geoJSON, map)
-		addPopups()
+		// var geoJSON = createGeoJSON(gData)
+		// var map = loadMap()
+		// addTileLayer(map)
+		// addMarkerLayer(geoJSON, map)
+		// addPopups()
 	</script>
 
 	<script type="text/javascript">

@@ -66,5 +66,8 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
         stroke: #acacac;
         stroke-width: 1;
       }
-
-#tableFilter {margin: 12px 0px; border: none; border-bottom: 1px solid #333; background-color: transparent; padding: 0px; font-family: Merriweather; color: #FCB688; font-size: 13px;}
+.button {padding: 5px 4px; background-color: #fff; font-size: 10px;}
+.button:hover {cursor: hand;}
+input:focus {outline: none;}
+.noMatches {margin-left: 20px; font-size: 11px; font-style: italic; visibility: hidden;}
+#tableFilter {margin: 12px 0px; border: none; border-bottom: 1px solid #333; background-color: transparent; padding: 0px; font-family: Merriweather; color: #FCB688; font-size: 13px; height: 22px;}

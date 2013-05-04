@@ -1,24 +1,24 @@
+function exportFunctions(exports) {
+
 // 
 // Filtering + Organizing Data
 //
-$(document).on("click", ".tHeader", sendToSort)
 
-
-function sortThings (data, sorter, sorted) {
-console.log("hi i'm sorting things by: ", sorter)
-data.sort(function(a,b){
-  if(a[sorter]<b[sorter]) return -1;
-  if(a[sorter]>b[sorter]) return 1;
-  return 0;
-})
-if (sorted === "descending") data.reverse()
-makeTable(data, "#siteTable")
-var header 
-$("#siteTable .tHeader").each(function(i, el){
-  var contents = resolveDataTitle($(el).text())
-  if (contents === sorter) header = el
-})
-$(header).attr("data-sorted", sorted)
+function sortThings(data, sorter, sorted) {
+  console.log("hi i'm sorting things by: ", sorter)
+  data.sort(function(a,b){
+    if(a[sorter]<b[sorter]) return -1;
+    if(a[sorter]>b[sorter]) return 1;
+    return 0;
+  })
+  if (sorted === "descending") data.reverse()
+  makeTable(data, "#siteTable")
+  var header 
+  $("#siteTable .tHeader").each(function(i, el){
+    var contents = resolveDataTitle($(el).text())
+    if (contents === sorter) header = el
+  })
+  $(header).attr("data-sorted", sorted)
 }
 
 function resolveDataTitle(string) {
@@ -38,6 +38,8 @@ function sendToSort(event) {
   var sorter = resolveDataTitle(event.target.innerHTML)
   sortThings(gData, sorter, sorted)
 }
+
+$(document).on("click", ".tHeader", sendToSort)
 
 function makeTable(data, targetDiv) {
   var siteTable = ich.siteTable({
@@ -100,8 +102,6 @@ function mostFrequent(data) {
       sortable.sort(function(a, b) {return b[1] - a[1]})
       return  sortable;
 }
-
-
 
 function addUnitsLabels(arrayObj, oldLabel, oldUnits) {
   for (var i = 0; i < arrayObj.length; i++) {
@@ -205,7 +205,7 @@ function addPopups() {
 // 
 // D3 Bar Chart
 //
-function renderGraph(data, noOfItems, divTown) {
+function d3BarChat(data, noOfItems, divTown) {
   console.log(data)
 
 //  m = [t0, r1, b2, l3]
@@ -358,7 +358,7 @@ function change() {
 
 /////////////////////////////////////////////////////////
 
-function makePie(data){
+function d3PieChart(data){
 var width = 600,
     height = 400,
     radius = Math.min(width, height) / 2.3;
@@ -490,7 +490,7 @@ svg.selectAll("g.labels")
 
 }
 
-function makeLineChart(data){
+function d3LineChart(data){
     /* implementation heavily influenced by http://bl.ocks.org/1166403 */
     
     // define dimensions of graph
@@ -557,42 +557,16 @@ function makeLineChart(data){
 }
 
 function initiateTableFilter() {
+  $('.clear').on("click", function() { 
+    $(".noMatches").css("visibility", "hidden")
+    $("#tableFilter").val("")
+    makeTable(gData, "#siteTable")
+  })
   $('#tableFilter').keyup(function(e) {
     var text = $(e.target).val()
     searchTable(text)
   })
 }
-
-// function searchTable(searchTerm) {
-//   var filteredList = []
-//   gData.forEach(function(obj) {
-//     $.each(obj, function(key, value) {
-//         var objVal = obj[key][value]
-//         console.log("obj", objVal)
-//       if (objVal.match(searchTerm)) filteredList.push(gData[e])
-//     })
-//   console.log(filteredList)
-//   return filteredList
-//   })
-// }
-
-// for(var key in objects) {
-//     var value = objects[key];
-// }
-
-// function searchTable(searchTerm) {
-//   var filteredList = []
-//   gData.forEach(function(object) {
-//     for (var key in object) {
-//       var value = object[key]
-//       // console.log("the key, value", key, value)
-//       if (typeof value != "number" && value.match(searchTerm)) filteredList.push(object)
-//     }
-//   console.log("filteredList", filteredList)
-//   makeTable(filteredList, "#siteTable")
-//   return filteredList
-//   })
-// }
 
 function searchTable(searchTerm) {
   var filteredList = []
@@ -600,30 +574,38 @@ function searchTable(searchTerm) {
     var stringObject = JSON.stringify(object).toLowerCase()
     if (stringObject.match(searchTerm)) filteredList.push(object)
   })
-  if (filteredList = []) {
+  // if ($('#tableFilter').val("")) makeTable(gData, "#siteTable")
+  if (filteredList.length === 0) {
     console.log("no matchie")
-    $(".noMatches").html("no matches")
+    $(".noMatches").css("visibility", "inherit")
     makeTable("no matches", "#siteTable")
   }
+  else $(".noMatches").css("visibility", "hidden")
   makeTable(filteredList, "#siteTable") 
   return filteredList
 }
 
-// $.each(obj, function(key, value) {
-//     console.log(this, value, obj[key]);
-// });
+exports.searchTable = searchTable
+exports.initiateTableFilter = initiateTableFilter
+exports.d3LineChart = d3LineChart
+exports.d3PieChart = d3PieChart
+exports.d3BarChat = d3BarChat
+exports.addPopups = addPopups
+exports.addMarkerLayer = addMarkerLayer
+exports.addTileLayer = addTileLayer
+exports.loadMap = loadMap
+exports.makeArrayOfObject = makeArrayOfObject
+exports.makeColorArrayOfObject = makeColorArrayOfObject
+exports.mostFrequent = mostFrequent
+exports.addUnitsLabels = addUnitsLabels
+exports.getOccurance = getOccurance
+exports.getMatches = getMatches
+exports.createGeoJSON = createGeoJSON
+exports.makeTable = makeTable
+exports.sendToSort = sendToSort
+exports.resolveDataTitle = resolveDataTitle
+exports.sortThings = sortThings
 
-
-// function searchTools(searchTerm) {
-//   var filterTools = _.filter(_.values(gData), function(tool) {
-//     var position = tool.title.toLowerCase().indexOf(searchTerm)
-//     if (position === -1) return false
-//     else return true 
-//   });     
-//   var results = ich.results({
-//     "rows": filterTools
-//   })
-//   $('#results').html(results)
-  
-//   return filterTools
-// }
+}
+var Sheetsee = {}
+exportFunctions(Sheetsee)
