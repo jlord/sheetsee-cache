@@ -4,13 +4,9 @@
 - Pull out customization elements
 -- Popup Content
 -- GeoJSON Content
-- Have off-map interactions
-- Click markers, respond in table
-- Why isn't it reversing the 0 index item in geoJSON?
-
+-- Create a variable on index page and pass it in. 
 ### TABLES
-- Add text filtering
--- Like in DIY Challenge project, but can I do it without Underscore?
+- Finesse text filtering 
 - Make it easy to set up multiple tables through filters
 
 ### CHARTS
@@ -37,4 +33,4 @@
 - Other useful JS filtering functions?
 - Update site
 - Make client-side version
-- Do the sheetsee.____ thing
+- Have off-map interactions

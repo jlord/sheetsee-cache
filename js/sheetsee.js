@@ -42,10 +42,11 @@ function sendToSort(event) {
 $(document).on("click", ".tHeader", sendToSort)
 
 function makeTable(data, targetDiv) {
-  var siteTable = ich.siteTable({
+  var templateID = targetDiv.replace("#", "")
+  var tableContents = ich[templateID]({
     rows: data
   })
-  $(targetDiv).html(siteTable) 
+  $(targetDiv).html(tableContents) 
 }
 
 // // // // // // // // // // // // // // // // // // // // // // // //  // //
@@ -169,37 +170,35 @@ function addTileLayer(map) {
 }
 
 function addMarkerLayer(geoJSON, map) { 
-console.log("addMarkerLayer geoJSON: ", geoJSON) 
   // var viewLat = geoJSON[0].geometry.coordinates[1]
   // var viewLong = geoJSON[0].geometry.coordinates[0]
   var viewCoords = [geoJSON[0].geometry.coordinates[1], geoJSON[0].geometry.coordinates[0]]
-var markerLayer = L.mapbox.markerLayer(geoJSON)
+  var markerLayer = L.mapbox.markerLayer(geoJSON)
   markerLayer.setGeoJSON(geoJSON)
   map.setView(viewCoords, 10)
-  console.log(viewCoords)
   // map.fitBounds(geoJSON)
   markerLayer.addTo(map)
+  // markerLayer.on('click', function(e) {
+  //   var feature = e.layer.feature
+  //   // $("td").css("background", "none")
+  //   // $("." + feature.properties.id).css("background", "#ff00ff")
+  //   console.log(feature.properties.id)
+  //   var popupContent = '<h2>' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
+  //   e.layer.bindPopup(popupContent,{
+  //   closeButton: false,
+  //   })
+  // })
+  addPopups(geoJSON, map, markerLayer)
+}
+
+function addPopups(geoJSON, map, markerLayer) {
   markerLayer.on('click', function(e) {
     var feature = e.layer.feature
-    // $("td").css("background", "none")
-    // $("." + feature.properties.id).css("background", "#ff00ff")
-    console.log(feature.properties.id)
     var popupContent = '<h2>' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
     e.layer.bindPopup(popupContent,{
     closeButton: false,
     })
   })
-}
-
-function addPopups() {
-	map.markerLayer.on('click', function(e) {
-
-    var feature = e.layer.feature
-    // var popupContent = '<h2>' + feature.properties.year + '</h2>'
-    e.layer.bindPopup(popupContent,{
-        closeButton: false,
-    })
-	})
 }
 
 // 
