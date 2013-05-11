@@ -4,6 +4,36 @@ function exportFunctions(exports) {
 // Filtering + Organizing Data
 //
 
+function initiateTableFilter() {
+  $('.clear').on("click", function() { 
+    $(".noMatches").css("visibility", "hidden")
+    $("#tableFilter").val("")
+    makeTable(gData, "#siteTable")
+  })
+  $('#tableFilter').keyup(function(e) {
+    var text = $(e.target).val()
+    searchTable(text)
+  })
+}
+
+function searchTable(searchTerm) {
+  var filteredList = []
+  gData.forEach(function(object) {
+    var stringObject = JSON.stringify(object).toLowerCase()
+    if (stringObject.match(searchTerm)) filteredList.push(object)
+  })
+  // if ($('#tableFilter').val("")) makeTable(gData, "#siteTable")
+  if (filteredList.length === 0) {
+    console.log("no matchie")
+    $(".noMatches").css("visibility", "inherit")
+    makeTable("no matches", "#siteTable")
+  }
+  else $(".noMatches").css("visibility", "hidden")
+  makeTable(filteredList, "#siteTable") 
+  return filteredList
+}
+
+
 function sortThings(data, sorter, sorted) {
   console.log("hi i'm sorting things by: ", sorter)
   data.sort(function(a,b){
@@ -51,32 +81,11 @@ function makeTable(data, targetDiv) {
 
 // // // // // // // // // // // // // // // // // // // // // // // //  // //
 //
-// // // Map
+// // // Sorting, Ordering
 //
 // // // // // // // // // // // // // // // // // // // // // // // //  // //
 
-// create geoJSON from your spreadsheets coordinates
-function createGeoJSON(data) {
-	var geoJSON = []
-	data.forEach(function(lineItem){
-		var feature = {
-			type: 'Feature',
-			"geometry": {"type": "Point", "coordinates": [lineItem.long, lineItem.lat]},
-			"properties": {
-				"image": "hello",
-				"url": "hi",
-				"marker-size": "small",
-        "marker-color": lineItem.hexcolor,
-        "id": lineItem.id,
-        "year": lineItem.year,
-				"title": lineItem.placename,
-				"city": lineItem.city
-			}
-		}
-		geoJSON.push(feature)
-	})
-	return geoJSON
-}
+
 
 // out of the data, filter something from a category
 function getMatches(data, filter, category) {
@@ -128,14 +137,16 @@ function getOccurance(data) {
 function makeColorArrayOfObject(data, color) {
   var keys = Object.keys(data)
   var counter = 0
-  var colorIndex = color.length % counter
-  if (counter < color.length) {
-    colorIndex = counter
-  }
+  var colorIndex = counter
+  // var colorIndex = color.length % counter
+  // if (counter < color.length) {
+  //   colorIndex = counter
+  // }
   return keys.map(function(key){ 
-    console.log("counter", counter, "color length", color.length, "colorINdex", colorIndex)
+    // console.log("counter", counter, "color length", color.length, "colorIndex", colorIndex)
     var h = {label: key, units: data[key], hexcolor: color[colorIndex]} 
-    counter++       
+    counter++  
+    colorIndex = counter     
     return h
   })
 }
@@ -143,7 +154,8 @@ function makeColorArrayOfObject(data, color) {
 function makeArrayOfObject(data) {
   var keys = Object.keys(data)
   return keys.map(function(key){ 
-    var h = {label: key, units: data[key], hexcolor: "#FDBDBD"}        
+    // var h = {label: key, units: data[key], hexcolor: "#FDBDBD"}  
+    var h = {label: key, units: data[key]}        
     return h
   })
 }
@@ -153,6 +165,29 @@ function makeArrayOfObject(data) {
 // Mapbox + Leaflet Map
 //
 // // // // // // // // // // // // // // // // // // // // // // // // //  
+
+// create geoJSON from your spreadsheet's coordinates
+function createGeoJSON(data) {
+  var geoJSON = []
+  data.forEach(function(lineItem){
+    var feature = {
+      type: 'Feature',
+      "geometry": {"type": "Point", "coordinates": [lineItem.long, lineItem.lat]},
+      "properties": {
+        "image": "hello",
+        "url": "hi",
+        "marker-size": "small",
+        "marker-color": lineItem.hexcolor,
+        "id": lineItem.id,
+        "year": lineItem.year,
+        "title": lineItem.placename,
+        "city": lineItem.city
+      }
+    }
+    geoJSON.push(feature)
+  })
+  return geoJSON
+}
 
 // load basic map with tiles
 function loadMap() {
@@ -165,7 +200,7 @@ function loadMap() {
 	return map
 }
 function addTileLayer(map) {
-  var layer = L.mapbox.tileLayer('tmcw.map-2f4ad161')
+  var layer = L.mapbox.tileLayer('examples.map-20v6611k')
   layer.addTo(map)
 }
 
@@ -188,13 +223,16 @@ function addMarkerLayer(geoJSON, map) {
   //   closeButton: false,
   //   })
   // })
-  addPopups(geoJSON, map, markerLayer)
+  // addPopups(geoJSON, map, markerLayer)
+  return markerLayer
 }
 
 function addPopups(geoJSON, map, markerLayer) {
+  console.log("markerLayer", markerLayer)
   markerLayer.on('click', function(e) {
     var feature = e.layer.feature
     var popupContent = '<h2>' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
+    // var popupContent = popupContent
     e.layer.bindPopup(popupContent,{
     closeButton: false,
     })
@@ -204,13 +242,15 @@ function addPopups(geoJSON, map, markerLayer) {
 // 
 // D3 Bar Chart
 //
-function d3BarChat(data, noOfItems, divTown) {
-  console.log(data)
+
+
+function d3BarChart(data, options) {
+  console.log(data, options)
 
 //  m = [t0, r1, b2, l3]
-var m = [30, 60, 10, 200],
-    w = 600 - m[1] - m[3],
-    h = (noOfItems * 30) - m[0] - m[2];
+var m = options.m,
+    w = options.w - m[1] - m[3],
+    h = (data.length * 30) - m[0] - m[2];
 
 var format = d3.format(",.0f");
 
@@ -220,7 +260,7 @@ var x = d3.scale.linear().range([0, w]),
 var xAxis = d3.svg.axis().scale(x).orient("top").tickSize(-h).tickFormat(d3.format("1s")),
     yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
 
-var svg = d3.select(divTown).append("svg")
+var svg = d3.select(options.div).append("svg")
     .attr("width", w + m[1] + m[3])
     .attr("height", h + m[0] + m[2])
   .append("g")
@@ -240,16 +280,15 @@ var svg = d3.select(divTown).append("svg")
 
     var barSelector = "." + "rect-" + indexValue;
     var selectedBar = d3.selectAll(barSelector);
-    selectedBar.style("fill", "#FF5C5C");
+    selectedBar.style("fill", options.hiColor);
 
     var valueSelector = "." + "value-" + indexValue;
     var selectedValue = d3.selectAll(valueSelector);
-    selectedValue.style("fill", "#FF5C5C");
+    selectedValue.style("fill", options.hiColor);
 
     var textSelector = "." + "labels-" + indexValue;
     var selectedText = d3.selectAll(textSelector);
-    selectedText.style("fill", "#FF5C5C");
-
+    selectedText.style("fill", options.hiColor);
 };
 
 var synchronizedMouseOut = function() {
@@ -276,7 +315,7 @@ var synchronizedMouseOut = function() {
     .attr("transform", function(d) { return "translate(0," + y(d.label) + ")"; })
     // .attr("index_value", function(d, i) { return "index-" + i; })
     // .attr("uniqueID", function(d, i) { return "text-" + "index-" + i; })
-    
+
 svg.selectAll("g.labels")
   .data(data) // Instruct to bind dataSet to text elements
   .enter().append("g") // Append legend elements
@@ -287,7 +326,7 @@ svg.selectAll("g.labels")
         //.attr("y", function(d, i) { return legendOffset + i*20 - 10; })
         .attr("y", function(d, i) { return 14 + i*26; })
         .attr("dx", 0)
-        .attr("dy", "5px") // Controls padding to place text above bars
+        .attr("dy", y.rangeBand() / 2) // Controls padding to place text above bars
         .text(function(d) { return d.label;})
         .style("fill", "#333")
         .attr("index_value", function(d, i) { return "index-" + i; })
@@ -324,7 +363,9 @@ svg.selectAll("g.labels")
   //   .attr("class", "y axis")
   //   .call(yAxis)
 
-d3.select("input").on("change", change)
+d3.select("#sortChart").on("click", change)
+// fix this
+
 
 // var sortTimeout = setTimeout(function() {
 //   d3.select("input").property("checked", true).each(change);
@@ -350,19 +391,26 @@ function change() {
   transition.selectAll(".aLabel")
       .delay(delay)
       .attr("transform", function(d) { return "translate(0," + y(d.label) + ")" })
-
-
 }
 }
+
 
 /////////////////////////////////////////////////////////
 
-function d3PieChart(data){
-var width = 600,
-    height = 400,
+
+function d3PieChart(data, options){
+var width = options.w,
+    height = options.h,
     radius = Math.min(width, height) / 2.3;
 
-var color = d3.scale.category20c() // d3.scale.ordinal()
+console.log("piechart data", data[0].hexcolor)
+// var color = data.map(function(d) { return d.hexcolor; })
+// console.log("color", color)
+
+// if (data[0].hexcolor) {
+//   var color = data.map(function(d) { return d.hexcolor; })
+//   console.log("color", color)
+// } else var color = d3.scale.category20c() // d3.scale.ordinal()
     // .range(data.map(function(d) { return d.hexcolor; }));
 
 //   y.domain(); // makes array of labels
@@ -378,7 +426,7 @@ var pie = d3.layout.pie()
     .sort(null)
     .value(function(d) { return d.units; });
 
-var svg = d3.select("#holder").append("svg")
+var svg = d3.select(options.div).append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
@@ -398,14 +446,14 @@ function synchronizedMouseOver(d) {
 
   var pathSelector = "." + "path-" + indexValue;
   var selectedPath = d3.selectAll(pathSelector);
-  selectedPath.style("fill", "#333")
+  selectedPath.style("fill", options.hiColor)
 
   var textSelector = "." + "labels-" + indexValue
   var selectedText = d3.selectAll(textSelector)
   //selectedText.style("fill", "#FF9BFF")
   selectedText.transition()
     .duration(150)
-    .style("font-size", "12px").style("font-weight", "bold")
+    .style("font-size", "12px").style("font-weight", "bold").style("fill", options.hiColor)
   selectedText.attr("class", function(d, i) { return "labels-" + indexValue + " bigg "; })
 }
 function synchronizedMouseOut(d) {
@@ -417,7 +465,7 @@ function synchronizedMouseOut(d) {
 
   var pathSelector = "." + "path-" + indexValue;
   var selectedPath = d3.selectAll(pathSelector);
-  selectedPath.style("fill", function(d) { return color(d.data.label); })
+  selectedPath.style("fill", function(d) { console.log("hexcolor mouseout", d.data.hexcolor); return d.data.hexcolor})
 
   var textSelector = "." + "labels-" + indexValue;
   var selectedText = d3.selectAll(textSelector);
@@ -441,8 +489,9 @@ function synchronizedMouseOut(d) {
       .attr("d", arc)
       .attr("index_value", function(d, i) { return "index-" + i; })
       .attr("class", function(d, i) { return "path-" + "index-" + i; })
-      .style("fill", function(d) { return color(d.data.label); })
-      .attr("fill", function (d, i) { return color(i); })
+      //.style("fill", function(d) { return color(d.data.label); })
+      .style("fill", function(d) { return d.data.hexcolor})
+      .attr("fill", function(d) { return d.data.hexcolor})
 
   // g.append("text")
   //     .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
@@ -451,25 +500,25 @@ function synchronizedMouseOut(d) {
   //     .style("text-anchor", "middle")
   //     .text(function(d) { return d.data.units })
 
-var labelr = radius + 8 // radius for label anchor
-  g.append("text")
-    .attr("transform", function(d) {
-        var c = arc.centroid(d),
-            x = c[0],
-            y = c[1],
-            // pythagorean theorem for hypotenuse
-            h = Math.sqrt(x*x + y*y);
-        return "translate(" + (x/h * labelr) +  ',' +
-           (y/h * labelr) +  ")"; 
-    })
-    .attr("dy", ".35em")
-    .attr("fill", "#333")
-    .attr("text-anchor", function(d) {
-        // are we past the center?
-        return (d.endAngle + d.startAngle)/2 > Math.PI ?
-            "end" : "start";
-    })
-    .text(function(d, i) { return d.value.toFixed(1); });
+// var labelr = radius + 8 // radius for label anchor
+//   g.append("text")
+//     .attr("transform", function(d) {
+//         var c = arc.centroid(d),
+//             x = c[0],
+//             y = c[1],
+//             // pythagorean theorem for hypotenuse
+//             h = Math.sqrt(x*x + y*y);
+//         return "translate(" + (x/h * labelr) +  ',' +
+//            (y/h * labelr) +  ")"; 
+//     })
+//     .attr("dy", ".35em")
+//     .attr("fill", "#333")
+//     .attr("text-anchor", function(d) {
+//         // are we past the center?
+//         return (d.endAngle + d.startAngle)/2 > Math.PI ?
+//             "end" : "start";
+//     })
+//     .text(function(d, i) { return d.value.toFixed(1); });
 
 svg.selectAll("g.labels")
   .data(data)
@@ -486,47 +535,59 @@ svg.selectAll("g.labels")
         .attr("class", function(d, i) { return "labels-" + "index-" + i + " aLabel "; })
         .on('mouseover', synchronizedMouseOver)
         .on("mouseout", synchronizedMouseOut)
-
 }
 
-function d3LineChart(data){
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function d3LineChart(data, options){
     /* implementation heavily influenced by http://bl.ocks.org/1166403 */
     
     // define dimensions of graph
-    var m = [80, 80, 80, 80]; // margins
-    var w = 600 - m[1] - m[3]; // width
-    var h = 400 - m[0] - m[2]; // height
+    var m = options.m;  // margins
+    var w = options.w - m[1] - m[3]; // width
+    var h = options.h - m[0] - m[2]; // height
     
-    // create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
-    var data = data.map(function(d) { return d.units; })
-    log("_DATA_", data)
-    // [3, 6, 2, 7, 5, 2, 0, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 2, 7];
+    // var data = data.map(function(d) { return d.units })
+    var data = data
 
     // X scale will fit all values from data[] within pixels 0-w
-    var x = d3.scale.linear().domain([0, data.length - 1]).range([0, w]);
+    var x = d3.scale.ordinal().rangeRoundBands([0, w], 1)
+      x.domain(data.map(function(d) { return d.label; }));
+    // domain(data.map(function(d) { return d.label; }))
     // Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
-    var y = d3.scale.linear().domain([0, d3.max(data, function(d) { return d + 2; })]).range([h, 0]);
+    var y = d3.scale.linear().range([0, h])
+      y.domain([d3.max(data, function(d) { return d.units; }) + 2, 0])
       // automatically determining max range can work something like this
       // var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
+      // var x = d3.scale.linear().range([0, w]),
+      // y = d3.scale.ordinal().rangeRoundBands([0, h], .1);
 
     // create a line function that can convert data[] into x and y points
-    var line = d3.svg.line()
-      // assign the X function to plot our line as we wish
-      .x(function(d,i) { 
-        // verbose logging to show what's actually being done
-        console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-        // return the X coordinate where we want to plot this datapoint
-        return x(i); 
-      })
-      .y(function(d) { 
-        // verbose logging to show what's actually being done
-        console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
-        // return the Y coordinate where we want to plot this datapoint
-        return y(d); 
-      })
+    // var line = d3.svg.line()
+    //   // assign the X function to plot our line as we wish
+    //   .x(function(d, i) { 
+    //     // verbose logging to show what's actually being done
+    //     console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+    //     // return the X coordinate where we want to plot this datapoint
+    //     return x(i); 
+    //   })
+    //   .y(function(d) { 
+    //     // verbose logging to show what's actually being done
+    //     console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+    //     // return the Y coordinate where we want to plot this datapoint
+    //     return y(d); 
+    //   })
+
+    var line = d3.svg.line().x(function(d, i) { console.log(d); return x(i) }).y(function(d) { return y(d) })
+
+
+
+
 
       // Add an SVG element with the desired dimensions and margin.
-      var graph = d3.select("#holder").append("svg:svg")
+      var graph = d3.select(options.div).append("svg:svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
           .append("svg:g")
@@ -534,11 +595,41 @@ function d3LineChart(data){
 
       // create yAxis
       var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
+
+
+
       // Add the x-axis.
       graph.append("svg:g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + h + ")")
+            .call(xAxis)
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dy", "-.5em")
+            .attr('dx', "-1em")
+            .attr("transform", "rotate(-80)")
             .call(xAxis);
+
+
+function mouseOver() {
+    var point = d3.select(this)
+    var indexValue = point.attr("index_value")
+    console.log("this", point, indexValue)
+
+    // var barSelector = "." + "rect-" + indexValue;
+    // var selectedBar = d3.selectAll(barSelector);
+    // selectedBar.style("fill", options.hiColor);
+
+    // var valueSelector = "." + "value-" + indexValue;
+    // var selectedValue = d3.selectAll(valueSelector);
+    // selectedValue.style("fill", options.hiColor);
+
+    // var textSelector = "." + "labels-" + indexValue;
+    // var selectedText = d3.selectAll(textSelector);
+    // selectedText.style("fill", options.hiColor);
+}
+
+
 
 
       // create left yAxis
@@ -552,43 +643,36 @@ function d3LineChart(data){
       
         // Add the line by appending an svg:path element with the data line we created above
       // do this AFTER the axes above so that the line is above the tick-lines
-        graph.append("svg:path").attr("d", line(data));
+      lineData = data.map(function(d) { return d.units })
+        graph.append("svg:path")
+            .attr("d", line(lineData))
+            .attr("class", "chartLine")
+            .attr("index_value", function(d, i) { return i; })
+           // .attr("stroke", options.hiColor).attr("fill", "none")
+           //  .attr("class", function(d, i) { return "point" + "index-" + i + " aLabel chartLine" })
+            .on('mouseover', function(i) {console.log( lineData )})
+
+  // var dots = d3.selectAll("svg:g").attr("class", "dots")
+  // graph.append("svg:g.dots")
+  //   .data(lineData)
+  //   .append("circle")
+  //   .attr("fill", "#ff00ff")
+  //   .attr("stroke", "white")
+  //   .transition()
+  //   .attr("cx", function(d, i) {return x(i);})
+  //   .attr("cy", function(d, i) {return y(d);})
+  //   .attr("r", 4);
+ 
 }
 
-function initiateTableFilter() {
-  $('.clear').on("click", function() { 
-    $(".noMatches").css("visibility", "hidden")
-    $("#tableFilter").val("")
-    makeTable(gData, "#siteTable")
-  })
-  $('#tableFilter').keyup(function(e) {
-    var text = $(e.target).val()
-    searchTable(text)
-  })
-}
 
-function searchTable(searchTerm) {
-  var filteredList = []
-  gData.forEach(function(object) {
-    var stringObject = JSON.stringify(object).toLowerCase()
-    if (stringObject.match(searchTerm)) filteredList.push(object)
-  })
-  // if ($('#tableFilter').val("")) makeTable(gData, "#siteTable")
-  if (filteredList.length === 0) {
-    console.log("no matchie")
-    $(".noMatches").css("visibility", "inherit")
-    makeTable("no matches", "#siteTable")
-  }
-  else $(".noMatches").css("visibility", "hidden")
-  makeTable(filteredList, "#siteTable") 
-  return filteredList
-}
+
 
 exports.searchTable = searchTable
 exports.initiateTableFilter = initiateTableFilter
 exports.d3LineChart = d3LineChart
 exports.d3PieChart = d3PieChart
-exports.d3BarChat = d3BarChat
+exports.d3BarChart = d3BarChart
 exports.addPopups = addPopups
 exports.addMarkerLayer = addMarkerLayer
 exports.addTileLayer = addTileLayer

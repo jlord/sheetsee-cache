@@ -6,22 +6,24 @@ table {text-align: left; width: 100%}
 th {padding: 10px 0px;}
 td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 
-#map {height: 400px; width: 600px; background: #DADADA;}
-#holder {height: 400px; width: 600px; background: #FFE4E4;}
+#map {height: 400px; max-width: 600px; background: #DADADA;}
+#holder {height: 400px; max-width: 600px; background: #FFE4E4;}
 
 //.bigg {-webkit-transition: all .2s ease-in-out; -webkit-transform: scale(2);}
 
 .labels text {text-align: right;}
 
+.bar .labels text {fill: #333;}
+
 .bar rect {fill: #e6e6e6;}
 
 .bar text.value {fill: #333;}
 
-.axis {shape-rendering: crispEdges; fill: #fff;}
+.axis {shape-rendering: crispEdges; fill: #333;}
 
 .axis path {fill: none;}
 
-.x.axis line {stroke: #fff; stroke-opacity: .7;}
+.x.axis line {stroke: #acacac; stroke-opacity: .7;}
 
 .y.axis path {stroke: #fff;}
 
@@ -39,11 +41,11 @@ td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
 .leaflet-popup-content {font-family: Merriweather;}
 .leaflet-popup-content h2 {margin-bottom: 4px;}
 
-/*    path {
+    path.chartLine{
         stroke: #14ECC8;
         stroke-width: 3;
         fill: none;
-      }*/
+      }
       
       .axis {
         shape-rendering: crispEdges;

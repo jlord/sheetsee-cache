@@ -3,7 +3,7 @@
 		<title>Yo, yo, yo!</title>
 		<script type="text/javascript" src="js/ICanHaz.js"></script> 
 		<script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js'></script>
-		<script src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js '></script>
+		<script src='js/jquery.js '></script>
 		<script type="text/javascript" src='js/d3.js'></script>
 		<script type="text/javascript" src='js/sheetsee.js'></script>
 		<script type="text/javascript" src='js/log.js'></script>
@@ -17,7 +17,7 @@
 		<h1>Sheetsee.js</h1>
 		<small><a href="https://docs.google.com/spreadsheet/ccc?key=0Ao5u1U6KYND7dGN5QngweVJUWE16bTRob0d2a3dCbnc#gid=0" target="_blank">data</a></small>
 		<div id="holder"></div>
-		<label><input type="checkbox"> Sort values</label>	
+<!-- 		<span id="sortChart" class="button"> Sort values</span> -->
 		<div id="map"></div>
 		<div>
 			<input id="tableFilter" type="text" placeholder="filter by.."></input>
@@ -41,33 +41,39 @@
     // reWriteTable(gData, null, tableClickListeners)
   	Sheetsee.makeTable(gData, "#siteTable")
   	Sheetsee.initiateTableFilter()
-
-
-
    }) 
 	</script>
 
 	<script type='text/javascript'>
-		var geoJSON = Sheetsee.createGeoJSON(gData)
-		var map = Sheetsee.loadMap()
-		Sheetsee.addTileLayer(map)
-		Sheetsee.addMarkerLayer(geoJSON, map)
-		// Sheetsee.addPopups(geoJSON, map)
+		// var geoJSON = Sheetsee.createGeoJSON(gData)
+		// var map = Sheetsee.loadMap()
+		// // var popupContent = '<h2 style="color: #ff00ff;">' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
+		// Sheetsee.addTileLayer(map)
+		// var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
+		// Sheetsee.addPopups(geoJSON, map, markerLayer)
 	</script>
 
 	<script type="text/javascript">
-		// var color = ["#F7CE86", "FFDDA3"] // , "#E9D7B7", "#F3E3D8","#F7CE86", "FFDDA3", "#E9D7B7", "#F3E3D8", "#F7CE86", "FFDDA3", "#E9D7B7", "#F3E3D8"]
-		 // var chartData = makeArrayOfObject(getOccurance(gData))
-		//  var barChart = renderGraph(chartData, chartData.length, "#holder")
+		//var barOptions = [{m: [80, 80, 80, 200]}, {w: 600}, {h: 400}, {div: "#holder"}]
+		var pieColors = ["#FCB688", "#acacac", "#f0f0f0", "#ff00ff", "#acacac", "#f0f0f0", "#ff00ff", "#acacac", "#f0f0f0", "#ff00ff", "#acacac", "#f0f0f0"]
+		var chartData = Sheetsee.makeColorArrayOfObject(Sheetsee.getOccurance(gData), pieColors)
+		console.log("chart data", chartData)
 		// var button = document.getElementById("button")
-	 	// makeLineChart(chartData)
-	 // makePie(chartData)
+		var lineOptions = {m: [80, 100, 120, 100], w: 600, h: 400, div: "#holder", hiColor: "#88E9FC"}
+	 	Sheetsee.d3LineChart(chartData, lineOptions)
+	 	// var pieOptions = {m: [80, 80, 80, 80], w: 600, h: 400, div: "#holder", hiColor: "#88E9FC"}
+	 	// Sheetsee.d3PieChart(chartData, pieOptions)
+	 	// var barOptions = {m: [30, 60, 10, 200], w: 600, div: "#holder", hiColor: "#88E9FC"}
+	  // Sheetsee.d3BarChart(chartData, barOptions)
 
-
-
-
-
-
+	 //  $(window).resize(function() {
+		//   var newWidth = $('#holder').width()
+		//   console.log("new width", newWidth)
+		//   var options = {m: [30, 60, 10, 200], w: newWidth, div: "#holder"}
+		//   // clear old chart
+		//   $('#holder').html("")
+		//   Sheetsee.d3BarChat(chartData, options)
+		// })
 	</script>
 </body>
 </html>

@@ -5,18 +5,19 @@
 -- Popup Content
 -- GeoJSON Content
 -- Create a variable on index page and pass it in. 
+
 ### TABLES
 - Finesse text filtering 
 - Make it easy to set up multiple tables through filters
 
 ### CHARTS
 - Line Chart
--- Set up, should just work with times
--- Should let you customize x-axis
+-- Want dots you can hover over
 - Bar Chart
--- Fix that final transition
+-- Fix that final transition ( put x axis inside of same group as bar and right-unit)
 - Pie Chart
 -- Finesse text, styling
+- Possibly get rid of sort
 
 ### DOCUMENTATION
 - Do lots of beautiful Documentation
