@@ -569,19 +569,17 @@ function d3LineChart(data, options){
 
     // create yAxis
     var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true)
-
     // Add the x-axis.
     graph.append("svg:g")
           .attr("class", "x axis")
           .attr("transform", "translate(0," + h + ")")
           .call(xAxis)
-          .selectAll("text")
+        .selectAll("text")
           .style("text-anchor", "end")
           .attr("dy", "-.5em")
           .attr('dx', "-1em")
           .attr("transform", "rotate(-80)")
           .call(xAxis)
-
 
     // create left yAxis
     var yAxisLeft = d3.svg.axis().scale(y).ticks(4).tickSize(-w).tickSubdivide(true).orient("left")
@@ -591,6 +589,15 @@ function d3LineChart(data, options){
           .attr("dx", "25")
           .attr("transform", "translate(0,0)")
           .call(yAxisLeft)
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -40)
+          .attr("dy", 0)
+          .style("text-anchor", "end")
+          .text(function() {
+            if (options.yaxis) return options.yaxis
+            return
+          })
       
    var lineData = data.map(function(d) { return d.units })
       graph.append("svg:path")
