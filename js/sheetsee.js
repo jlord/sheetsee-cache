@@ -134,16 +134,15 @@ function getOccurance(data) {
 
 function makeColorArrayOfObject(data, color) {
   var keys = Object.keys(data)
-  var counter = 0
-  var colorIndex = counter
-  // var colorIndex = color.length % counter
-  // if (counter < color.length) {
-  //   colorIndex = counter
-  // }
+  var counter = 1
+  var colorIndex
   return keys.map(function(key){ 
+    if (keys.length > color.length) {
+      colorIndex = counter % color.length
+    }
     var h = {label: key, units: data[key], hexcolor: color[colorIndex]} 
     counter++  
-    colorIndex = counter     
+    colorIndex = counter 
     return h
   })
 }
@@ -263,11 +262,11 @@ function d3BarChart(data, options) {
       .attr("height", h + m[0] + m[2])
     .append("g")
       .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-      
-    x.domain([0, d3.max(data, function(d) { return d.units })]) // 0 to max of units
-    y.domain(data.map(function(d) { return d.label })) // makes array of labels
 
-    var mouseOver = function() {
+  x.domain([0, d3.max(data, function(d) { return d.units })]) // 0 to max of units
+  y.domain(data.map(function(d) { return d.label })) // makes array of labels
+
+  var mouseOver = function() {
       var rect = d3.select(this)
       var indexValue = rect.attr("index_value")
 
@@ -301,14 +300,11 @@ function d3BarChart(data, options) {
       selectedText.style("fill", "#333")
   }
 
-    var bar = svg.selectAll("g.bar")
-      .data(data)
-    .enter().append("g")
-      .attr("class", "bar")
-      .attr("transform", function(d) { return "translate(0," + y(d.label) + ")" })
-      // .attr("index_value", function(d, i) { return "index-" + i })
-      // .attr("uniqueID", function(d, i) { return "text-" + "index-" + i })
-
+  var bar = svg.selectAll("g.bar")
+    .data(data)
+  .enter().append("g")
+    .attr("class", "bar")
+    .attr("transform", function(d) { return "translate(0," + y(d.label) + ")" })
 
   bar.append("text")
     .attr("x", function(d) { return x(d.units) })
