@@ -344,6 +344,15 @@ function d3BarChart(data, options) {
   svg.append("g")
     .attr("class", "x axis")
     .call(xAxis)
+  .append("text")
+    // .attr("transform", "rotate(-90)")
+    .attr("y", -20)
+    .attr("x", m[1] + m[2])
+    .style("text-anchor", "end")
+    .text(function() {
+      if (options.yaxis) return options.yaxis
+      return
+    })
 
   d3.select("input").on("change", change)
 
