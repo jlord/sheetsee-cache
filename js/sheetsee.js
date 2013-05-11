@@ -407,7 +407,7 @@ function mouseOver(d) {
   selectedText.transition()
     .duration(150)
     .style("font-size", "12px").style("font-weight", "bold").style("fill", options.hiColor)
-  selectedText.attr("class", function(d, i) { return "labels-" + indexValue + " bigg " })
+  selectedText.attr("class", function(d, i) { return "labels-" + indexValue + " bigg" })
 }
 function mouseOut(d) {
   d3.select(this).select("path").transition()
@@ -442,12 +442,13 @@ function mouseOut(d) {
       .style("fill", function(d) { return d.data.hexcolor})
       .attr("fill", function(d) { return d.data.hexcolor})
 
-  // g.append("text")
-  //     .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")" })
-  //     .attr("dy", ".35em")
-  //     .attr("dx", ".35em")
-  //     .style("text-anchor", "middle")
-  //     .text(function(d) { return d.data.units })
+//   g.append("text")
+//       .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")" })
+//       .attr("dy", ".35em")
+//       .attr("dx", ".35em")
+//       .attr("class", "pieTip")
+//       .style("text-anchor", "middle")
+//       .text(function(d) { return d.data.units })
 
 // var labelr = radius + 8 // radius for label anchor
 //   g.append("text")
@@ -462,12 +463,13 @@ function mouseOut(d) {
 //     })
 //     .attr("dy", ".35em")
 //     .attr("fill", "#333")
+//     .attr("class", "pieTip")
 //     .attr("text-anchor", function(d) {
 //         // are we past the center?
 //         return (d.endAngle + d.startAngle)/2 > Math.PI ?
 //             "end" : "start"
 //     })
-//     .text(function(d, i) { return d.value.toFixed(1) })
+//     .text(function(d) { return d.data.units })
 
 svg.selectAll("g.labels")
   .data(data)
@@ -512,15 +514,12 @@ function arcTween(a) {
     return arc(i(t));
   };
 }
-
     var transition = svg.transition().duration(750),
         delay = function(d, i) { return i * 50 }
 
     transition.selectAll(".path")
         .delay(delay)
   }
-
-
 }
 
 
@@ -601,7 +600,7 @@ function d3LineChart(data, options){
             })                  
         .on("mouseout", function(d) {       
             div.transition().duration(500).style("opacity", 0) 
-        });
+        })
 }
 
 

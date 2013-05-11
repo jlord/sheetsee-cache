@@ -11,8 +11,6 @@
 - Filtering/Sorting doesn't work on mobile
 
 ### CHARTS
-- Line Chart
--- Want dots you can hover over
 
 ### DOCUMENTATION
 - Do lots of beautiful Documentation
