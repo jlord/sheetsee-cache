@@ -240,7 +240,7 @@ function addPopups(geoJSON, map, markerLayer) {
 // // // // // // // // // // // // // // // // // // // // // // // // // 
 
 // Bar Chart
-// Adapted mostly from 
+// Adapted mostly from http://bl.ocks.org/mbostock/3885705
 
 function d3BarChart(data, options) {
   console.log(data, options)
@@ -263,12 +263,7 @@ function d3BarChart(data, options) {
       .attr("height", h + m[0] + m[2])
     .append("g")
       .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-
-    // Parse numbers, and sort by value.
-    // data.forEach(function(d) { d.units = +d.units })
-   //  data.sort(function(a, b) { return b.units - a.units })
-
-    // Set the scale domain.
+      
     x.domain([0, d3.max(data, function(d) { return d.units })]) // 0 to max of units
     y.domain(data.map(function(d) { return d.label })) // makes array of labels
 
@@ -314,30 +309,6 @@ function d3BarChart(data, options) {
       // .attr("index_value", function(d, i) { return "index-" + i })
       // .attr("uniqueID", function(d, i) { return "text-" + "index-" + i })
 
-  svg.selectAll("g.labels")
-    .data(data) 
-    .enter().append("g")
-        .append("text")
-          .attr("text-anchor", "end")
-          .attr("x", -3)
-          .attr("y", function(d, i) { return 14 + i*26 })
-          .attr("dx", 0)
-          .attr("dy", y.rangeBand() / 2)
-          .text(function(d) { return d.label})
-          .style("fill", "#333")
-          .attr("index_value", function(d, i) { return "index-" + i })
-          .attr("class", function(d, i) { return "labels-" + "index-" + i + " aLabel " })
-          .on('mouseover', mouseOver)
-          .on("mouseout", mouseOut)
-
-  bar.append("rect")
-    .attr("width", function(d) { return x(d.units)})
-    .attr("height", y.rangeBand())
-    .attr("index_value", function(d, i) { return "index-" + i })
-    .style("fill", function(d) { return d.hexcolor})
-    .on('mouseover', mouseOver)
-    .on("mouseout", mouseOut)
-    .attr("class", function(d, i) { return "rect-" + "index-" + i })
 
   bar.append("text")
     .attr("x", function(d) { return x(d.units) })
@@ -350,13 +321,33 @@ function d3BarChart(data, options) {
     .attr("class", function(d, i) { return "value-" + "index-" + i })
     .on('mouseover', mouseOver)
     .on("mouseout", mouseOut)
-      
+
+  bar.append("text")
+    .attr("x", -5)
+    .attr("y", y.rangeBand() / 2)
+    .attr("dx", 0)
+    .attr("dy", ".35em")
+    .attr("text-anchor", "end")
+    .attr("index_value", function(d, i) { return "index-" + i })
+    .text(function(d) { return d.label })
+    .attr("class", function(d, i) { return "value-" + "index-" + i })
+    .on('mouseover', mouseOver)
+    .on("mouseout", mouseOut)
+
+  bar.append("rect")
+    .attr("width", function(d) { return x(d.units)})
+    .attr("height", y.rangeBand())
+    .attr("index_value", function(d, i) { return "index-" + i })
+    .style("fill", function(d) { return d.hexcolor})
+    .on('mouseover', mouseOver)
+    .on("mouseout", mouseOut)
+    .attr("class", function(d, i) { return "rect-" + "index-" + i })
+
   svg.append("g")
     .attr("class", "x axis")
     .call(xAxis)
 
-  d3.select("#sortChart").on("click", change)
-  // fix this
+  d3.select("input").on("change", change)
 
   function change() {
     // Copy-on-write since in betweens are evaluated after a delay.
@@ -370,10 +361,6 @@ function d3BarChart(data, options) {
         delay = function(d, i) { return i * 50 }
 
     transition.selectAll(".bar")
-        .delay(delay)
-        .attr("transform", function(d) { return "translate(0," + y(d.label) + ")" })
-
-    transition.selectAll(".aLabel")
         .delay(delay)
         .attr("transform", function(d) { return "translate(0," + y(d.label) + ")" })
   }

@@ -11,6 +11,7 @@
 - Filtering/Sorting doesn't work on mobile
 
 ### CHARTS
+- Make colors repeat if you don't use one for every slot
 - Line Chart
 -- Want dots you can hover over
 - Bar Chart

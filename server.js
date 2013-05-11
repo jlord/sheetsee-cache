@@ -47,7 +47,7 @@ function freshData(req, res) {
 		buildPage(req, res, data)
 	}
 	var options = {key: KEY, callback: tabletopCb, simpleSheet: true}
-	if (!sheetData.length || (Date.now() - lastFetch) > 3600000) {
+	if (!sheetData.length || (Date.now() - lastFetch) > 3600000000) {
 		console.log("you are online with old data, fetching new")
 		Tabletop.init(options)
 
