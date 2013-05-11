@@ -418,7 +418,7 @@ function mouseOut(d) {
 
   var pathSelector = "." + "path-" + indexValue
   var selectedPath = d3.selectAll(pathSelector)
-  selectedPath.style("fill", function(d) { console.log("hexcolor mouseout", d.data.hexcolor); return d.data.hexcolor})
+  selectedPath.style("fill", function(d) { return d.data.hexcolor })
 
   var textSelector = "." + "labels-" + indexValue
   var selectedText = d3.selectAll(textSelector)
@@ -475,7 +475,7 @@ svg.selectAll("g.labels")
       .append("text")
         .attr("text-anchor", "start")
         .attr("x", width / 2.5)
-        .attr("y", function(d, i) { return 14 + i*26})
+        .attr("y", function(d, i) { return data.length + i*(data.length * 2)})
         .attr("dx", 0)
         .attr("dy", "-140px") // Controls padding to place text above bars
         .text(function(d) { return d.label + ", " + d.units})

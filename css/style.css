@@ -1,75 +1,47 @@
-body {font-family: Merriweather; padding: 18px; background: #F8F0F0; color: #333; margin: 0px auto;}
-a {color: #333;}
-small {padding: 10px 0px;}
-#wrapper {margin: 0px auto; max-width: 600px;}
-table {text-align: left; width: 100%}
-th {padding: 10px 0px;}
-td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
+/* General */
 
-#map {height: 400px; max-width: 600px; background: #DADADA;}
-#holder {height: 400px; max-width: 600px; background: #FFE4E4;}
+  body {font-family: Merriweather; padding: 18px; background: #F8F0F0; color: #333; margin: 0px auto;}
+  a {color: #333;}
+  small {padding: 10px 0px;}
+  #wrapper {margin: 0px auto; max-width: 600px;}
+  .button {padding: 5px 4px; background-color: #fff; font-size: 10px;}
+  .button:hover {cursor: hand;}
+  input:focus {outline: none;}
 
-//.bigg {-webkit-transition: all .2s ease-in-out; -webkit-transform: scale(2);}
+/* Table */
 
-.labels text {text-align: right;}
+  table {text-align: left; width: 100%}
+  th {padding: 10px 0px;}
+  td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
+  #tableFilter {margin: 12px 0px; border: none; border-bottom: 1px solid #333; background-color: transparent; padding: 0px; font-family: Merriweather; color: #FCB688; font-size: 13px; height: 22px;}
+  .noMatches {margin-left: 20px; font-size: 11px; font-style: italic; visibility: hidden;}
 
-.bar .labels text {fill: #333;}
+/* Containers */
 
-.bar rect {fill: #e6e6e6;}
+  #map {height: 400px; max-width: 600px; background: #DADADA;}
+  #holder {height: 400px; max-width: 600px; background: #FFE4E4;}
 
-.bar text.value {fill: #333;}
+/* Bar Chart */
 
-.axis {shape-rendering: crispEdges; fill: #333;}
+  .labels text {text-align: right;}
+  .bar .labels text {fill: #333;}
+  .bar rect {fill: #e6e6e6;}
+  .axis {shape-rendering: crispEdges; fill: #333;}
+  .x.axis line {stroke: #fff; stroke-opacity: .2;}
 
-.axis path {fill: none;}
+/* Pie Chart */
 
-.x.axis line {stroke: #acacac; stroke-opacity: .7;}
+  path.chartLine {stroke: #14ECC8; stroke-width: 3; fill: none;}
+  .axis {shape-rendering: crispEdges;}
+  .x.axis .minor, .y.axis .minor {stroke-opacity: .5;}
+  .x.axis {stroke-opacity: 1;}
+  .y.axis line, .y.axis path, .x.axis path {fill: none; stroke: #acacac; stroke-width: 1;}
+  .x.axis line {stroke: #acacac; stroke-opacity: .75;}
+  .bigg {-webkit-transition: all .2s ease-in-out; -webkit-transform: scale(2);}
 
-.y.axis path {stroke: #fff;}
+/* Map */
 
-.axis path,
-.axis line {fill: none; stroke: #000; shape-rendering: crispEdges;}
+  .leaflet-popup-content {font-family: Merriweather;}
+  .leaflet-popup-content h2 {margin-bottom: 4px;}
 
-.x.axis path {display: none;}
 
-.line {fill: none; stroke: steelblue; stroke-width: 1.5px;}
-
-.overlay {fill: none; pointer-events: all;}
-
-.focus circle {fill: none; stroke: steelblue;}
-
-.leaflet-popup-content {font-family: Merriweather;}
-.leaflet-popup-content h2 {margin-bottom: 4px;}
-
-    path.chartLine{
-        stroke: #14ECC8;
-        stroke-width: 3;
-        fill: none;
-      }
-      
-      .axis {
-        shape-rendering: crispEdges;
-      }
-
-      .x.axis line {
-        stroke: #acacac;
-      }
-
-      .x.axis .minor, .y.axis .minor {
-        stroke-opacity: .5;
-      }
-
-      .x.axis path {
-        display: none;
-      }
-
-      .y.axis line, .y.axis path, .x.axis line, .x.axis path {
-        fill: none;
-        stroke: #acacac;
-        stroke-width: 1;
-      }
-.button {padding: 5px 4px; background-color: #fff; font-size: 10px;}
-.button:hover {cursor: hand;}
-input:focus {outline: none;}
-.noMatches {margin-left: 20px; font-size: 11px; font-style: italic; visibility: hidden;}
-#tableFilter {margin: 12px 0px; border: none; border-bottom: 1px solid #333; background-color: transparent; padding: 0px; font-family: Merriweather; color: #FCB688; font-size: 13px; height: 22px;}

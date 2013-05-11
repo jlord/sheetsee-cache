@@ -11,14 +11,10 @@
 - Filtering/Sorting doesn't work on mobile
 
 ### CHARTS
-- Make colors repeat if you don't use one for every slot
 - Line Chart
 -- Want dots you can hover over
-- Bar Chart
--- Fix that final transition ( put x axis inside of same group as bar and right-unit)
 - Pie Chart
 -- Finesse text, styling
-- Possibly get rid of sort
 
 ### DOCUMENTATION
 - Do lots of beautiful Documentation
