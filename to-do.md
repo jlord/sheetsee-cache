@@ -1,13 +1,14 @@
 # Sheetsee To-Do List
 
 ### MAPS
-* Pull out customization elements
-** Popup Content
-** GeoJSON Content
-** Create a variable on index page and pass it in. 
+- Pull out customization elements
+-- Popup Content
+-- GeoJSON Content
+-- Create a variable on index page and pass it in. 
 
 ### TABLES
-- Make it easy to set up multiple tables through filters
+- Do I have enough kinds of filtering functions?
+- Make sure multiple tables works. 
 - Filtering/Sorting doesn't work on mobile
 
 ### CHARTS
@@ -20,11 +21,12 @@
 -- Max Project
 -- WBEZ Project
 
-### GENERAL
-- Make all data points relate to each other
--- Unique ids?	
-- Responsive, minimal CSS
-- Other useful JS filtering functions?
+### GENERAL  
 - Update site
 - Make client-side version
+
+### EXTRA
+- Make all data points relate to each other
+-- Unique ids?	
 - Have off-map interactions
+- Different labels on pie chart

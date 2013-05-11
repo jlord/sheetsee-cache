@@ -162,6 +162,8 @@ function makeArrayOfObject(data) {
 //
 // // // // // // // // // // // // // // // // // // // // // // // // //  
 
+// for geocoding: http://mapbox.com/tilemill/docs/guides/google-docs/#geocoding
+
 // create geoJSON from your spreadsheet's coordinates
 function createGeoJSON(data) {
   var geoJSON = []
@@ -424,7 +426,7 @@ function mouseOut(d) {
   var selectedText = d3.selectAll(textSelector)
   selectedText.transition()
     .duration(200)
-    .style("font-size", "10px").style("font-weight", "normal").style("fill", "#333")
+    .style("font-size", "10px").style("font-weight", "normal").style("fill", function(d) { return d.hexcolor })
 }
 
   var g = svg.selectAll(".arc")
@@ -471,6 +473,18 @@ function mouseOut(d) {
 //     })
 //     .text(function(d) { return d.data.units })
 
+    // svg.selectAll("rect")    
+    //   .data(data)         
+    //   .enter().append("g")
+    //     .append("rect")                               
+    //     .attr("width", 100)
+    //     .attr("height", 26) 
+    //     .attr("fill", function(d) { return d.hexcolor }) 
+    //     .attr("x", 0)
+    //     .attr("y", "-140px") // Controls padding to place text above bars
+
+
+
 svg.selectAll("g.labels")
   .data(data)
   .enter().append("g") // Append legend elements
@@ -481,7 +495,7 @@ svg.selectAll("g.labels")
         .attr("dx", 0)
         .attr("dy", "-140px") // Controls padding to place text above bars
         .text(function(d) { return d.label + ", " + d.units})
-        .style("fill", "#333")
+        .style("fill", function(d) { return d.hexcolor })
         .attr("index_value", function(d, i) { return "index-" + i })
         .attr("class", function(d, i) { return "labels-" + "index-" + i + " aLabel "})
         .on('mouseover', mouseOver)
