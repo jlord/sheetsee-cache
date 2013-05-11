@@ -1,10 +1,10 @@
 # Sheetsee To-Do List
 
 ### MAPS
-- Pull out customization elements
--- Popup Content
--- GeoJSON Content
--- Create a variable on index page and pass it in. 
+* Pull out customization elements
+** Popup Content
+** GeoJSON Content
+** Create a variable on index page and pass it in. 
 
 ### TABLES
 - Make it easy to set up multiple tables through filters
@@ -13,8 +13,6 @@
 ### CHARTS
 - Line Chart
 -- Want dots you can hover over
-- Pie Chart
--- Finesse text, styling
 
 ### DOCUMENTATION
 - Do lots of beautiful Documentation

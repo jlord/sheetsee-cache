@@ -435,7 +435,7 @@ function mouseOut(d) {
       .on("mouseover", mouseOver)
       .on("mouseout", mouseOut)
 
-  g.append("path")
+  var path = g.append("path")
       .attr("d", arc)
       .attr("index_value", function(d, i) { return "index-" + i })
       .attr("class", function(d, i) { return "path-" + "index-" + i })
@@ -484,55 +484,75 @@ svg.selectAll("g.labels")
         .attr("class", function(d, i) { return "labels-" + "index-" + i + " aLabel "})
         .on('mouseover', mouseOver)
         .on("mouseout", mouseOut)
+
+  d3.select("input").on("change", change)
+
+  function change() {
+    console.log("checked/unchecked")
+    // Copy-on-write since in betweens are evaluated after a delay.
+    // pie.sort(function(a, b) { return b.units - a.units })
+    path = path.data(pie(data).sort(function(a, b) { return b.units - a.units; })); // update the data
+    path.attr("d", arc)
+   // path.transition().duration(750).attrTween("d", arcTween)
+
+  // var pie = d3.layout.pie()
+  //     .sort(null)
+  //     .value(function(d) { return d.units })
+
+//   function change() {
+//   clearTimeout(timeout);
+//   path = path.data(pie(dataset[this.value])); // update the data
+//   path.attr("d", arc); // redraw the arcs
+// }
+
+function arcTween(a) {
+  var i = d3.interpolate(this._current, a);
+  this._current = i(0);
+  return function(t) {
+    return arc(i(t));
+  };
+}
+
+    var transition = svg.transition().duration(750),
+        delay = function(d, i) { return i * 50 }
+
+    transition.selectAll(".path")
+        .delay(delay)
+  }
+
+
 }
 
 
 // Line Chart
 
 function d3LineChart(data, options){
-    /* implementation heavily influenced by http://bl.ocks.org/1166403 */
+    // Adapted from http://bl.ocks.org/1166403 and
+    // http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
     
     var m = options.m
     var w = options.w - m[1] - m[3]
     var h = options.h - m[0] - m[2]
-    
     var data = data
 
-    // X scale will fit all values from data[] within pixels 0-w
     var x = d3.scale.ordinal().rangeRoundBands([0, w], 1)
-      x.domain(data.map(function(d) { return d.label }))
-    // domain(data.map(function(d) { return d.label }))
-    // Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
+        x.domain(data.map(function(d) { return d.label }))
     var y = d3.scale.linear().range([0, h])
-      y.domain([d3.max(data, function(d) { return d.units }) + 2, 0])
-      // automatically determining max range can work something like this
-      // var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0])
-      // var x = d3.scale.linear().range([0, w]),
-      // y = d3.scale.ordinal().rangeRoundBands([0, h], .1)
+        y.domain([d3.max(data, function(d) { return d.units }) + 2, 0])
 
-    // create a line function that can convert data[] into x and y points
-    // var line = d3.svg.line()
-    //   // assign the X function to plot our line as we wish
-    //   .x(function(d, i) { 
-    //     // verbose logging to show what's actually being done
-    //     console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.')
-    //     // return the X coordinate where we want to plot this datapoint
-    //     return x(i)
-    //   })
-    //   .y(function(d) { 
-    //     // verbose logging to show what's actually being done
-    //     console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.")
-    //     // return the Y coordinate where we want to plot this datapoint
-    //     return y(d)
-    //   })
+    var line = d3.svg.line()
+       .x(function(d, i) { console.log("x", x(i)); return x(i) })
+       .y(function(d) { console.log("y", y(d)); return y(d) })
 
-    var line = d3.svg.line().x(function(d, i) { console.log(d); return x(i) }).y(function(d) { return y(d) })
-    // Add an SVG element with the desired dimensions and margin.
     var graph = d3.select(options.div).append("svg:svg")
           .attr("width", w + m[1] + m[3])
           .attr("height", h + m[0] + m[2])
         .append("svg:g")
           .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+
+    var div = d3.select(options.div).append("div")   
+        .attr("class", "tooltip")               
+        .style("opacity", 0)
 
     // create yAxis
     var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true)
@@ -549,11 +569,6 @@ function d3LineChart(data, options){
           .attr("transform", "rotate(-80)")
           .call(xAxis)
 
-function mouseOver() {
-    var point = d3.select(this)
-    var indexValue = point.attr("index_value")
-    console.log("this", point, indexValue)
-}
 
     // create left yAxis
     var yAxisLeft = d3.svg.axis().scale(y).ticks(4).tickSize(-w).tickSubdivide(true).orient("left")
@@ -564,28 +579,29 @@ function mouseOver() {
           .attr("transform", "translate(0,0)")
           .call(yAxisLeft)
       
-    // Add the line by appending an svg:path element with the data line we created above
-    // do this AFTER the axes above so that the line is above the tick-lines
-    lineData = data.map(function(d) { return d.units })
+   var lineData = data.map(function(d) { return d.units })
       graph.append("svg:path")
           .attr("d", line(lineData))
           .attr("class", "chartLine")
           .attr("index_value", function(d, i) { return i })
-         // .attr("stroke", options.hiColor).attr("fill", "none")
-         // .attr("class", function(d, i) { return "point" + "index-" + i + " aLabel chartLine" })
-          .on('mouseover', function(i) {console.log( lineData )})
+          // .attr("stroke", options.hiColor).attr("fill", "none")
 
-  // var dots = d3.selectAll("svg:g").attr("class", "dots")
-  // graph.append("svg:g.dots")
-  //   .data(lineData)
-  //   .append("circle")
-  //   .attr("fill", "#ff00ff")
-  //   .attr("stroke", "white")
-  //   .transition()
-  //   .attr("cx", function(d, i) {return x(i)})
-  //   .attr("cy", function(d, i) {return y(d)})
-  //   .attr("r", 4)
- 
+    graph.selectAll("dot")    
+        .data(data)         
+    .enter().append("circle")                               
+        .attr("r", 3.5) 
+        .attr("fill", options.hiColor)      
+        .attr("cx", function(d) { return x(d.label); })       
+        .attr("cy", function(d) { return y(d.units); })     
+        .on("mouseover", function(d) {      
+            div.transition().duration(200).style("opacity", .9)    
+            div .html(d.label + ", "  + d.units)  
+                .style("left", (d3.event.pageX) + "px")     
+                .style("top", (d3.event.pageY - 28) + "px")   
+            })                  
+        .on("mouseout", function(d) {       
+            div.transition().duration(500).style("opacity", 0) 
+        });
 }
 
 
