@@ -7,8 +7,8 @@
 -- Create a variable on index page and pass it in. 
 
 ### TABLES
-- Finesse text filtering 
 - Make it easy to set up multiple tables through filters
+- Filtering/Sorting doesn't work on mobile
 
 ### CHARTS
 - Line Chart
