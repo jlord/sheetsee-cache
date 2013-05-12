@@ -5,7 +5,7 @@ Using Google Spreadsheets as the backend database is awesome because it is easy 
 
 #### Dependencies
 
-Sheetsee.js depends on a few other awesome JavaScript Libraries to make all this happen. First, Tabletop.js gets the data from the Google Spreadsheet and makes it nice and useable. Once you have your data Sheetsee.js makes it easy to set up tables or templates with Mustache.js, maps with (Mapbox.js)[http://mapbox.com/mapbox.js/example/v1.0.0/] and Leaflet.js and charts with d3.js. jQuery of course powers most of the interactions. It also has many sorting and filtering functions built in so that you can display different parts of your data if you want. Each of these are explained in more detail below.
+Sheetsee.js depends on a few other awesome JavaScript Libraries to make all this happen. First, Tabletop.js gets the data from the Google Spreadsheet and makes it nice and useable. Once you have your data Sheetsee.js makes it easy to set up tables or templates with [Mustache.js](http://mustache.github.io/), maps with [Mapbox.js](http://mapbox.com/mapbox.js/example/v1.0.0/) and [Leaflet.js](http://leafletjs.com/) and charts with [d3.js](http://d3js.org/). And [jQuery](http://jquery.com/) of course powers most of the interactions. It also has many sorting and filtering functions built in so that you can display different parts of your data if you want. Each of these are explained in more detail below.
 
 #### CSS
 
