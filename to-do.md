@@ -12,6 +12,7 @@
 - Filtering/Sorting doesn't work on mobile
 
 ### CHARTS
+- when you have multiple charts, the highlight occurs over the each charts because they repeat the index number
 
 ### DOCUMENTATION
 - Do lots of beautiful Documentation

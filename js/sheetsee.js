@@ -57,8 +57,10 @@ function resolveDataTitle(string) {
 }
 
 function sendToSort(event) {
-  // var tableDiv = $(event.target).closest("div").attr("id")
-  // var dataset = $(tableDiv).attr('dataset')
+  var tableDiv = "#" + $(event.target).closest("div").attr("id")
+  console.log("came from this table",tableDiv)
+  var dataset = $(tableDiv).attr('dataset')
+  console.log("made with this data", dataset, typeof dataset)
   var sorted = $(event.target).attr("data-sorted")
   if (sorted) {
     if (sorted === "descending") sorted = "ascending"
@@ -66,7 +68,7 @@ function sendToSort(event) {
   }
   else { sorted = "ascending" }
   var sorter = resolveDataTitle(event.target.innerHTML)
-  sortThings(gData, sorter, sorted)
+  sortThings(dataset, sorter, sorted)
 }
 
 $(document).on("click", ".tHeader", sendToSort)

@@ -17,9 +17,10 @@
   .noMatches {margin-left: 20px; font-size: 11px; font-style: italic; visibility: hidden;}
 
 /* Containers */
-
+  .container {margin: 14px 0px;}
   #map {height: 400px; max-width: 600px; background: #DADADA;}
   #holder {height: 400px; max-width: 600px; background: #FFE4E4;}
+  #bar2 {height: 320px; max-width: 600px; background: #F8CDCD;}
 
 /* Bar Chart */
 
