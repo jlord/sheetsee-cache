@@ -1,11 +1,13 @@
 # Sheetsee.js
-Sheetsee.js is a Javascript library that makes it easy to use a Google Spreadsheet as the database powering the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your when a visitor refreshes the page. 
+Sheetsee.js is a Javascript library that makes it easy to use a Google Spreadsheet as the database powering the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your site when a visitor refreshes the page. 
 
-Using Google Spreadsheets as the backend database is awesome because it is easy to edit, share and collaborate on. 
+Using Google Spreadsheets as the backend database is awesome because it is easy to use, share and collaborate with. 
+
+To use sheetsee.js you'll definitely need to know HTML and CSS and know JavaScript or be not afraid of it and just type what these docs tell you to type. Also, see [JavaScript for Cats](http://www.jsforcats.com), [Eloquent JavaScript](http://eloquentjavascript.net/) or [Mozilla's Developer Network](https://developer.mozilla.org/en-US/docs/JavaScript).
 
 ### Dependencies
 
-Sheetsee.js depends on a few other awesome JavaScript libraries to make all this happen. First, [Tabletop.js](http://builtbybalance.com/Tabletop/) gets the data from the Google Spreadsheet and makes it nice and useable. Once you have your data Sheetsee.js makes it easy to set up tables or templates with [Mustache.js](http://mustache.github.io/), maps with [Mapbox.js](http://mapbox.com/mapbox.js/example/v1.0.0/) and [Leaflet.js](http://leafletjs.com/), and charts with [d3.js](http://d3js.org/). And [jQuery](http://jquery.com/) of course powers most of the interactions. It also has many sorting and filtering functions built in so that you can display different parts of your data if you want. Each of these are explained in more detail below.
+Sheetsee.js depends on a few other awesome JavaScript libraries to make all this happen. First, [Tabletop.js](http://builtbybalance.com/Tabletop/) gets the data from the Google Spreadsheet and makes it nice. Once you have your data Sheetsee.js makes it easy to set up tables or templates with [Mustache.js](http://mustache.github.io/), maps with [Mapbox.js](http://mapbox.com/mapbox.js/example/v1.0.0/), and charts with [d3.js](http://d3js.org/). And [jQuery](http://jquery.com/) of course powers most of the interactions. It also has many sorting and filtering functions built in so that you can display different parts of your data if you want. Each of these are explained in more detail below.
 
 ### CSS
 
@@ -15,7 +17,7 @@ Sheetsee.js comes with a bare minimum stylesheet. This way you can customize you
 
 Sheetsee.js comes in two flavors, [client-side]() and [server-side](). The client-side is the most approachable and straightforward, you just include sheetsee.js and the dependencies on your page and use sheetsee.js as normal.
 
-The server-side version is built with node.js and you'll need to understand node and be publishing to a server that runs node.js apps. This version saves a version of the data on the server so that the browser doesn't have to fetch from Google at every request, which can sometimes be slow. It also allows for offline development, huzzah! 
+The server-side version is built with [Node.js](http://www.nodejs.org) and you'll need to understand node and be publishing to a server that runs node.js apps. This version saves a version of the data on the server so that the browser doesn't have to fetch from Google at every request, which can sometimes be slow. It also allows for offline development, huzzah! 
 
 ## Getting Started
 
