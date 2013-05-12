@@ -6,32 +6,32 @@ function exportFunctions(exports) {
 //
 // // // // // // // // // // // // // // // // // // // // // // // //  // //
 
-function initiateTableFilter() {
+function initiateTableFilter(data, filterDiv, tableDiv) {
   $('.clear').on("click", function() { 
     $(".noMatches").css("visibility", "hidden")
-    $("#tableFilter").val("")
-    makeTable(gData, "#siteTable")
+    $(filterDiv).val("")
+    makeTable(data, tableDiv)
   })
-  $('#tableFilter').keyup(function(e) {
+  $(filterDiv).keyup(function(e) {
     var text = $(e.target).val()
-    searchTable(text)
+    searchTable(data, text, tableDiv)
   })
 }
 
-function searchTable(searchTerm) {
+function searchTable(data, searchTerm, tableDiv) {
   var filteredList = []
-  gData.forEach(function(object) {
+  data.forEach(function(object) {
     var stringObject = JSON.stringify(object).toLowerCase()
     if (stringObject.match(searchTerm)) filteredList.push(object)
   })
-  // if ($('#tableFilter').val("")) makeTable(gData, "#siteTable")
+  // if ($('#tableFilter').val("")) makeTable(data, tableDiv)
   if (filteredList.length === 0) {
     console.log("no matchie")
     $(".noMatches").css("visibility", "inherit")
-    makeTable("no matches", "#siteTable")
+    makeTable("no matches", tableDiv)
   }
   else $(".noMatches").css("visibility", "hidden")
-  makeTable(filteredList, "#siteTable") 
+  makeTable(filteredList, tableDiv) 
   return filteredList
 }
 
@@ -57,6 +57,8 @@ function resolveDataTitle(string) {
 }
 
 function sendToSort(event) {
+  // var tableDiv = $(event.target).closest("div").attr("id")
+  // var dataset = $(tableDiv).attr('dataset')
   var sorted = $(event.target).attr("data-sorted")
   if (sorted) {
     if (sorted === "descending") sorted = "ascending"
@@ -74,7 +76,7 @@ function makeTable(data, targetDiv) {
   var tableContents = ich[templateID]({
     rows: data
   })
-  $(targetDiv).html(tableContents) 
+  $(targetDiv).html(tableContents)
 }
 
 // // // // // // // // // // // // // // // // // // // // // // // //  // //

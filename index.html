@@ -16,6 +16,12 @@
 		<h1>Sheetsee.js</h1>
 		<small><a href="https://docs.google.com/spreadsheet/ccc?key=0Ao5u1U6KYND7dGN5QngweVJUWE16bTRob0d2a3dCbnc#gid=0" target="_blank">data</a></small>
 		<div id="holder"></div>
+		<div>
+			<input id="caliFilter" type="text" placeholder="filter by.."></input>
+			<span class="clear button">Clear</span>
+			<span class="noMatches">no matches</span>
+			<div id="caliCoins"></div>
+		</div>
 		<label><input type="checkbox"> Sort values</label>  
 		<!-- <span id="sortChart" class="button"> Sort values</span> -->
 		<div id="map"></div>
@@ -36,11 +42,23 @@
 	  </table>
 	</script>
 
+		<script id="caliCoins" type="text/html">
+		<table>
+		<tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Year</th><th class="tHeader">Image</th></tr>
+		  {{#rows}}
+		  	<tr class="{{id}}"><td>{{city}}</td><td>{{placename}}</td><td>{{year}}</td><td>{{image}}</td></tr>
+		  {{/rows}}
+	  </table>
+	</script>
+
 	<script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
     // reWriteTable(gData, null, tableClickListeners)
   	Sheetsee.makeTable(gData, "#siteTable")
-  	Sheetsee.initiateTableFilter()
+  	Sheetsee.initiateTableFilter(gData, "#tableFilter", "#siteTable")
+  	Sheetsee.makeTable(calCoins, "#caliCoins")
+		Sheetsee.initiateTableFilter(calCoins, "#caliFilter", "#caliCoins")
+  	// initiateTableFilter(data, filterDiv, tableDiv)
    }) 
 	</script>
 
@@ -64,8 +82,8 @@
 	 //  Sheetsee.d3LineChart(chartData, lineOptions)
 	 	// var pieOptions = {m: [80, 80, 80, 80], w: 600, h: 400, div: "#holder", hiColor: "#F78888"}
 	 	// Sheetsee.d3PieChart(chartData, pieOptions)
-	 	var barOptions = {m: [60, 60, 10, 150], w: 600, h: 400, div: "#holder", xaxis: "no. of pennies", hiColor: "#FF317D"}
-	  Sheetsee.d3BarChart(calChart, barOptions)
+	 	var barOptions = {m: [60, 60, 30, 150], w: 600, h: 400, div: "#holder", xaxis: "no. of pennies", hiColor: "#FF317D"}
+	  Sheetsee.d3BarChart(chartData, barOptions)
 
 	 //  $(window).resize(function() {
 		//   var newWidth = $('#holder').width()
