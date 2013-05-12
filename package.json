@@ -22,10 +22,15 @@
     "mapbox.js": "~0.6.7",
     "filesystem-browserify": "0.0.1",
     "beefy": "0.0.11",
-    "tabletop": "git://github.com/maxogden/tabletop.git#nodejs",
+    "tabletop": "0.0.0",
     "hasinternet": "0.0.0",
     "cheerio": "~0.10.8",
     "filed": "0.0.7",
     "router": "~0.6.2"
-  }
+  },
+  "engines": {
+    "node": "0.6.x",
+    "npm": "1.0.x"
+}
+
 }
