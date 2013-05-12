@@ -227,15 +227,19 @@ You will then call this function to make that input live:
 
 Sheetsee.js comes with a d3.js bar, pie and line chart. Each requires your data be an array of objects, formatted to contain "label" and "units" keys. See the section above on Your Data to learn about formatting.
 
+You'll have to experiement with the charts to find the correct size your dive will need to be to comfortable hold the chart with your data in it. 
+
+You can also make your own d3 chart in a separate .js file, link to that and pass your data on to it. I'd love to see people building some other charts that will work with Sheetsee.
+
 ### Bar Chart
 
 To create a bar chart you'll need to add a placeholder div in your html with an id. 
 
-    <div id="barChart" class="container"></div>
+    <div id="barChart"></div>
 
 In your CSS, give it dimensions.
 
-    #barChart {height: 320px; max-width: 600px; background: #F8CDCD;}
+    #barChart {height: 400px; max-width: 600px; background: #F8CDCD;}
 
 In a `<script>` tag set up your options. 
 
@@ -247,6 +251,80 @@ In a `<script>` tag set up your options.
 * *xaxis* is optional text label for your x axis
 * *hiColor* is the highlight color of your choosing! 
 
-Then call the d3BarChart() function with your **data** and **options**.
+Then call the `d3BarChart()` function with your **data** and **options**.
 
     Sheetsee.d3BarChart(data, barOptions)
+
+### Line Chart
+
+To create a bar chart you'll need to add a placeholder div in your html with an id. 
+
+    <div id="lineChart"></div>
+
+In your CSS, give it dimensions.
+
+    #lineChart {height: 400px; max-width: 600px; background: #F8CDCD;}
+
+In a `<script>` tag set up your options. 
+
+    var lineOptions = {m: [80, 100, 120, 100], w: 600, h: 400, div: "#lineChart", yaxis: "no. of pennies", hiColor: "#14ECC8"}
+
+* **m** is your margins: top, right, bottom, left
+* **w** and **h** are width and height, this should match your CSS specs
+* **div** is the id for the `<div>` in your HTML
+* *yaxis* is optional text label for your y axis
+* *hiColor* is the highlight color of your choosing! 
+
+Then call the `d3LineChart()` function with your **data** and **options**.
+
+    Sheetsee.d3LineChart(data, barOptions)
+
+### Pie Chart
+
+To create a bar chart you'll need to add a placeholder div in your html with an id. 
+
+    <div id="pieChart"></div>
+
+In your CSS, give it dimensions.
+
+    #pieChart {height: 400px; max-width: 600px; background: #F8CDCD;}
+
+In a `<script>` tag set up your options. 
+
+    var lineOptions = {m: [80, 80, 80, 80], w: 600, h: 400, div: "#pieChart", hiColor: "#14ECC8"}
+
+* **m** is your margins: top, right, bottom, left
+* **w** and **h** are width and height, this should match your CSS specs
+* **div** is the id for the `<div>` in your HTML
+* *hiColor* is the highlight color of your choosing! 
+
+Then call the `d3PieChart()` function with your **data** and **options**.
+
+    Sheetsee.d3PieChart(data, barOptions)
+
+## The Short & Sweet
+
+1. Link to Sheetsee.js, jquery.js, mapbox.js, icanhas.js and d3.js in your HTML header.
+2. Create place holder divs in your HTML for any chart, map or table you want to have.
+3. Create templates for tables in <script> tags.
+4. Create a script tag that waits for the document to be read and then executes any of the map, chart or tables you've specified in it.
+5. Set it and forget. Now all you need to do is edit the spreadsheet and users will get the latest information everytime they visit. 
+
+## Awesome Possibilities
+
+1. Small newsrooms with data for stories but small dev teams.
+2. Friends or groups collaborating on data for a website/project.
+3. Using iftt.com to auto populate spreadsheets which are hooked to a website with Sheetsee.js.
+
+## Big Time Thanks
+
+Thanks to Code for America for providing the platform me to build the first version of sheetsee.js for Macon, Georga. 
+
+Thanks to Dan Sinker at Open News for having faith and getting things together to make this Code Sprint happen and thanks to Matt Green at WBEZ for being a willing partner. 
+
+Thanks to Max Ogden for emotional support, teaching me JavaScript and working on the harder parts of Sheetsee.js - especially for making Tabletop.js for Node.js.
+
+Thanks to all the authors and contributors to Tabletop.js, Mapbox.js, Leaflet.js, jQuery, ICanHas.js and d3.js. Thanks to Google and the Internet for existing and to all those who've written tutorials or asked or answered a question on StackOverflow. 
+
+Thanks to Mom and Dad for getting a computer in 1996 and the mIRC scripts I started writing that I suppose would eventually lead me here.
+ 
