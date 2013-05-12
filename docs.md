@@ -17,7 +17,7 @@ Sheetsee.js comes with a bare minimum stylesheet. This way you can customize you
 
 Sheetsee.js comes in two flavors, [client-side]() and [server-side](). The client-side is the most approachable and straightforward, you just include sheetsee.js and the dependencies on your page and use sheetsee.js as normal.
 
-The server-side version is built with [Node.js](http://www.nodejs.org) and you'll need to understand node and be publishing to a server that runs node.js apps. This version saves a version of the data on the server so that the browser doesn't have to fetch from Google at every request, which can sometimes be slow. It also allows for offline development, huzzah! 
+The server-side version is built with [Node.js](http://www.nodejs.org) and you'll need to understand Node and be publishing to a server that runs Node.js apps. This version saves the data on the server so that the browser doesn't have to fetch from Google at every request, which can sometimes be slow. You can set when the cache expires. It also allows for offline development, huzzah! 
 
 ## Getting Started
 
@@ -25,16 +25,16 @@ This bit is the same for both client-side and server-side versions.
 
 ### Your Data
 
-Your Google Spreadsheet should be set up with row one as your column headers and row two to beyond, your data. There shouldn't be any breaks or horizontal organization in the spreadsheet. Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
+Your Google Spreadsheet should be set up with row one as your column headers, row two and beyond, your data. There shouldn't be any breaks or horizontal organization in the spreadsheet. Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
 
 > example of how the data transforms from spreadsheet to final .json
 > diagram of the no's in spreadsheets and how it reads the spreadsheets
 
     [{"name": "joe", "breed": "tabby", "age": 4}, {"name": "jesse", "breed": "siamese", "age": 2}]
 
-### Hexcolor
+#### Hexcolor
 
-You must add a column to your spreadsheet with the heading `hexcolor` (case insensitive). The maps, charts and such use colors and this is the easiest way to standardize that. The color scheme is up to you, all you need to do is but a hexidecimal color value in each cell. This [color picker](http://color.hailpixel.com/) by [Devin Hunt](https://twitter.com/hailpixel) is really fun.
+You must add a column to your spreadsheet with the heading _hexcolor_ (case insensitive). The maps, charts and such use colors and this is the easiest way to standardize that. The color scheme is up to you, all you need to do is fill the column with hexidecimal color values. This [color picker](http://color.hailpixel.com/) by [Devin Hunt](https://twitter.com/hailpixel) is really fun.
 
 > show example of hexcolor column
 
@@ -66,6 +66,8 @@ Here the paths diverge:
 Your Key
 
 ### Server-side Hookup
+
+#### Running Locally
 
 ## Working With Your Data
 
