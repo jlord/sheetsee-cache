@@ -68,7 +68,7 @@ function sendToSort(event) {
   }
   else { sorted = "ascending" }
   var sorter = resolveDataTitle(event.target.innerHTML)
-  sortThings(dataset, sorter, sorted)
+  sortThings(gData, sorter, sorted)
 }
 
 $(document).on("click", ".tHeader", sendToSort)
