@@ -23,10 +23,16 @@ This bit is the same for both client-side and server-side versions.
 
 ### Your Data
 
-Your Google Spreadsheet should be set up with row one as your column headers and row two to beyond, your data. There shouldn't be any breaks or horizontal organization in the spreadsheet. Each header and row becomes an oject in the final array that Tabletop.js delivers of your data.
+Your Google Spreadsheet should be set up with row one as your column headers and row two to beyond, your data. There shouldn't be any breaks or horizontal organization in the spreadsheet. Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
 
 > example of how the data transforms from spreadsheet to final .json
 > diagram of the no's in spreadsheets and how it reads the spreadsheets
+
+### Hexcolor
+
+You must add a column to your spreadsheet with the heading `hexcolor` (case insensitive). The maps, charts and such use colors and this is the easiest way to standardize that. The color scheme is up to you, all you need to do is but a hexidecimal color value in each cell. This [color picker](http://color.hailpixel.com/) by [Devin Hunt](https://twitter.com/hailpixel) is really fun.
+
+> show example of hexcolor column
 
 #### Geocoding
 
@@ -61,27 +67,44 @@ Your Key
 
 Tabletop.js will return all of your data, it will be passed into your site as **gData**. Sheetsee.js has functions built in to help you filter that data if you'd like.
 
-`getMatches(data, filter, category)`
+### getMatches(data, filter, category)
 
 Takes **data** as an _array of objects_, a _string_ you'd like to **filter** and a _string_ of the **category** you want it to look in (a column header from your spreadsheet).
 
-Ex: `getMatches(catData, "tabby", "breed")`
+    getMatches(catData, "tabby", "breed")
 
 Returns an _array of objects_ matching the category's filter.
 
-Ex: `[{"name": "joe", "breed": "tabby"}, {"name: "jesse", "breed": "tabby"}]`
+    [{"name": "joe", "breed": "tabby"}, {"name": "jesse", "breed": "tabby"}]
 
-`getOccurance(data, category)`
+
+### getOccurance(data, category)
 
 Takes **data** as an _array of objects_ and a _string_ for **category** (a column header from your spreadsheet) you want tally how often an element occured.
 
-Ex: `getOccurance(catData, "breed")`
+    getOccurance(catData, "breed")
 
 Returns an object with keys and values for each variation of the category and its occurance. 
 
-Ex: `{"tabby": 8, "siamese": 2, "feral": 1}`
+    {"tabby": 8, "siamese": 2, "feral": 1}
 
+### makeColorArrayOfObject(data, colors)
 
+If you use `getOccurance()` and want to then chart that data with d3.js, you'll need to make it into an _array_ (instead of an object) and add colors back in (since the hexcolor column applies to the datapoints in your original dataset and not this new dataset).
+
+This function takes in your data, as an _object_, and an _array_ of hexidecimal color strings which you define. 
+
+    var mostPopBreeds = getOccurance(catData, "breed")
+    var breedColors = ["#fffff", "#ffffff", "fffff"]
+    
+    var breedData = makeColorArrayOfObjects(mostPopBreeds, breedColors)
+    
+It will return an array of objects like so:
+
+    [{"tabby": 8, "hexcolor": "#ffffff"}, {"siamese": 2, "hexcolor": "#ffffff", "feral": 2, "hexcolor": "#ffffff"}
+    
+If you pass in an array of just one color it will repeat that color for all items. If you pass fewer colors than data elements it will repeat the sequences of colors for the remainder elements. 
+    
 
 
 
