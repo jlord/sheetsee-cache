@@ -13,6 +13,7 @@
 
 ### CHARTS
 - when you have multiple charts, the highlight occurs over the each charts because they repeat the index number
+- Jquery action on making the charts responsive?
 
 ### DOCUMENTATION
 - Do lots of beautiful Documentation
