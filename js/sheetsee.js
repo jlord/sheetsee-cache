@@ -87,27 +87,27 @@ function makeTable(data, targetDiv) {
 function getMatches(data, filter, category) {
   var matches = []
   data.forEach(function (element) {
-    var projectType = element[category]
-    if (projectType === filter) filteredProjects.push(element)
+    var projectType = element[category].toLowerCase()
+    if (projectType === filter.toLowerCase()) matches.push(element)
   })
   return matches
 }
 
-// EDIT //////////////////////////// EDIT
-function mostFrequent(data) {
-  var stateCount = {}
+function mostFrequent(data, category) {
+  var count = {}
   for (var i = 0; i < data.length; i++)  {
-    if (!stateCount[data[i].state]) {
-      stateCount[data[i].state] = 0
+    if (!count[data[i][category]]) {
+      count[data[i][category]] = 0
    }
-   stateCount[data[i].state]++
+   count[data[i][category]]++
 }
     var sortable = []
-    for (var state in stateCount) {
-      sortable.push([state, stateCount[state]])
+    for (var category in count) {
+      sortable.push([category, count[category]])
   }
       sortable.sort(function(a, b) {return b[1] - a[1]})
       return  sortable
+      // returns array of arrays, in order
 }
 
 function addUnitsLabels(arrayObj, oldLabel, oldUnits) {
@@ -120,16 +120,16 @@ function addUnitsLabels(arrayObj, oldLabel, oldUnits) {
 return arrayObj
 }
 
-// EDIT //////////////////////////// EDIT
-function getOccurance(data) {
+function getOccurance(data, category) {
   var occuranceCount = {}
   for (var i = 0; i < data.length; i++)  {
-   if (!occuranceCount[data[i].state]) {
-       occuranceCount[data[i].state] = 0
+   if (!occuranceCount[data[i][category]]) {
+       occuranceCount[data[i][category]] = 0
    }
-   occuranceCount[data[i].state]++
+   occuranceCount[data[i][category]]++
   }
   return occuranceCount
+  // returns object, keys alphabetical
 }
 
 function makeColorArrayOfObject(data, color) {
@@ -244,13 +244,11 @@ function addPopups(geoJSON, map, markerLayer) {
 // Adapted mostly from http://bl.ocks.org/mbostock/3885705
 
 function d3BarChart(data, options) {
-  console.log(data, options)
 
   //  m = [t0, r1, b2, l3]
   var m = options.m,
       w = options.w - m[1] - m[3],
-      h = (data.length * 30) - m[0] - m[2]
-
+      h =  options.h - (m[0] + m[2])
   var format = d3.format(",.0f")
 
   var x = d3.scale.linear().range([0, w]),
@@ -347,10 +345,11 @@ function d3BarChart(data, options) {
   .append("text")
     // .attr("transform", "rotate(-90)")
     .attr("y", -20)
-    .attr("x", m[1] + m[2])
+    .attr("x", m[1])
+    .attr("class", "xLabel")
     .style("text-anchor", "end")
     .text(function() {
-      if (options.yaxis) return options.yaxis
+      if (options.xaxis) return options.xaxis
       return
     })
 
