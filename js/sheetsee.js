@@ -136,15 +136,15 @@ function getOccurance(data, category) {
   // returns object, keys alphabetical
 }
 
-function makeColorArrayOfObject(data, color) {
+function makeColorArrayOfObject(data, colors) {
   var keys = Object.keys(data)
   var counter = 1
   var colorIndex
   return keys.map(function(key){ 
-    if (keys.length > color.length) {
-      colorIndex = counter % color.length
+    if (keys.length > colors.length) {
+      colorIndex = counter % colors.length
     }
-    var h = {label: key, units: data[key], hexcolor: color[colorIndex]} 
+    var h = {label: key, units: data[key], hexcolor: colors[colorIndex]} 
     counter++  
     colorIndex = counter 
     return h
@@ -209,8 +209,8 @@ function loadMap() {
 	return map
 }
 
-function addTileLayer(map) {
-  var layer = L.mapbox.tileLayer('examples.map-20v6611k')
+function addTileLayer(map, tileLayer) {
+  var layer = L.mapbox.tileLayer(tileLayer)
   layer.addTo(map)
 }
 

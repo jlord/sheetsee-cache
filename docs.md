@@ -120,9 +120,133 @@ For istance, if from or original data we want to chart the age of each cat, we'l
 Which will return a simplified array, ready for the d3 charts:
 
     [{"label": "joe", "units": 4}, {"label": "jesse", "units": 2}]
+
+
+## Make a Map
+
+Sheetsee.js uses Mapbox.js, a Leaflet.js plugin, to make maps. You'll first need to create geoJSON out of your data so that it can map it.
+
+### Sheetsee.createGeoJSON()
+
+Something, somthing.
     
-    
+     var geoJSON = createGeoJSON
+
+### Sheetsee.loadMap()
+
+To create a simple map, with no data, you simply: 
+
+    var map = Sheetsee.loadMap()
+
+### Sheetsee.addTileLayer(map, tileLayer)
+
+To add a tile layer, aka a custom map scheme/design/background, you'll use this function which takes in your **map** and the source of the **tileLayer**. This source can be a Mapbox id, a URL to a TileJSON or your own generated TileJSON. See [Mapbox's Documentation](http://mapbox.com/mapbox.js/api/v1.0.2/#L.mapbox.tileLayer) for more information.   
+
+    Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
+
+You can add tiles from awesome mapmakers like [Stamen](examples.map-20v6611k) or create your own in Mapbox's [Tilemill](http://www.mapbox.com/tilemill). 
+
+### Sheetsee.addMarkerLayer(geoJSON, map)
+
+To add makers to your map, use this function and pass in your **geoJSON** so that it can get the coordinates and your **map** so that it places the markers there.
+
+    var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
+
+### Sheetsee.addPopups(geoJSON, map, markerLayer)
+
+To customize the marker popup content in your map use this function and pass in your **geoJSON** with the details you'll use in your popup, your **map** and **markerLayer**. 
+
+     Sheetsee.addPopups(geoJSON, map, markerLayer)
+
+**customize geoJSON** 
+**customize popup content**
+
+## Make a Table
+
+Sheetsee.js supports making multiple tables or templates with Handlebars. It currently supports sorting and filtering on just one table. For each of these you'll need a `<div>` in your html, a `<script>` template and a `<script>` that calls template making functions.
+
+#### Your HTML Placeholder <div>
+
+This is as simple as an empty `<div>` with an ID. This id should match the script tempate id in the next section.
+
+     <div id="TABLEID"></div>
+
+#### Your <script> Template
+
+Your template is the mockup of what you'd like your table to look like and what content it should show. Most of this is up to you but if you want users to be able to click on headers and sort that column you must make a table row with table headers with the class _tHeader_.
+
+The variables inside the {{}} must match the column headers in your spreadsheet. Lowercase (?) and remember spaces are ommited, so "Place Name" will become "placename".
+
+    <script id="siteTable" type="text/html">
+        <table>
+        <tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Year</th><th class="tHeader">Image</th></tr>
+          {{#rows}}
+            <tr><td>{{city}}</td><td>{{placename}}</td><td>{{year}}</td><td>{{image}}</td></tr>
+          {{/rows}}
+      </table>
+    </script>
+
+#### Your <script> Execution
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
+            Sheetsee.makeTable(gData, "#siteTable")
+            Sheetsee.initiateTableFilter(gData, "#tableFilter", "#siteTable")
+        }) 
+    </script>
+
+ Learn more about the things you can do with [Handlebars](). 
+
+**is it handlebars or mustache http://icanhazjs.com/**
+**how to set up non-tables yourself**
 
 
+### Sheetsee.makeTable(data, targetDiv)
 
+You'll call this to make a table out of a **data** and tell it what **targetDiv** in the html to render it (this should also be the same id as your script template id).
 
+    Sheetsee.makeTable(gData, "#siteTable")
+
+## Table Filter/Search
+
+If you want to have a input to allow users to search/filter the data in the table, you'll add this to your html:
+
+    <div class="container">
+        <input id="tableFilter" type="text" placeholder="filter by.."></input>
+        <span class="clear button">Clear</span>
+        <span class="noMatches">no matches</span>
+    </div>
+
+### Sheetsee.initiateTableFilter(data, filterDiv, tableDiv)
+
+You will then call this function to make that input live:
+
+    Sheetsee.initiateTableFilter(gData, "#TableFilter", "#siteTable")
+
+## Make Chart
+
+Sheetsee.js comes with a d3.js bar, pie and line chart. Each requires your data be an array of objects, formatted to contain "label" and "units" keys. See the section above on Your Data to learn about formatting.
+
+### Bar Chart
+
+To create a bar chart you'll need to add a placeholder div in your html with an id. 
+
+    <div id="barChart" class="container"></div>
+
+In your CSS, give it dimensions.
+
+    #barChart {height: 320px; max-width: 600px; background: #F8CDCD;}
+
+In a `<script>` tag set up your options. 
+
+    var barOptions = {m: [60, 60, 30, 150], w: 600, h: 400, div: "#holder", xaxis: "no. of pennies", hiColor: "#FF317D"} 
+
+* **m** is your margins: top, right, bottom, left
+* **w** and **h** are width and height, this should match your CSS specs
+* **div** is the id for the `<div>` in your HTML
+* *xaxis* is optional text label for your x axis
+* *hiColor* is the highlight color of your choosing! 
+
+Then call the d3BarChart() function with your **data** and **options**.
+
+    Sheetsee.d3BarChart(data, barOptions)

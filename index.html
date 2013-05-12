@@ -46,7 +46,7 @@
 	  </table>
 	</script>
 
-		<script id="caliCoins" type="text/html">
+	<script id="caliCoins" type="text/html">
 		<table>
 		<tr><th class="tHeader">City</th><th class="tHeader">Place Name</th><th class="tHeader">Year</th><th class="tHeader">Image</th></tr>
 		  {{#rows}}
@@ -74,7 +74,7 @@
 		var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
 		var map = Sheetsee.loadMap()
 		// var popupContent = '<h2 style="color: #ff00ff;">' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
-		Sheetsee.addTileLayer(map)
+		Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
 		var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
 		Sheetsee.addPopups(geoJSON, map, markerLayer)
 	</script>
