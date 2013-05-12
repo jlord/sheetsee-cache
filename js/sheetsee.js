@@ -162,32 +162,39 @@ function makeArrayOfObject(data) {
 
 // // // // // // // // // // // // // // // // // // // // // // //  // //
 // 
-// // // // // Mapbox + Leaflet Map
+// // // // Mapbox + Leaflet Map
 //
 // // // // // // // // // // // // // // // // // // // // // // // // //  
 
 // for geocoding: http://mapbox.com/tilemill/docs/guides/google-docs/#geocoding
 
 // create geoJSON from your spreadsheet's coordinates
-function createGeoJSON(data) {
+function createGeoJSON(data, featureElements) {
+  console.log(featureElements)
   var geoJSON = []
   data.forEach(function(lineItem){
+    var options = featureElements.forEach(function(el) {
+      var counter = 0
+      var string = el[counter]
+      var key = string
+      var value = lineItem.string
+      var newOptions = {key: value}
+      counter++
+      console.log(counter, newOptions)
+      return newOptions
+    })
     var feature = {
       type: 'Feature',
       "geometry": {"type": "Point", "coordinates": [lineItem.long, lineItem.lat]},
       "properties": {
-        "image": "hello",
-        "url": "hi",
         "marker-size": "small",
-        "marker-color": lineItem.hexcolor,
-        "id": lineItem.id,
-        "year": lineItem.year,
-        "title": lineItem.placename,
-        "city": lineItem.city
-      }
+        "marker-color": lineItem.hexcolor
+      },
+      "options": options
     }
     geoJSON.push(feature)
   })
+  console.log(geoJSON)
   return geoJSON
 }
 

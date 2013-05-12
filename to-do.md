@@ -8,7 +8,7 @@
 
 ### TABLES
 - Do I have enough kinds of filtering functions?
-- Make sure multiple tables works. 
+- How to trace the dataset source that created a table so that you can sort different tables.
 - Filtering/Sorting doesn't work on mobile
 
 ### CHARTS
