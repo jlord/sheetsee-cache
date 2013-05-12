@@ -28,6 +28,8 @@ Your Google Spreadsheet should be set up with row one as your column headers and
 > example of how the data transforms from spreadsheet to final .json
 > diagram of the no's in spreadsheets and how it reads the spreadsheets
 
+    [{"name": "joe", "breed": "tabby", "age": 4}, {"name": "jesse", "breed": "siamese", "age": 2}]
+
 ### Hexcolor
 
 You must add a column to your spreadsheet with the heading `hexcolor` (case insensitive). The maps, charts and such use colors and this is the easiest way to standardize that. The color scheme is up to you, all you need to do is but a hexidecimal color value in each cell. This [color picker](http://color.hailpixel.com/) by [Devin Hunt](https://twitter.com/hailpixel) is really fun.
@@ -67,7 +69,7 @@ Your Key
 
 Tabletop.js will return all of your data, it will be passed into your site as **gData**. Sheetsee.js has functions built in to help you filter that data if you'd like.
 
-### getMatches(data, filter, category)
+### Sheetsee.getMatches(data, filter, category)
 
 Takes **data** as an _array of objects_, a _string_ you'd like to **filter** and a _string_ of the **category** you want it to look in (a column header from your spreadsheet).
 
@@ -78,7 +80,7 @@ Returns an _array of objects_ matching the category's filter.
     [{"name": "joe", "breed": "tabby"}, {"name": "jesse", "breed": "tabby"}]
 
 
-### getOccurance(data, category)
+### Sheetsee.getOccurance(data, category)
 
 Takes **data** as an _array of objects_ and a _string_ for **category** (a column header from your spreadsheet) you want tally how often an element occured.
 
@@ -88,7 +90,7 @@ Returns an object with keys and values for each variation of the category and it
 
     {"tabby": 8, "siamese": 2, "feral": 1}
 
-### makeColorArrayOfObject(data, colors)
+### Sheetsee.makeColorArrayOfObject(data, colors)
 
 If you use `getOccurance()` and want to then chart that data with d3.js, you'll need to make it into an _array_ (instead of an object) and add colors back in (since the hexcolor column applies to the datapoints in your original dataset and not this new dataset).
 
@@ -99,11 +101,26 @@ This function takes in your data, as an _object_, and an _array_ of hexidecimal 
     
     var breedData = makeColorArrayOfObjects(mostPopBreeds, breedColors)
     
-It will return an array of objects like so:
+It will return an array of objects formatted to go directly into a d3 chart witht he appropriate _units_ and _label keys_, like so:
 
-    [{"tabby": 8, "hexcolor": "#ffffff"}, {"siamese": 2, "hexcolor": "#ffffff", "feral": 2, "hexcolor": "#ffffff"}
+    [{"label": "tabby", "units": 8, "hexcolor": "#ffffff"}, {"label": "siamese", "units": 2, "hexcolor": "#ffffff"}, {"label": "feral", "units": 2, "hexcolor": "#ffffff"}]
     
 If you pass in an array of just one color it will repeat that color for all items. If you pass fewer colors than data elements it will repeat the sequences of colors for the remainder elements. 
+
+### Sheetsee.addUnitsLabels(arrayObj, oldLabel, oldUnits) 
+
+If you're using gData, the data directly from Tabletop, you'll need to format it before you use the d3 charts. You'll need to determine what part of your data you want to chart - what will be your label, what your charting, and what will be your units, how many of them are there.
+
+    var gData =  [{"name": "joe", "breed": "tabby", "age": 4}, {"name": "jesse", "breed": "siamese", "age": 2}]
+    
+For istance, if from or original data we want to chart the age of each cat, we'll use:
+
+   Sheetsee.addUnitsLabels(gData, "name", "age")
+   
+Which will return a simplified array, ready for the d3 charts:
+
+    [{"label": "joe", "units": 4}, {"label": "jesse", "units": 2}]
+    
     
 
 
