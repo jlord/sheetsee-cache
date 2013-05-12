@@ -71,7 +71,7 @@ Your Key
 
 ## Working With Your Data
 
-Tabletop.js will return all of your data, it will be passed into your site as **gData**. Sheetsee.js has functions built in to help you filter that data if you'd like.
+Tabletop.js will return all of your data, it will be passed into your site as an _array of objects_ called **gData**. Sheetsee.js has functions built in to help you filter that data if you'd like.
 
 ### Sheetsee.getMatches(data, filter, category)
 
@@ -105,7 +105,7 @@ This function takes in your data, as an _object_, and an _array_ of hexidecimal 
     
     var breedData = makeColorArrayOfObjects(mostPopBreeds, breedColors)
     
-It will return an array of objects formatted to go directly into a d3 chart witht he appropriate _units_ and _label keys_, like so:
+It will return an array of objects formatted to go directly into a d3 chart with the appropriate _units_ and _label keys_, like so:
 
     [{"label": "tabby", "units": 8, "hexcolor": "#ffffff"}, {"label": "siamese", "units": 2, "hexcolor": "#ffffff"}, {"label": "feral", "units": 2, "hexcolor": "#ffffff"}]
     
@@ -113,22 +113,28 @@ If you pass in an array of just one color it will repeat that color for all item
 
 ### Sheetsee.addUnitsLabels(arrayObj, oldLabel, oldUnits) 
 
-If you're using gData, the data directly from Tabletop, you'll need to format it before you use the d3 charts. You'll need to determine what part of your data you want to chart - what will be your label, what your charting, and what will be your units, how many of them are there.
+If you're using gData, the data directly from Tabletop, you'll need to format it before you use the d3 charts. You'll need to determine what part of your data you want to chart - what will be your label, what your charting, and what will be your units, how many of them are there (this should be a number).
 
     var gData =  [{"name": "joe", "breed": "tabby", "age": 4}, {"name": "jesse", "breed": "siamese", "age": 2}]
     
-For istance, if from or original data we want to chart the age of each cat, we'll use:
+For istance, if from our original data above we want to chart the age of each cat, we'll use:
 
-   Sheetsee.addUnitsLabels(gData, "name", "age")
+    Sheetsee.addUnitsLabels(gData, "name", "age")
    
-Which will return a simplified array, ready for the d3 charts:
+Which will return an array, ready for the d3 charts:
 
-    [{"label": "joe", "units": 4}, {"label": "jesse", "units": 2}]
+    [{"label": "joe", "breed": "tabby", "units": 4}, {"label": "jesse", "breed": "siamese", "units": 2}]
 
 
 ## Make a Map
 
-Sheetsee.js uses Mapbox.js, a Leaflet.js plugin, to make maps. You'll first need to create geoJSON out of your data so that it can map it.
+Sheetsee.js uses Mapbox.js, a Leaflet.js plugin, to make maps. 
+
+Create an empty `<div>` in your HTML, with an id.
+
+    <div id="map"></div>
+
+Next you'll need to create geoJSON out of your data so that it can be mapped.
 
 ### Sheetsee.createGeoJSON()
 
@@ -136,11 +142,11 @@ Something, somthing.
     
      var geoJSON = createGeoJSON
 
-### Sheetsee.loadMap()
+### Sheetsee.loadMap(mapDiv)
 
-To create a simple map, with no data, you simply: 
+To create a simple map, with no data, you simply call `.loadMap() and pass in a _string_ of the **mapDiv** (with no #) from your HTML.
 
-    var map = Sheetsee.loadMap()
+    var map = Sheetsee.loadMap("map")
 
 ### Sheetsee.addTileLayer(map, tileLayer)
 
@@ -148,7 +154,7 @@ To add a tile layer, aka a custom map scheme/design/background, you'll use this 
 
     Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
 
-You can add tiles from awesome mapmakers like [Stamen](examples.map-20v6611k) or create your own in Mapbox's [Tilemill](http://www.mapbox.com/tilemill). 
+You can add tiles from awesome mapmakers like [Stamen](examples.map-20v6611k) or create your own in Mapbox's [Tilemill](http://www.mapbox.com/tilemill) or [online](https://tiles.mapbox.com/newmap#3.00/0.00/0.00). 
 
 ### Sheetsee.addMarkerLayer(geoJSON, map)
 
@@ -167,15 +173,15 @@ To customize the marker popup content in your map use this function and pass in 
 
 ## Make a Table
 
-Sheetsee.js supports making multiple tables or templates with Handlebars. It currently supports sorting and filtering on just one table. For each of these you'll need a `<div>` in your html, a `<script>` template and a `<script>` that calls template making functions.
+Sheetsee.js supports making multiple tables or templates with Handlebars. It currently supports sorting and filtering on just one table. For each of these you'll need a `<div>` in your html, a `<script>` template and a `<script>` that calls table making functions.
 
-#### Your HTML Placeholder <div>
+#### Your HTML Placeholder `<div>`
 
 This is as simple as an empty `<div>` with an ID. This id should match the script tempate id in the next section.
 
      <div id="TABLEID"></div>
 
-#### Your <script> Template
+#### Your `<script>` Template
 
 Your template is the mockup of what you'd like your table to look like and what content it should show. Most of this is up to you but if you want users to be able to click on headers and sort that column you must make a table row with table headers with the class _tHeader_.
 
@@ -190,7 +196,7 @@ The variables inside the {{}} must match the column headers in your spreadsheet.
       </table>
     </script>
 
-#### Your <script> Execution
+#### Your `<script>` Execution
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded

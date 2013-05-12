@@ -116,10 +116,10 @@ function mostFrequent(data, category) {
 
 function addUnitsLabels(arrayObj, oldLabel, oldUnits) {
   for (var i = 0; i < arrayObj.length; i++) {
-    arrayObj[i].label = arrayObj[i].oldLabel
-    arrayObj[i].units = arrayObj[i].oldUnits
-    delete arrayObj[i].oldLabel
-    delete arrayObj[i].oldUnits
+    arrayObj[i].label = arrayObj[i][oldLabel]
+    arrayObj[i].units = arrayObj[i][oldUnits]
+    delete arrayObj[i][oldLabel]
+    delete arrayObj[i][oldUnits]
   }
 return arrayObj
 }
@@ -199,8 +199,8 @@ function createGeoJSON(data, featureElements) {
 }
 
 // load basic map with tiles
-function loadMap() {
-	var map = L.mapbox.map('map')
+function loadMap(mapDiv) {
+	var map = L.mapbox.map(mapDiv)
   // map.setView(, 4)
 	// map.addLayer(L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'))
 	map.touchZoom.disable()

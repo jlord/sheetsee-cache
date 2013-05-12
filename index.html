@@ -72,7 +72,7 @@
     //     										"city": lineItem.city}
     var featureElements = ["year", "city", "title"]
 		var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
-		var map = Sheetsee.loadMap()
+		var map = Sheetsee.loadMap("map")
 		// var popupContent = '<h2 style="color: #ff00ff;">' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
 		Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
 		var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
