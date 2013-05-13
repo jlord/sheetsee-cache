@@ -21,11 +21,11 @@ The server-side version is built with [Node.js](http://www.nodejs.org) and you'l
 
 ## The Short & Sweet
 
-1. Link to Sheetsee.js, jquery.js, mapbox.js, icanhas.js and d3.js in your HTML header.
-2. Create place holder divs in your HTML for any chart, map or table you want to have.
+1. Link to Sheetsee.js and dependencies your HTML header.
+2. Create place holder `<divs>` in your HTML for any chart, map or table you want to have.
 3. Create templates for tables in `<script>` tags.
 4. Create a script tag that waits for the document to be read and then executes any of the map, chart or tables you've specified in it.
-5. Set it and forget. Now all you need to do is edit the spreadsheet and users will get the latest information everytime they visit. 
+5. Set it and forget. Now all you need to do is edit the spreadsheet and visitors will get the latest information everytime they load the page. 
 
 ## Getting Started
 
@@ -318,6 +318,30 @@ Then call the `d3PieChart()` function with your **data** and **options**.
 
     Sheetsee.d3PieChart(data, pieOptions)
 
+## Bare Minimum Setup
+
+Ignoring some HTML things to conserve space, you get the point. This gives you a page with a map of your spreadsheets points.
+
+    <html>
+        <head>
+            <script type="text/javascript" src="http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js"></script>
+            <script type="text/javascript" src="js/ICanHaz.js"></script> 
+            <script type="text/javascript" src="js/jquery.js"></script>
+            <script type="text/javascript" src="js/d3.js"></script>
+            <script type="text/javascript" src="js/sheetsee.js"></script>
+            <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
+        </head>
+        <style> #map {height: 600px; width: 600px;} </style>
+        <body>
+        <div id="map"></div>
+        <script>
+            var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
+            var map = Sheetsee.loadMap("map")
+            Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
+            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
+        </script>
+        </body>
+    </html>
 
 ## Awesome Possibilities
 
@@ -327,11 +351,11 @@ Then call the `d3PieChart()` function with your **data** and **options**.
 
 ## Big Time Thanks
 
-Thanks to Code for America for providing the platform me to build the first version of sheetsee.js for Macon, Georga. 
+Thanks to [Code for America](http://www.codeforamerica.org) for providing the platform me to build the first version of sheetsee.js for Macon, Georga. 
 
-Thanks to Dan Sinker at Open News for having faith and getting things together to make this Code Sprint happen and thanks to Matt Green at WBEZ for being a willing partner. 
+Thanks to [Dan Sinker](http://www.twitter.com/dansinker) at [Open News](http://www.mozillaopennews.org/) for having faith and getting things together to make this Code Sprint happen and thanks to [Matt Green](https://twitter.com/whatsnewmedia) at WBEZ for being a willing partner. 
 
-Thanks to Max Ogden for emotional support, teaching me JavaScript and working on the harder parts of Sheetsee.js - especially for making Tabletop.js for Node.js.
+Thanks to [Max Ogden](http://www.twitter.com/maxogden) for emotional support, teaching me JavaScript and working on the harder parts of Sheetsee.js - especially for making [Tabletop.js for Node.js](npmjs.org/tabletop).
 
 Thanks to all the authors and contributors to Tabletop.js, Mapbox.js, Leaflet.js, jQuery, ICanHas.js and d3.js. Thanks to Google and the Internet for existing and to all those who've written tutorials or asked or answered a question on StackOverflow. 
 
