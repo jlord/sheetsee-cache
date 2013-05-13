@@ -19,6 +19,14 @@ Sheetsee.js comes in two flavors, [client-side]() and [server-side](). The clien
 
 The server-side version is built with [Node.js](http://www.nodejs.org) and you'll need to understand Node and be publishing to a server that runs Node.js apps. This version saves the data on the server so that the browser doesn't have to fetch from Google at every request, which can sometimes be slow. You can set when the cache expires. It also allows for offline development, huzzah! 
 
+## The Short & Sweet
+
+1. Link to Sheetsee.js, jquery.js, mapbox.js, icanhas.js and d3.js in your HTML header.
+2. Create place holder divs in your HTML for any chart, map or table you want to have.
+3. Create templates for tables in <script> tags.
+4. Create a script tag that waits for the document to be read and then executes any of the map, chart or tables you've specified in it.
+5. Set it and forget. Now all you need to do is edit the spreadsheet and users will get the latest information everytime they visit. 
+
 ## Getting Started
 
 This bit is the same for both client-side and server-side versions.
@@ -177,9 +185,9 @@ Sheetsee.js supports making multiple tables or templates with Handlebars. It cur
 
 #### Your HTML Placeholder `<div>`
 
-This is as simple as an empty `<div>` with an ID. This id should match the script tempate id in the next section.
+This is as simple as an empty `<div>` with an id. This id should match the script tempate id in the next section.
 
-     <div id="TABLEID"></div>
+     <div id="siteTable"></div>
 
 #### Your `<script>` Template
 
@@ -213,19 +221,17 @@ The variables inside the {{}} must match the column headers in your spreadsheet.
 
 ### Sheetsee.makeTable(data, targetDiv)
 
-You'll call this to make a table out of a **data** and tell it what **targetDiv** in the html to render it (this should also be the same id as your script template id).
+You'll call this to make a table out of a **data** and tell it what **targetDiv** in the html to render it in (this should also be the same id as your script template id).
 
     Sheetsee.makeTable(gData, "#siteTable")
 
 ## Table Filter/Search
 
-If you want to have a input to allow users to search/filter the data in the table, you'll add this to your html:
+If you want to have an input to allow users to search/filter the data in the table, you'll add this to your html:
 
-    <div class="container">
-        <input id="tableFilter" type="text" placeholder="filter by.."></input>
-        <span class="clear button">Clear</span>
-        <span class="noMatches">no matches</span>
-    </div>
+    <input id="tableFilter" type="text" placeholder="filter by.."></input>
+    <span class="clear button">Clear</span>
+    <span class="noMatches">no matches</span>
 
 ### Sheetsee.initiateTableFilter(data, filterDiv, tableDiv)
 
@@ -233,17 +239,17 @@ You will then call this function to make that input live:
 
     Sheetsee.initiateTableFilter(gData, "#TableFilter", "#siteTable")
 
-## Make Chart
+## Make a Chart
 
-Sheetsee.js comes with a d3.js bar, pie and line chart. Each requires your data be an array of objects, formatted to contain "label" and "units" keys. See the section above on Your Data to learn about formatting.
+Sheetsee.js comes with a d3.js bar, pie and line chart. Each requires your data be an _array of objects_, formatted to contain "label" and "units" keys. See the section above on Your Data to learn about formatting.
 
-You'll have to experiement with the charts to find the correct size your dive will need to be to comfortable hold the chart with your data in it. 
+You'll have to experiement with the charts to find the correct size your `<div>` will need to be to hold the chart with your data in it nicely. 
 
 You can also make your own d3 chart in a separate .js file, link to that and pass your data on to it. I'd love to see people building some other charts that will work with Sheetsee.
 
 ### Bar Chart
 
-To create a bar chart you'll need to add a placeholder div in your html with an id. 
+To create a bar chart you'll need to add a placeholder `<div>` in your HTML with an id. 
 
     <div id="barChart"></div>
 
@@ -253,13 +259,13 @@ In your CSS, give it dimensions.
 
 In a `<script>` tag set up your options. 
 
-    var barOptions = {m: [60, 60, 30, 150], w: 600, h: 400, div: "#holder", xaxis: "no. of pennies", hiColor: "#FF317D"} 
+    var barOptions = {m: [60, 60, 30, 150], w: 600, h: 400, div: "#barChart", xaxis: "no. of pennies", hiColor: "#FF317D"} 
 
-* **m** is your margins: top, right, bottom, left
+* **m** is margins: top, right, bottom, left
 * **w** and **h** are width and height, this should match your CSS specs
 * **div** is the id for the `<div>` in your HTML
-* *xaxis* is optional text label for your x axis
-* *hiColor* is the highlight color of your choosing! 
+* **xaxis** is optional text label for your x axis
+* **hiColor** is the highlight color of your choosing! 
 
 Then call the `d3BarChart()` function with your **data** and **options**.
 
@@ -267,7 +273,7 @@ Then call the `d3BarChart()` function with your **data** and **options**.
 
 ### Line Chart
 
-To create a bar chart you'll need to add a placeholder div in your html with an id. 
+To create a line chart you'll need to add a placeholder `<div>` in your html with an id. 
 
     <div id="lineChart"></div>
 
@@ -282,16 +288,16 @@ In a `<script>` tag set up your options.
 * **m** is your margins: top, right, bottom, left
 * **w** and **h** are width and height, this should match your CSS specs
 * **div** is the id for the `<div>` in your HTML
-* *yaxis* is optional text label for your y axis
-* *hiColor* is the highlight color of your choosing! 
+* **yaxis** is optional text label for your y axis
+* **hiColor** is the highlight color of your choosing! 
 
 Then call the `d3LineChart()` function with your **data** and **options**.
 
-    Sheetsee.d3LineChart(data, barOptions)
+    Sheetsee.d3LineChart(data, lineOptions)
 
 ### Pie Chart
 
-To create a bar chart you'll need to add a placeholder div in your html with an id. 
+To create a bar chart you'll need to add a placeholder `<div>` in your html with an id. 
 
     <div id="pieChart"></div>
 
@@ -301,24 +307,17 @@ In your CSS, give it dimensions.
 
 In a `<script>` tag set up your options. 
 
-    var lineOptions = {m: [80, 80, 80, 80], w: 600, h: 400, div: "#pieChart", hiColor: "#14ECC8"}
+    var pieOptions = {m: [80, 80, 80, 80], w: 600, h: 400, div: "#pieChart", hiColor: "#14ECC8"}
 
 * **m** is your margins: top, right, bottom, left
 * **w** and **h** are width and height, this should match your CSS specs
 * **div** is the id for the `<div>` in your HTML
-* *hiColor* is the highlight color of your choosing! 
+* **hiColor** is the highlight color of your choosing! 
 
 Then call the `d3PieChart()` function with your **data** and **options**.
 
-    Sheetsee.d3PieChart(data, barOptions)
+    Sheetsee.d3PieChart(data, pieOptions)
 
-## The Short & Sweet
-
-1. Link to Sheetsee.js, jquery.js, mapbox.js, icanhas.js and d3.js in your HTML header.
-2. Create place holder divs in your HTML for any chart, map or table you want to have.
-3. Create templates for tables in <script> tags.
-4. Create a script tag that waits for the document to be read and then executes any of the map, chart or tables you've specified in it.
-5. Set it and forget. Now all you need to do is edit the spreadsheet and users will get the latest information everytime they visit. 
 
 ## Awesome Possibilities
 
