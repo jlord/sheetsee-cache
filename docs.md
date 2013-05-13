@@ -23,7 +23,7 @@ The server-side version is built with [Node.js](http://www.nodejs.org) and you'l
 
 1. Link to Sheetsee.js, jquery.js, mapbox.js, icanhas.js and d3.js in your HTML header.
 2. Create place holder divs in your HTML for any chart, map or table you want to have.
-3. Create templates for tables in <script> tags.
+3. Create templates for tables in `<script>` tags.
 4. Create a script tag that waits for the document to be read and then executes any of the map, chart or tables you've specified in it.
 5. Set it and forget. Now all you need to do is edit the spreadsheet and users will get the latest information everytime they visit. 
 
