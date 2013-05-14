@@ -1,4 +1,4 @@
-![sheetsee]()
+![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/sheetsee-03.png)
 # Sheetsee.js
 Sheetsee.js is a Javascript library, or box of goodies, if you will, that makes it easy to use a Google Spreadsheet as the database feeding the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your site when a visitor refreshes the page. 
 
@@ -34,7 +34,11 @@ This bit is the same for both client-side and server-side versions.
 
 ### Your Data
 
-Your Google Spreadsheet should be set up with row one as your column headers. Row two and beyond should be your data. There shouldn't be any breaks or horizontal organization in the spreadsheet. Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
+![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/spreadsheettodata-03.png)
+
+Your Google Spreadsheet should be set up with row one as your column headers. Row two and beyond should be your data.  Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. 
+
+There shouldn't be any breaks or horizontal organization in the spreadsheet.Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
 
 > example of how the data transforms from spreadsheet to final .json
 > diagram of the no's in spreadsheets and how it reads the spreadsheets
