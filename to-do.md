@@ -5,6 +5,7 @@
 -- Popup Content
 -- GeoJSON Content
 -- Create a variable on index page and pass it in. 
+-- Make fit bounds work
 
 ### TABLES
 - Do I have enough kinds of filtering functions?

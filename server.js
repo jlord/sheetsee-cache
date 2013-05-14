@@ -11,13 +11,14 @@ var router = require('router')
 // globals
 var sheetData = []
 var lastFetch 
-var KEY = '0Ao5u1U6KYND7dGN5QngweVJUWE16bTRob0d2a3dCbnc'
+var KEY = '0AvFUWxii39gXdFhqZzdTeU5DTWtOdENkQ1Y5bHdqT0E'
 
 
 // 0Ao5u1U6KYND7dGN5QngweVJUWE16bTRob0d2a3dCbnc has lat/long
 // cool
 // 0Ao5u1U6KYND7dGJpT3cxTGZrZS1WdWo5RnNpa1dZQmc removed lat/long 
 // for geocoding testing
+// 0AvFUWxii39gXdFhqZzdTeU5DTWtOdENkQ1Y5bHdqT0E pet friends
 
 // ready, set, go!
 function reqHandler (req, res) {

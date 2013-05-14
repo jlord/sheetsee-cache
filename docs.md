@@ -1,9 +1,10 @@
+![sheetsee]()
 # Sheetsee.js
-Sheetsee.js is a Javascript library that makes it easy to use a Google Spreadsheet as the database powering the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your site when a visitor refreshes the page. 
+Sheetsee.js is a Javascript library, or box of goodies, if you will, that makes it easy to use a Google Spreadsheet as the database feeding the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your site when a visitor refreshes the page. 
 
 Using Google Spreadsheets as the backend database is awesome because it is easy to use, share and collaborate with. 
 
-To use sheetsee.js you'll definitely need to know HTML and CSS and know JavaScript or be not afraid of it and just type what these docs tell you to type. Also, see [JavaScript for Cats](http://www.jsforcats.com), [Eloquent JavaScript](http://eloquentjavascript.net/) or [Mozilla's Developer Network](https://developer.mozilla.org/en-US/docs/JavaScript).
+To use sheetsee.js you'll definitely need to know HTML, CSS and know JavaScript or be not afraid of it and just type what these docs tell you to type. Also, see [JavaScript for Cats](http://www.jsforcats.com), [Eloquent JavaScript](http://eloquentjavascript.net/) or [Mozilla's Developer Network](https://developer.mozilla.org/en-US/docs/JavaScript).
 
 ### Dependencies
 
@@ -21,10 +22,10 @@ The server-side version is built with [Node.js](http://www.nodejs.org) and you'l
 
 ## The Short & Sweet
 
-1. Link to Sheetsee.js and dependencies your HTML header.
-2. Create place holder `<divs>` in your HTML for any chart, map or table you want to have.
+1. Link to Sheetsee.js and dependencies in your HTML header.
+2. Create a place holder `<div>` in your HTML for any chart, map or table you want to have.
 3. Create templates for tables in `<script>` tags.
-4. Create a script tag that waits for the document to be read and then executes any of the map, chart or tables you've specified in it.
+4. Create a script tag that waits for the document to load and then executes any of the map, chart or tables you've specified in it.
 5. Set it and forget. Now all you need to do is edit the spreadsheet and visitors will get the latest information everytime they load the page. 
 
 ## Getting Started
@@ -33,7 +34,7 @@ This bit is the same for both client-side and server-side versions.
 
 ### Your Data
 
-Your Google Spreadsheet should be set up with row one as your column headers, row two and beyond, your data. There shouldn't be any breaks or horizontal organization in the spreadsheet. Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
+Your Google Spreadsheet should be set up with row one as your column headers. Row two and beyond should be your data. There shouldn't be any breaks or horizontal organization in the spreadsheet. Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
 
 > example of how the data transforms from spreadsheet to final .json
 > diagram of the no's in spreadsheets and how it reads the spreadsheets
@@ -81,7 +82,15 @@ Your Key
 
 Tabletop.js will return all of your data, it will be passed into your site as an _array of objects_ called **gData**. Sheetsee.js has functions built in to help you filter that data if you'd like.
 
+### Sheetsee.getGroupCount(data, groupTerm)
+
+### Sheetsee.getColumnTotal(data, column)
+
 ### Sheetsee.getMatches(data, filter, category)
+
+### Sheetsee.getAveragefromColumn(data, column)
+
+### Sheetsee.getDiff(firstNum, secondNum)
 
 Takes **data** as an _array of objects_, a _string_ you'd like to **filter** and a _string_ of the **category** you want it to look in (a column header from your spreadsheet).
 

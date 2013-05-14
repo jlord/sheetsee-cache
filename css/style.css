@@ -12,13 +12,13 @@
 
   table {text-align: left; width: 100%}
   th {padding: 10px 0px;}
-  td, text {padding: 3px 20px 3px 0px; font-size: 10px;}
-  #tableFilter, #caliFilter {margin: 12px 0px; border: none; border-bottom: 1px solid #333; background-color: transparent; padding: 0px; font-family: Merriweather; color: #FCB688; font-size: 13px; height: 22px;}
+  td, text {padding: 3px 20px 3px 0px; font-size: 14px;}
+  #tableFilter, #basicFilter {margin: 12px 0px; border: none; border-bottom: 1px solid #333; background-color: transparent; padding: 0px; font-family: Merriweather; color: #FCB688; font-size: 13px; height: 22px;}
   .noMatches {margin-left: 20px; font-size: 11px; font-style: italic; visibility: hidden;}
 
 /* Containers */
   .container {margin: 14px 0px;}
-  #map {height: 400px; max-width: 600px; background: #DADADA;}
+  #map {height: 300px; max-width: 600px; background: #DADADA;}
   #holder {height: 400px; max-width: 600px; background: #FFE4E4;}
   #bar2 {height: 320px; max-width: 600px; background: #F8CDCD;}
 
@@ -49,5 +49,7 @@
 
   .leaflet-popup-content {font-family: Merriweather;}
   .leaflet-popup-content h2 {margin-bottom: 4px;}
+
+  img.petThumbs {height: 80px; width: 80px; border-radius: 1000px;}
 
 

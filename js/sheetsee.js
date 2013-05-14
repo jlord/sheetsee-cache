@@ -87,6 +87,37 @@ function makeTable(data, targetDiv) {
 //
 // // // // // // // // // // // // // // // // // // // // // // // //  // //
 
+function getGroupCount(data, groupTerm) {
+  var group = []
+  data.forEach(function (d) {
+    if (d.status.match(statusFilter)) group.push(d)
+  })
+  return group.length
+  if (group = []) return "0" 
+}
+
+function getColumnTotal(data, column){
+  var total = []
+  data.forEach(function (d) {
+    if (d[column] === "") return 
+    total.push(+d[column]) 
+  })
+  return total.reduce(function(a,b) {
+    return a + b
+  })
+}
+
+function getAveragefromColumn(data, column) {
+  var total = getColumnTotal(data, column)
+  var average = total / data.length
+  return average
+}
+
+function getDiff(firstNum, secondNum){
+  var diff = firstNum - secondNum
+  return diff
+}
+
 // out of the data, filter something from a category
 function getMatches(data, filter, category) {
   var matches = []
@@ -169,28 +200,29 @@ function makeArrayOfObject(data) {
 // for geocoding: http://mapbox.com/tilemill/docs/guides/google-docs/#geocoding
 
 // create geoJSON from your spreadsheet's coordinates
-function createGeoJSON(data, featureElements) {
+function createGeoJSON(data) {
   console.log(featureElements)
   var geoJSON = []
   data.forEach(function(lineItem){
-    var options = featureElements.forEach(function(el) {
-      var counter = 0
-      var string = el[counter]
-      var key = string
-      var value = lineItem.string
-      var newOptions = {key: value}
-      counter++
-      console.log(counter, newOptions)
-      return newOptions
-    })
+    // var options = featureElements.forEach(function(el) {
+    //   var counter = 0
+    //   var string = el[counter]
+    //   var key = string
+    //   var value = lineItem.string
+    //   var newOptions = {key: value}
+    //   counter++
+    //   console.log(counter, newOptions)
+    //   return newOptions
+    // })
     var feature = {
       type: 'Feature',
       "geometry": {"type": "Point", "coordinates": [lineItem.long, lineItem.lat]},
       "properties": {
         "marker-size": "small",
-        "marker-color": lineItem.hexcolor
+        "marker-color": lineItem.hexcolor,
+        "name": lineItem.name
       },
-      "options": options
+      "options": ""
     }
     geoJSON.push(feature)
   })
@@ -214,11 +246,11 @@ function addTileLayer(map, tileLayer) {
   layer.addTo(map)
 }
 
-function addMarkerLayer(geoJSON, map) { 
+function addMarkerLayer(geoJSON, map, zoomLevel) { 
   var viewCoords = [geoJSON[0].geometry.coordinates[1], geoJSON[0].geometry.coordinates[0]]
   var markerLayer = L.mapbox.markerLayer(geoJSON)
   markerLayer.setGeoJSON(geoJSON)
-  map.setView(viewCoords, 10)
+  map.setView(viewCoords, zoomLevel)
   // map.fitBounds(geoJSON)
   markerLayer.addTo(map)
   // markerLayer.on('click', function(e) {
@@ -239,7 +271,7 @@ function addPopups(geoJSON, map, markerLayer) {
   console.log("markerLayer", markerLayer)
   markerLayer.on('click', function(e) {
     var feature = e.layer.feature
-    var popupContent = '<h2>' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
+    var popupContent = '<h2>' + feature.properties.name + '</h2>'
     // var popupContent = popupContent
     e.layer.bindPopup(popupContent,{closeButton: false,})
   })
@@ -643,9 +675,6 @@ function d3LineChart(data, options){
         })
 }
 
-
-
-
 exports.searchTable = searchTable
 exports.initiateTableFilter = initiateTableFilter
 exports.d3LineChart = d3LineChart
@@ -666,7 +695,10 @@ exports.makeTable = makeTable
 exports.sendToSort = sendToSort
 exports.resolveDataTitle = resolveDataTitle
 exports.sortThings = sortThings
-
+exports.getGroupCount = getGroupCount
+exports.getColumnTotal = getColumnTotal
+exports.getDiff = getDiff
+exports.getAveragefromColumn = getAveragefromColumn
 }
 var Sheetsee = {}
 exportFunctions(Sheetsee)
