@@ -1,8 +1,8 @@
 ![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/sheetsee-03.png)
 # Sheetsee.js
-Sheetsee.js is a Javascript library, or box of goodies, if you will, that makes it easy to use a Google Spreadsheet as the database feeding the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your site when a visitor refreshes the page. 
+Sheetsee.js is a Javascript library, or box of goodies, if you will, that makes it easy to use a Google Spreadsheet as the database feeding the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your site when a visitor refreshes the page.
 
-Using Google Spreadsheets as the backend database is awesome because it is easy to use, share and collaborate with. 
+Using Google Spreadsheets as the backend database is awesome because it is easy to use, share and collaborate with.
 
 To use sheetsee.js you'll definitely need to know HTML, CSS and know JavaScript or be not afraid of it and just type what these docs tell you to type. Also, see [JavaScript for Cats](http://www.jsforcats.com), [Eloquent JavaScript](http://eloquentjavascript.net/) or [Mozilla's Developer Network](https://developer.mozilla.org/en-US/docs/JavaScript).
 
@@ -12,13 +12,13 @@ Sheetsee.js depends on a few other awesome JavaScript libraries to make all this
 
 ### CSS
 
-Sheetsee.js comes with a bare minimum stylesheet. This way you can customize your site to look the way you want to it or to match an existing site's design. 
+Sheetsee.js comes with a bare minimum stylesheet. This way you can customize your site to look the way you want to it or to match an existing site's design.
 
 ### Client-side or Server-side
 
 Sheetsee.js comes in two flavors, [client-side]() and [server-side](). The client-side is the most approachable and straightforward, you just include sheetsee.js and the dependencies on your page and use sheetsee.js as normal.
 
-The server-side version is built with [Node.js](http://www.nodejs.org) and you'll need to understand Node and be publishing to a server that runs Node.js apps. This version saves the data on the server so that the browser doesn't have to fetch from Google at every request, which can sometimes be slow. You can set when the cache expires. It also allows for offline development, huzzah! 
+The server-side version is built with [Node.js](http://www.nodejs.org) and you'll need to understand Node and be publishing to a server that runs Node.js apps. This version saves the data on the server so that the browser doesn't have to fetch from Google at every request, which can sometimes be slow. You can set when the cache expires. It also allows for offline development, huzzah!
 
 ## The Short & Sweet
 
@@ -26,7 +26,7 @@ The server-side version is built with [Node.js](http://www.nodejs.org) and you'l
 2. Create a place holder `<div>` in your HTML for any chart, map or table you want to have.
 3. Create templates for tables in `<script>` tags.
 4. Create a script tag that waits for the document to load and then executes any of the map, chart or tables you've specified in it.
-5. Set it and forget. Now all you need to do is edit the spreadsheet and visitors will get the latest information everytime they load the page. 
+5. Set it and forget. Now all you need to do is edit the spreadsheet and visitors will get the latest information everytime they load the page.
 
 ## Getting Started
 
@@ -36,7 +36,7 @@ This bit is the same for both client-side and server-side versions.
 
 ![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/spreadsheettodata.png)
 
-Your Google Spreadsheet should be set up with row one as your column headers. Row two and beyond should be your data.  Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. 
+Your Google Spreadsheet should be set up with row one as your column headers. Row two and beyond should be your data.  Each header and row becomes an oject in the final array that Tabletop.js delivers of your data.
 
 There shouldn't be any breaks or horizontal organization in the spreadsheet.Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
 
@@ -55,7 +55,7 @@ You must add a column to your spreadsheet with the heading _hexcolor_ (case inse
 
 If you intend to map your data and only have addresses you'll need to geocode the addresses into lat/long coordinates. Mapbox built a [plugin](http://mapbox.com/tilemill/docs/guides/google-docs/#geocoding)
  that does this for you in Google Docs. You can also use websites like [latlong.net](http://www.latlong.net/) to get the coordinates and paste them into rows with column headers _lat_ and _long_.
- 
+
 > image of lat and long column headers
 
 #### Publishing Your Spreadsheet
@@ -66,7 +66,7 @@ You need to do this in order to generate a unique key for your spreadsheet which
 
 ### Your Website
 
-Before you get started with Sheetsee.js you should plan out your website. Design it, create the basic markup and stylesheet. 
+Before you get started with Sheetsee.js you should plan out your website. Design it, create the basic markup and stylesheet.
 
 For now, create empty `div` placeholders for the map, chart and tables you plan on including.
 
@@ -111,7 +111,7 @@ Takes **data** as an _array of objects_ and a _string_ for **category** (a colum
 
     getOccurance(catData, "breed")
 
-Returns an object with keys and values for each variation of the category and its occurance. 
+Returns an object with keys and values for each variation of the category and its occurance.
 
     {"tabby": 8, "siamese": 2, "feral": 1}
 
@@ -119,29 +119,29 @@ Returns an object with keys and values for each variation of the category and it
 
 If you use `getOccurance()` and want to then chart that data with d3.js, you'll need to make it into an _array_ (instead of an object) and add colors back in (since the hexcolor column applies to the datapoints in your original dataset and not this new dataset).
 
-This function takes in your data, as an _object_, and an _array_ of hexidecimal color strings which you define. 
+This function takes in your data, as an _object_, and an _array_ of hexidecimal color strings which you define.
 
     var mostPopBreeds = getOccurance(catData, "breed")
     var breedColors = ["#fffff", "#ffffff", "fffff"]
-    
+
     var breedData = makeColorArrayOfObjects(mostPopBreeds, breedColors)
-    
+
 It will return an array of objects formatted to go directly into a d3 chart with the appropriate _units_ and _label keys_, like so:
 
     [{"label": "tabby", "units": 8, "hexcolor": "#ffffff"}, {"label": "siamese", "units": 2, "hexcolor": "#ffffff"}, {"label": "feral", "units": 2, "hexcolor": "#ffffff"}]
-    
-If you pass in an array of just one color it will repeat that color for all items. If you pass fewer colors than data elements it will repeat the sequences of colors for the remainder elements. 
 
-### Sheetsee.addUnitsLabels(arrayObj, oldLabel, oldUnits) 
+If you pass in an array of just one color it will repeat that color for all items. If you pass fewer colors than data elements it will repeat the sequences of colors for the remainder elements.
+
+### Sheetsee.addUnitsLabels(arrayObj, oldLabel, oldUnits)
 
 If you're using gData, the data directly from Tabletop, you'll need to format it before you use the d3 charts. You'll need to determine what part of your data you want to chart - what will be your label, what your charting, and what will be your units, how many of them are there (this should be a number).
 
     var gData =  [{"name": "joe", "breed": "tabby", "age": 4}, {"name": "jesse", "breed": "siamese", "age": 2}]
-    
+
 For istance, if from our original data above we want to chart the age of each cat, we'll use:
 
     Sheetsee.addUnitsLabels(gData, "name", "age")
-   
+
 Which will return an array, ready for the d3 charts:
 
     [{"label": "joe", "breed": "tabby", "units": 4}, {"label": "jesse", "breed": "siamese", "units": 2}]
@@ -149,7 +149,7 @@ Which will return an array, ready for the d3 charts:
 
 ## Make a Map
 
-Sheetsee.js uses Mapbox.js, a Leaflet.js plugin, to make maps. 
+Sheetsee.js uses Mapbox.js, a Leaflet.js plugin, to make maps.
 
 Create an empty `<div>` in your HTML, with an id.
 
@@ -160,7 +160,7 @@ Next you'll need to create geoJSON out of your data so that it can be mapped.
 ### Sheetsee.createGeoJSON()
 
 Something, somthing.
-    
+
      var geoJSON = createGeoJSON
 
 ### Sheetsee.loadMap(mapDiv)
@@ -171,11 +171,11 @@ To create a simple map, with no data, you simply call `.loadMap() and pass in a 
 
 ### Sheetsee.addTileLayer(map, tileLayer)
 
-To add a tile layer, aka a custom map scheme/design/background, you'll use this function which takes in your **map** and the source of the **tileLayer**. This source can be a Mapbox id, a URL to a TileJSON or your own generated TileJSON. See [Mapbox's Documentation](http://mapbox.com/mapbox.js/api/v1.0.2/#L.mapbox.tileLayer) for more information.   
+To add a tile layer, aka a custom map scheme/design/background, you'll use this function which takes in your **map** and the source of the **tileLayer**. This source can be a Mapbox id, a URL to a TileJSON or your own generated TileJSON. See [Mapbox's Documentation](http://mapbox.com/mapbox.js/api/v1.0.2/#L.mapbox.tileLayer) for more information.
 
     Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
 
-You can add tiles from awesome mapmakers like [Stamen](examples.map-20v6611k) or create your own in Mapbox's [Tilemill](http://www.mapbox.com/tilemill) or [online](https://tiles.mapbox.com/newmap#3.00/0.00/0.00). 
+You can add tiles from awesome mapmakers like [Stamen](examples.map-20v6611k) or create your own in Mapbox's [Tilemill](http://www.mapbox.com/tilemill) or [online](https://tiles.mapbox.com/newmap#3.00/0.00/0.00).
 
 ### Sheetsee.addMarkerLayer(geoJSON, map)
 
@@ -185,11 +185,11 @@ To add makers to your map, use this function and pass in your **geoJSON** so tha
 
 ### Sheetsee.addPopups(geoJSON, map, markerLayer)
 
-To customize the marker popup content in your map use this function and pass in your **geoJSON** with the details you'll use in your popup, your **map** and **markerLayer**. 
+To customize the marker popup content in your map use this function and pass in your **geoJSON** with the details you'll use in your popup, your **map** and **markerLayer**.
 
      Sheetsee.addPopups(geoJSON, map, markerLayer)
 
-**customize geoJSON** 
+**customize geoJSON**
 **customize popup content**
 
 ## Make a Table
@@ -223,10 +223,10 @@ The variables inside the {{}} must match the column headers in your spreadsheet.
         document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
             Sheetsee.makeTable(gData, "#siteTable")
             Sheetsee.initiateTableFilter(gData, "#tableFilter", "#siteTable")
-        }) 
+        })
     </script>
 
- Learn more about the things you can do with [Handlebars](). 
+ Learn more about the things you can do with [Handlebars]().
 
 **is it handlebars or mustache http://icanhazjs.com/**
 **how to set up non-tables yourself**
@@ -256,13 +256,13 @@ You will then call this function to make that input live:
 
 Sheetsee.js comes with a d3.js bar, pie and line chart. Each requires your data be an _array of objects_, formatted to contain "label" and "units" keys. See the section above on Your Data to learn about formatting.
 
-You'll have to experiement with the charts to find the correct size your `<div>` will need to be to hold the chart with your data in it nicely. 
+You'll have to experiement with the charts to find the correct size your `<div>` will need to be to hold the chart with your data in it nicely.
 
 You can also make your own d3 chart in a separate .js file, link to that and pass your data on to it. I'd love to see people building some other charts that will work with Sheetsee.
 
 ### Bar Chart
 
-To create a bar chart you'll need to add a placeholder `<div>` in your HTML with an id. 
+To create a bar chart you'll need to add a placeholder `<div>` in your HTML with an id.
 
     <div id="barChart"></div>
 
@@ -270,15 +270,15 @@ In your CSS, give it dimensions.
 
     #barChart {height: 400px; max-width: 600px; background: #F8CDCD;}
 
-In a `<script>` tag set up your options. 
+In a `<script>` tag set up your options.
 
-    var barOptions = {m: [60, 60, 30, 150], w: 600, h: 400, div: "#barChart", xaxis: "no. of pennies", hiColor: "#FF317D"} 
+    var barOptions = {m: [60, 60, 30, 150], w: 600, h: 400, div: "#barChart", xaxis: "no. of pennies", hiColor: "#FF317D"}
 
 * **m** is margins: top, right, bottom, left
 * **w** and **h** are width and height, this should match your CSS specs
 * **div** is the id for the `<div>` in your HTML
 * **xaxis** is optional text label for your x axis
-* **hiColor** is the highlight color of your choosing! 
+* **hiColor** is the highlight color of your choosing!
 
 Then call the `d3BarChart()` function with your **data** and **options**.
 
@@ -286,7 +286,7 @@ Then call the `d3BarChart()` function with your **data** and **options**.
 
 ### Line Chart
 
-To create a line chart you'll need to add a placeholder `<div>` in your html with an id. 
+To create a line chart you'll need to add a placeholder `<div>` in your html with an id.
 
     <div id="lineChart"></div>
 
@@ -294,7 +294,7 @@ In your CSS, give it dimensions.
 
     #lineChart {height: 400px; max-width: 600px; background: #F8CDCD;}
 
-In a `<script>` tag set up your options. 
+In a `<script>` tag set up your options.
 
     var lineOptions = {m: [80, 100, 120, 100], w: 600, h: 400, div: "#lineChart", yaxis: "no. of pennies", hiColor: "#14ECC8"}
 
@@ -302,7 +302,7 @@ In a `<script>` tag set up your options.
 * **w** and **h** are width and height, this should match your CSS specs
 * **div** is the id for the `<div>` in your HTML
 * **yaxis** is optional text label for your y axis
-* **hiColor** is the highlight color of your choosing! 
+* **hiColor** is the highlight color of your choosing!
 
 Then call the `d3LineChart()` function with your **data** and **options**.
 
@@ -310,7 +310,7 @@ Then call the `d3LineChart()` function with your **data** and **options**.
 
 ### Pie Chart
 
-To create a bar chart you'll need to add a placeholder `<div>` in your html with an id. 
+To create a bar chart you'll need to add a placeholder `<div>` in your html with an id.
 
     <div id="pieChart"></div>
 
@@ -318,14 +318,14 @@ In your CSS, give it dimensions.
 
     #pieChart {height: 400px; max-width: 600px; background: #F8CDCD;}
 
-In a `<script>` tag set up your options. 
+In a `<script>` tag set up your options.
 
     var pieOptions = {m: [80, 80, 80, 80], w: 600, h: 400, div: "#pieChart", hiColor: "#14ECC8"}
 
 * **m** is your margins: top, right, bottom, left
 * **w** and **h** are width and height, this should match your CSS specs
 * **div** is the id for the `<div>` in your HTML
-* **hiColor** is the highlight color of your choosing! 
+* **hiColor** is the highlight color of your choosing!
 
 Then call the `d3PieChart()` function with your **data** and **options**.
 
@@ -338,7 +338,7 @@ Ignoring some HTML things to conserve space, you get the point. This gives you a
     <html>
         <head>
             <script type="text/javascript" src="http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js"></script>
-            <script type="text/javascript" src="js/ICanHaz.js"></script> 
+            <script type="text/javascript" src="js/ICanHaz.js"></script>
             <script type="text/javascript" src="js/jquery.js"></script>
             <script type="text/javascript" src="js/d3.js"></script>
             <script type="text/javascript" src="js/sheetsee.js"></script>
@@ -360,17 +360,16 @@ Ignoring some HTML things to conserve space, you get the point. This gives you a
 
 1. Small newsrooms with data for stories but small dev teams.
 2. Friends or groups collaborating on data for a website/project.
-3. Using iftt.com to auto populate spreadsheets which are hooked to a website with Sheetsee.js.
+3. Using [iftt.com](http://www.ifttt.com) to auto populate spreadsheets which are hooked to a website with Sheetsee.js.
 
 ## Big Time Thanks
 
-Thanks to [Code for America](http://www.codeforamerica.org) for providing the platform me to build the first version of sheetsee.js for Macon, Georga. 
+Thanks to [Code for America](http://www.codeforamerica.org) for providing the platform me to build the first version of sheetsee.js for Macon, Georga.
 
-Thanks to [Dan Sinker](http://www.twitter.com/dansinker) at [Open News](http://www.mozillaopennews.org/) for having faith and getting things together to make this Code Sprint happen and thanks to [Matt Green](https://twitter.com/whatsnewmedia) at WBEZ for being a willing partner. 
+Thanks to [Dan Sinker](http://www.twitter.com/dansinker) at [Open News](http://www.mozillaopennews.org/) for having faith and getting things together to make this Code Sprint happen and thanks to [Matt Green](https://twitter.com/whatsnewmedia) at WBEZ for being a willing partner.
 
 Thanks to [Max Ogden](http://www.twitter.com/maxogden) for emotional support, teaching me JavaScript and working on the harder parts of Sheetsee.js - especially for making [Tabletop.js for Node.js](npmjs.org/tabletop).
 
-Thanks to all the authors and contributors to Tabletop.js, Mapbox.js, Leaflet.js, jQuery, ICanHas.js and d3.js. Thanks to Google and the Internet for existing and to all those who've written tutorials or asked or answered a question on StackOverflow. 
+Thanks to all the authors and contributors to Tabletop.js, Mapbox.js, Leaflet.js, jQuery, ICanHas.js and d3.js. Thanks to Google and the Internet for existing and to all those who've written tutorials or asked or answered a question on StackOverflow.
 
 Thanks to Mom and Dad for getting a computer in 1996 and the mIRC scripts I started writing that I suppose would eventually lead me here.
- 
