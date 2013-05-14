@@ -34,7 +34,7 @@ This bit is the same for both client-side and server-side versions.
 
 ### Your Data
 
-![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/spreadsheettodata-03.png)
+![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/spreadsheettodata.png)
 
 Your Google Spreadsheet should be set up with row one as your column headers. Row two and beyond should be your data.  Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. 
 

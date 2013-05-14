@@ -2,6 +2,8 @@
 
 I'm building on a CfA project of mine, [Sheetsee.js](http://jllord.github.io/sheetsee.js), thanks to a Mozilla-Knight Foundation Code Sprint Grant. 
 
+[Here is the in-progress documentation](https://github.com/jllord/sheetsee-cache/blob/master/docs.md). 
+
 ### Server-side and Client-side
 
 I'm planning on building a server-side and client-side version. The client-side version will remain the most approachable and easy to stand up. The server-side version will have niceties like caching the data on the server to eliminate waiting on Google.
