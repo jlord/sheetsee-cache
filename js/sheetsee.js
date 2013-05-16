@@ -90,7 +90,7 @@ function makeTable(data, targetDiv) {
 function getGroupCount(data, groupTerm) {
   var group = []
   data.forEach(function (d) {
-    if (d.status.match(statusFilter)) group.push(d)
+    if (d.status.match(groupTerm)) group.push(d)
   })
   return group.length
   if (group = []) return "0" 
@@ -107,16 +107,29 @@ function getColumnTotal(data, column){
   })
 }
 
-function getAveragefromColumn(data, column) {
+function getColumnAverage(data, column) {
   var total = getColumnTotal(data, column)
   var average = total / data.length
   return average
 }
 
-function getDiff(firstNum, secondNum){
-  var diff = firstNum - secondNum
-  return diff
-}
+// function findMax(data, column) {
+//   var values = data.map(function() {
+//     var valsArray = []
+//     data.forEach(function(element) {
+//       if (data[column]) valsArray.push(element)
+//     })
+//   return valsArray
+//   }) 
+// return values 
+// }
+
+
+// function findMax(data, column) {
+//   log(data[column])
+//   var values = data.map(function() {return data[column]})
+//   return values
+// }
 
 // out of the data, filter something from a category
 function getMatches(data, filter, category) {
@@ -697,8 +710,8 @@ exports.resolveDataTitle = resolveDataTitle
 exports.sortThings = sortThings
 exports.getGroupCount = getGroupCount
 exports.getColumnTotal = getColumnTotal
-exports.getDiff = getDiff
-exports.getAveragefromColumn = getAveragefromColumn
+exports.findMax = findMax
+exports.getColumnAverage = getColumnAverage
 }
 var Sheetsee = {}
 exportFunctions(Sheetsee)
