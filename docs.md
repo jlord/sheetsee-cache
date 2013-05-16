@@ -38,18 +38,17 @@ This bit is the same for both client-side and server-side versions.
 
 Your Google Spreadsheet should be set up with row one as your column headers. Row two and beyond should be your data.  Each header and row becomes an oject in the final array that Tabletop.js delivers of your data. 
 
-There shouldn't be any breaks or horizontal organization in the spreadsheet.Feel free to format the style of your spreadsheet as you wish; borders, colors and such do not transfer or affect your data exporting.
+![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/nonos.png)
 
-> example of how the data transforms from spreadsheet to final .json
-> diagram of the no's in spreadsheets and how it reads the spreadsheets
+There shouldn't be any breaks or horizontal organization in the spreadsheet. But, feel free to format the style of your spreadsheet as you wish; borders, fonts and colors and such do not transfer or affect your data exporting.
 
-    [{"name": "joe", "breed": "tabby", "age": 4}, {"name": "jesse", "breed": "siamese", "age": 2}]
+    [{"name":"Coco","breed":"Teacup Maltese","kind":"Dog","cuddlability":"5","lat":"37.74832","long":"-122.402158","picurl":"http://distilleryimage8.s3.amazonaws.com/98580826813011e2bbe622000a9f1270_7.jpg","hexcolor":"#ECECEC","rowNumber":1}...]
 
 #### Hexcolor
 
-You must add a column to your spreadsheet with the heading _hexcolor_ (case insensitive). The maps, charts and such use colors and this is the easiest way to standardize that. The color scheme is up to you, all you need to do is fill the column with hexidecimal color values. This [color picker](http://color.hailpixel.com/) by [Devin Hunt](https://twitter.com/hailpixel) is really fun.
+![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/hexcolors.png)
 
-> show example of hexcolor column
+You must add a column to your spreadsheet with the heading _hexcolor_ (case insensitive). The maps, charts and such use colors and this is the easiest way to standardize that. The color scheme is up to you, all you need to do is fill the column with hexidecimal color values. This [color picker](http://color.hailpixel.com/) by [Devin Hunt](https://twitter.com/hailpixel) is really fun.
 
 #### Geocoding
 
@@ -60,9 +59,13 @@ If you intend to map your data and only have addresses you'll need to geocode th
 
 #### Publishing Your Spreadsheet
 
-You need to do this in order to generate a unique key for your spreadsheet which Tabletop.js will use to get your spreadsheet data.
+![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/publish.png)
 
-> show how to publish and get key
+You need to do this in order to generate a unique key for your spreadsheet which Tabletop.js will use to get your spreadsheet data. In your Google Spreadsheet, click _File_ > _Publish to the Web_. Then in the next window click _Start Publishing_; it will then turn into a _Stop Publishing_ button.
+
+![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/key.png)
+
+You should have an address in a box at the bottom, your key is the portion
 
 ### Your Website
 
