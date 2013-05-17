@@ -90,7 +90,7 @@ function makeTable(data, targetDiv) {
 function getGroupCount(data, groupTerm) {
   var group = []
   data.forEach(function (d) {
-    if (d.status.match(statusFilter)) group.push(d)
+    if (d.status.match(groupTerm)) group.push(d)
   })
   return group.length
   if (group = []) return "0" 
@@ -107,15 +107,44 @@ function getColumnTotal(data, column){
   })
 }
 
-function getAveragefromColumn(data, column) {
+function getColumnAverage(data, column) {
   var total = getColumnTotal(data, column)
   var average = total / data.length
   return average
 }
 
-function getDiff(firstNum, secondNum){
-  var diff = firstNum - secondNum
-  return diff
+function getMax(data, column){
+  var result = []
+  data.forEach(function (element) {
+    if (result.length === 0) return result.push(element)
+    else {
+      if (element[column].valueOf() > result[0][column].valueOf()) {
+        result.length = 0
+        return result.push(element)
+      }   
+      if (element[column].valueOf() === result[0][column].valueOf()) {
+        return result.push(element)
+      }
+    } 
+  )}
+  return result
+}
+
+function getMin(data, column) {
+  var result = []
+  data.forEach(function (element){
+    if (result.length === 0) return result.push(element)
+    else {
+      if (element[column].valueOf() < result[0][column].valueOf()) {
+        result.length = 0
+        return result.push(element)
+      }   
+      if (element[column].valueOf() === result[0][column].valueOf()) {
+        return result.push(element)
+      }
+    }
+  })
+  return result
 }
 
 // out of the data, filter something from a category
@@ -697,8 +726,9 @@ exports.resolveDataTitle = resolveDataTitle
 exports.sortThings = sortThings
 exports.getGroupCount = getGroupCount
 exports.getColumnTotal = getColumnTotal
-exports.getDiff = getDiff
-exports.getAveragefromColumn = getAveragefromColumn
+exports.getMax = getMax
+exports.getMin = getMin
+exports.getColumnAverage = getColumnAverage
 }
 var Sheetsee = {}
 exportFunctions(Sheetsee)
