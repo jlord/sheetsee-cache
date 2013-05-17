@@ -113,23 +113,31 @@ function getColumnAverage(data, column) {
   return average
 }
 
-// function findMax(data, column) {
-//   var values = data.map(function() {
-//     var valsArray = []
-//     data.forEach(function(element) {
-//       if (data[column]) valsArray.push(element)
-//     })
-//   return valsArray
-//   }) 
-// return values 
-// }
+function getMax(data, column){
+  var result = [data[0]]
+  data.forEach(function(element){
+    console.log(element[column])
+    if (element[column] > result[column]) result.push(element)
+  })
+  return result
+}
 
-
-// function findMax(data, column) {
-//   log(data[column])
-//   var values = data.map(function() {return data[column]})
-//   return values
-// }
+function getMin(data, column){
+  var result = [data[0]]
+  console.log("first result", result[0], data[0])
+  data.forEach(function(element){
+    if (element[column] < result[0][column]) {
+      result.shift()
+      console.log("aftter shift", result)
+      result.push(element)
+      console.log("aftter push", result)
+    }
+    if (element[column] = result[0][column]) {
+      result.push(element)
+    }
+  })
+  return result
+}
 
 // out of the data, filter something from a category
 function getMatches(data, filter, category) {
@@ -710,7 +718,8 @@ exports.resolveDataTitle = resolveDataTitle
 exports.sortThings = sortThings
 exports.getGroupCount = getGroupCount
 exports.getColumnTotal = getColumnTotal
-exports.findMax = findMax
+exports.getMax = getMax
+exports.getMin = getMin
 exports.getColumnAverage = getColumnAverage
 }
 var Sheetsee = {}
