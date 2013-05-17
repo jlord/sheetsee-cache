@@ -115,29 +115,29 @@ function getColumnAverage(data, column) {
 
 function getMax(data, column){
   var result = []
-  data.forEach(function (element){
+  data.forEach(function (element) {
     if (result.length === 0) return result.push(element)
-      else {
-        if (element[column].valueOf() > result[0][column].valueOf()) {
-          result.length = 0
-          return result.push(element)
+    else {
+      if (element[column].valueOf() > result[0][column].valueOf()) {
+        result.length = 0
+        return result.push(element)
       }   
       if (element[column].valueOf() === result[0][column].valueOf()) {
         return result.push(element)
       }
-    }
-  })
+    } 
+  )}
   return result
 }
 
-function getMin(data, column){
+function getMin(data, column) {
   var result = []
   data.forEach(function (element){
     if (result.length === 0) return result.push(element)
-      else {
-        if (element[column].valueOf() < result[0][column].valueOf()) {
-          result.length = 0
-          return result.push(element)
+    else {
+      if (element[column].valueOf() < result[0][column].valueOf()) {
+        result.length = 0
+        return result.push(element)
       }   
       if (element[column].valueOf() === result[0][column].valueOf()) {
         return result.push(element)
