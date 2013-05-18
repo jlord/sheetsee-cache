@@ -115,29 +115,29 @@ function getColumnAverage(data, column) {
 
 function getMax(data, column){
   var result = []
-  data.forEach(function (element) {
+  data.forEach(function (element){
     if (result.length === 0) return result.push(element)
-    else {
-      if (element[column].valueOf() > result[0][column].valueOf()) {
-        result.length = 0
-        return result.push(element)
+      else {
+        if (element[column].valueOf() > result[0][column].valueOf()) {
+          result.length = 0
+          return result.push(element)
       }   
       if (element[column].valueOf() === result[0][column].valueOf()) {
         return result.push(element)
       }
-    } 
-  )}
+    }
+  })
   return result
 }
 
-function getMin(data, column) {
+function getMin(data, column){
   var result = []
   data.forEach(function (element){
     if (result.length === 0) return result.push(element)
-    else {
-      if (element[column].valueOf() < result[0][column].valueOf()) {
-        result.length = 0
-        return result.push(element)
+      else {
+        if (element[column].valueOf() < result[0][column].valueOf()) {
+          result.length = 0
+          return result.push(element)
       }   
       if (element[column].valueOf() === result[0][column].valueOf()) {
         return result.push(element)
@@ -230,7 +230,6 @@ function makeArrayOfObject(data) {
 
 // create geoJSON from your spreadsheet's coordinates
 function createGeoJSON(data) {
-  console.log(featureElements)
   var geoJSON = []
   data.forEach(function(lineItem){
     // var options = featureElements.forEach(function(el) {
@@ -261,13 +260,13 @@ function createGeoJSON(data) {
 
 // load basic map with tiles
 function loadMap(mapDiv) {
-	var map = L.mapbox.map(mapDiv)
+  var map = L.mapbox.map(mapDiv)
   // map.setView(, 4)
-	// map.addLayer(L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'))
-	map.touchZoom.disable()
-	map.doubleClickZoom.disable()
-	map.scrollWheelZoom.disable()
-	return map
+  // map.addLayer(L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'))
+  map.touchZoom.disable()
+  map.doubleClickZoom.disable()
+  map.scrollWheelZoom.disable()
+  return map
 }
 
 function addTileLayer(map, tileLayer) {
