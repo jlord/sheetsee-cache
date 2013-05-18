@@ -1,10 +1,10 @@
 /* General */
 
-  body {font-family: Merriweather; padding: 18px; background: #F8F0F0; color: #333; margin: 0px auto;}
+/*  body {margin: 0px auto;}
   a {color: #333;}
   small {padding: 10px 0px;}
   #wrapper {margin: 0px auto; max-width: 600px;}
-  .button {padding: 5px 4px; background-color: #fff; font-size: 10px;}
+  .button {padding: 5px 4px; background-color: #fff; font-size: 10px;}*/
   .button:hover {cursor: hand;}
   input:focus {outline: none;}
 
@@ -51,5 +51,3 @@
   .leaflet-popup-content h2 {margin-bottom: 4px;}
 
   img.petThumbs {height: 80px; width: 80px; border-radius: 1000px;}
-
-

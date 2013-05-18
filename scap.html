@@ -1,0 +1,68 @@
+		<small><a href="https://docs.google.com/spreadsheet/ccc?key=0Ao5u1U6KYND7dGN5QngweVJUWE16bTRob0d2a3dCbnc#gid=0" target="_blank">data source</a></small>
+		<p>Sheetsee.js is a Javascript library that makes it easy to use a Google Spreadsheet as the database powering the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your site when a visitor refreshes the page.</p>
+
+		<p>Using Google Spreadsheets as the backend database is awesome because it is easy to use, share and collaborate with.</p> 
+
+    <p>To use sheetsee.js you'll definitely need to know HTML and CSS and know JavaScript or be not afraid of it and just type what these docs tell you to type. Also, see <a href="http://jsforcats.com" target="_blank">JavaScript for Cats</a>, <a href="http://eloquentjavascript.net/" target="_blank">Eloquent JavaScript</a> or <a href="https://developer.mozilla.org/en-US/docs/JavaScript" target="_blank">Mozilla's Developer Network</p>
+    <div class="container">
+			<input id="dogFilter" type="text" placeholder="filter by.."></input>
+			<span id="dogClear" class="clear button">Clear</span>
+			<span class="noMatches">no matches</span>
+		</div>
+		<h3>Just Dogs</h3>
+		<div id="dogTable" class="container"></div>
+		<h3>Local Pet Friends</h3>
+		<div id="map" class="container"></div>
+		<!-- <span id="sortChart" class="button"> Sort values</span> -->
+		<div class="container">
+			<input id="basicFilter" type="text" placeholder="filter by.."></input>
+			<span id="basicClear" class="clear button">Clear</span>
+			<span class="noMatches">no matches</span>
+		</div>
+		<h3>Local Pet Friends</h3>
+		<div id="basicTable" class="container"></div>
+		<!-- <label><input type="checkbox"> Sort values</label>   -->
+
+	</div><!-- end wrapper -->
+
+	<script id="basicTable" type="text/html">
+		<table>
+		<tr><th>Pic</th><th class="tHeader">Name</th><th class="tHeader">Breed</th><th class="tHeader">Kind</th><th class="tHeader">Cuddlability</th></tr>
+		  {{#rows}}
+		  	<tr><td><img class="petThumbs" src="{{picurl}}"></td><td>{{name}}</td><td>{{breed}}</td><td>{{kind}}</td><td>{{cuddlability}}</td></tr>
+		  {{/rows}}
+	  </table>
+	</script>
+
+	<script id="dogTable" type="text/html">
+		<table>
+		<tr><th>Pic</th><th class="tHeader">Name</th><th class="tHeader">Breed</th><th class="tHeader">Kind</th><th class="tHeader">Cuddlability</th></tr>
+		  {{#rows}}
+		  	<tr><td><img class="petThumbs" src="{{picurl}}"></td><td>{{name}}</td><td>{{breed}}</td><td>{{kind}}</td><td>{{cuddlability}}</td></tr>
+		  {{/rows}}
+	  </table>
+	</script>
+
+
+
+	<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
+  	Sheetsee.makeTable(gData, "#basicTable")
+  	var basicSearch = new Sheetsee.initiateTableFilter(gData, "#basicFilter", "#basicTable")
+  	var dogData = Sheetsee.getMatches(gData, "dog", "kind")
+  	Sheetsee.makeTable(dogData, "#dogTable")
+  	var dogSearch = new Sheetsee.initiateTableFilter(dogData, "#dogFilter", "#dogTable")
+   }) 
+	</script>
+
+	<script type='text/javascript'>	
+    var optionsJSON = ["name", "breed", "cuddlability"]
+    var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)
+		var map = Sheetsee.loadMap("map")
+		Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
+		var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, 11)
+		Sheetsee.addPopups(map, markerLayer)
+	</script>
+
+	<script type="text/javascript">
+	</script>
