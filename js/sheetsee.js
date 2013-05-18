@@ -230,7 +230,6 @@ function makeArrayOfObject(data) {
 
 // create geoJSON from your spreadsheet's coordinates
 function createGeoJSON(data) {
-  console.log(featureElements)
   var geoJSON = []
   data.forEach(function(lineItem){
     // var options = featureElements.forEach(function(el) {

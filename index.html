@@ -57,8 +57,8 @@
     // var featureElements =  {"year": lineItem.year,
     //     										"title": lineItem.placename,
     //     										"city": lineItem.city}
-    var featureElements = ["year", "city", "title"]
-		var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
+    // var featureElements = ["year", "city", "title"]
+		var geoJSON = Sheetsee.createGeoJSON(gData)
 		var map = Sheetsee.loadMap("map")
 		Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
 		var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, 11)
