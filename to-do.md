@@ -2,9 +2,7 @@
 
 ### MAPS
 - Popup Content, I guess needs to just all be pulled out. Don't see another way?
-- GeoJSON Content can be fed in the needed info but users are limited to three items, not ideal. 
--- Create a variable on index page and pass it in. 
--- Make fit bounds work
+-- Make fit bounds work or better
 
 ### TABLES
 - Do I have enough kinds of filtering functions?

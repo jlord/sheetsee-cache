@@ -8,8 +8,9 @@ function exportFunctions(exports) {
 
 function initiateTableFilter(data, filterDiv, tableDiv) {
   $('.clear').on("click", function() { 
-    $(".noMatches").css("visibility", "hidden")
-    $(filterDiv).val("")
+    console.log(this)
+    $(this.id + ".noMatches").css("visibility", "hidden")
+    $(this.id + filterDiv).val("")
     makeTable(data, tableDiv)
   })
   $(filterDiv).keyup(function(e) {
@@ -701,27 +702,30 @@ function d3LineChart(data, options){
             div.transition().duration(500).style("opacity", 0) 
         })
 }
-
+// tables
 exports.searchTable = searchTable
 exports.initiateTableFilter = initiateTableFilter
+exports.makeTable = makeTable
+exports.sendToSort = sendToSort
+exports.resolveDataTitle = resolveDataTitle
+exports.sortThings = sortThings
+// charts
 exports.d3LineChart = d3LineChart
 exports.d3PieChart = d3PieChart
 exports.d3BarChart = d3BarChart
+// maps
+exports.createGeoJSON = createGeoJSON
 exports.addPopups = addPopups
 exports.addMarkerLayer = addMarkerLayer
 exports.addTileLayer = addTileLayer
 exports.loadMap = loadMap
+// data
 exports.makeArrayOfObject = makeArrayOfObject
 exports.makeColorArrayOfObject = makeColorArrayOfObject
 exports.mostFrequent = mostFrequent
 exports.addUnitsLabels = addUnitsLabels
 exports.getOccurance = getOccurance
 exports.getMatches = getMatches
-exports.createGeoJSON = createGeoJSON
-exports.makeTable = makeTable
-exports.sendToSort = sendToSort
-exports.resolveDataTitle = resolveDataTitle
-exports.sortThings = sortThings
 exports.getGroupCount = getGroupCount
 exports.getColumnTotal = getColumnTotal
 exports.getMax = getMax
