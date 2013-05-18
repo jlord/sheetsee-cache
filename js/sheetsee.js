@@ -240,7 +240,7 @@ function buildOptionObject(optionsJSON, lineItem) {
 function createGeoJSON(data, optionsJSON) {
   var geoJSON = []
   data.forEach(function(lineItem){
-    var optionObj = buildOptionObject(optionsJSON, lineItem)
+    if (optionsJSON) var optionObj = buildOptionObject(optionsJSON, lineItem)
     var feature = {
       type: 'Feature',
       "geometry": {"type": "Point", "coordinates": [lineItem.long, lineItem.lat]},

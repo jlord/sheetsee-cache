@@ -114,6 +114,20 @@ A really simple function that builds on `getColumnTotal()` by returning the aver
     getColumnAverage(gData, "cuddlability")
     // returns 1.8333333333333333
 
+### Sheetsee.getMin(data, column)
+
+This will return an _array_ of _object or _objects_ (if there is a tie) of the element with the lowest number value in the **column** you specify from your **data**.
+
+    getMin(gData, "cuddlability")
+    returns {breed: "Fat", cuddlability: "0", hexcolor: "#CDCF83"...}, {breed: "Grey", cuddlability: "0", hexcolor: "#9C9B9A"...}, {breed: "Creepy", cuddlability: "0", hexcolor: "#918376"...}
+
+### Sheetsee.getMax(data, column)
+
+This will return an _array_ of _object or _objects_ (if there is a tie) of the element with the highest number value in the **column** you specify from your **data**.
+
+    getMin(gData, "cuddlability")
+    returns {breed: "Teacup Maltese", cuddlability: "5", hexcolor: "#ECECEC", kind: "Dog", lat: "37.74832", long: "-122.402158", name: "Coco"...}
+
 ### Don't Forget JavaScript Math
 
 Create variables that are the sums, differences, multiples and so forth of others.
@@ -191,9 +205,22 @@ Next you'll need to create geoJSON out of your data so that it can be mapped.
 
 ### Sheetsee.createGeoJSON()
 
-Something, somthing.
+This takes in your data and the parts of your data that you plan in your map's popups. If you're not going to have popups on your markers, don't worry about it then and just pass in your data. 
 
-     var geoJSON = createGeoJSON
+    var optionsJSON = ["name", "breed", "cuddlability"]
+    var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)
+
+It will return an _array_ in the special geoJSON format that map making things love. 
+
+    [{
+      "geometry": {"type": "Point", "coordinates": [long, lat]},
+      "properties": {
+        "marker-size": "small",
+        "marker-color": lineItem.hexcolor
+      },
+      "opts": {the options you pass in},
+    }}
+
 
 ### Sheetsee.loadMap(mapDiv)
 
