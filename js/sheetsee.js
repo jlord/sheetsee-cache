@@ -121,11 +121,11 @@ function getMax(data, column){
         if (element[column].valueOf() > result[0][column].valueOf()) {
           result.length = 0
           return result.push(element)
-      }   
-      if (element[column].valueOf() === result[0][column].valueOf()) {
-        return result.push(element)
+        }   
+        if (element[column].valueOf() === result[0][column].valueOf()) {
+          return result.push(element)
+        }
       }
-    }
   })
   return result
 }
@@ -138,11 +138,11 @@ function getMin(data, column){
         if (element[column].valueOf() < result[0][column].valueOf()) {
           result.length = 0
           return result.push(element)
-      }   
-      if (element[column].valueOf() === result[0][column].valueOf()) {
-        return result.push(element)
+        }   
+        if (element[column].valueOf() === result[0][column].valueOf()) {
+          return result.push(element)
+        }
       }
-    }
   })
   return result
 }
@@ -227,34 +227,27 @@ function makeArrayOfObject(data) {
 // // // // // // // // // // // // // // // // // // // // // // // // //  
 
 // for geocoding: http://mapbox.com/tilemill/docs/guides/google-docs/#geocoding
-
+// var optionsJSON = {"city": "city", "placename": "placename"}
 // create geoJSON from your spreadsheet's coordinates
-function createGeoJSON(data) {
+function createGeoJSON(data, optionsJSON) {
+  var one = optionsJSON[0]
+  var two = optionsJSON[1]
+  var three = optionsJSON[2]
   var geoJSON = []
   data.forEach(function(lineItem){
-    // var options = featureElements.forEach(function(el) {
-    //   var counter = 0
-    //   var string = el[counter]
-    //   var key = string
-    //   var value = lineItem.string
-    //   var newOptions = {key: value}
-    //   counter++
-    //   console.log(counter, newOptions)
-    //   return newOptions
-    // })
     var feature = {
       type: 'Feature',
       "geometry": {"type": "Point", "coordinates": [lineItem.long, lineItem.lat]},
       "properties": {
         "marker-size": "small",
         "marker-color": lineItem.hexcolor,
-        "name": lineItem.name
-      },
-      "options": ""
+        "one": lineItem[one],
+        "two": lineItem[two],
+        "three": lineItem[three]
+      }
     }
     geoJSON.push(feature)
   })
-  console.log(geoJSON)
   return geoJSON
 }
 
@@ -295,11 +288,14 @@ function addMarkerLayer(geoJSON, map, zoomLevel) {
   return markerLayer
 }
 
-function addPopups(geoJSON, map, markerLayer) {
-  console.log("markerLayer", markerLayer)
+// var popupContent = '<h2>' + feature.properties.one + '</h2>' +
+//                     '<h3>' + feature.properties.two + '</h3>'
+
+function addPopups(map, markerLayer, popupContent) {
   markerLayer.on('click', function(e) {
     var feature = e.layer.feature
-    var popupContent = '<h2>' + feature.properties.name + '</h2>'
+    var popupContent = '<h2>' + feature.properties.one + '</h2>' +
+                        '<h3>' + feature.properties.two + '</h3>'
     // var popupContent = popupContent
     e.layer.bindPopup(popupContent,{closeButton: false,})
   })

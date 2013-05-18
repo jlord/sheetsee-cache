@@ -54,15 +54,14 @@
 	</script>
 
 	<script type='text/javascript'>
-    // var featureElements =  {"year": lineItem.year,
-    //     										"title": lineItem.placename,
-    //     										"city": lineItem.city}
-    // var featureElements = ["year", "city", "title"]
-		var geoJSON = Sheetsee.createGeoJSON(gData)
+    var optionsJSON = ["name", "breed", "cuddlability"]
+    var popupContent = '<h2>' + optionsJSON[0] + '</h2>' +
+                       '<h3>' + optionsJSON[1]+ '</h3>'		
+    var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)
 		var map = Sheetsee.loadMap("map")
 		Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
 		var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, 11)
-		Sheetsee.addPopups(geoJSON, map, markerLayer)
+		Sheetsee.addPopups(map, markerLayer)
 	</script>
 
 	<script type="text/javascript">
