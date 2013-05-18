@@ -226,25 +226,28 @@ function makeArrayOfObject(data) {
 //
 // // // // // // // // // // // // // // // // // // // // // // // // //  
 
+function buildOptionObject(optionsJSON, lineItem) {
+  var newObj = {}
+  optionsJSON.forEach(function(option) {
+    newObj[option] = lineItem[option]
+  })
+  return newObj
+}
+
 // for geocoding: http://mapbox.com/tilemill/docs/guides/google-docs/#geocoding
-// var optionsJSON = {"city": "city", "placename": "placename"}
 // create geoJSON from your spreadsheet's coordinates
 function createGeoJSON(data, optionsJSON) {
-  var one = optionsJSON[0]
-  var two = optionsJSON[1]
-  var three = optionsJSON[2]
   var geoJSON = []
   data.forEach(function(lineItem){
+    var optionObj = buildOptionObject(optionsJSON, lineItem)
     var feature = {
       type: 'Feature',
       "geometry": {"type": "Point", "coordinates": [lineItem.long, lineItem.lat]},
       "properties": {
         "marker-size": "small",
-        "marker-color": lineItem.hexcolor,
-        "one": lineItem[one],
-        "two": lineItem[two],
-        "three": lineItem[three]
-      }
+        "marker-color": lineItem.hexcolor
+      },
+      "opts": optionObj,
     }
     geoJSON.push(feature)
   })
@@ -294,8 +297,8 @@ function addMarkerLayer(geoJSON, map, zoomLevel) {
 function addPopups(map, markerLayer, popupContent) {
   markerLayer.on('click', function(e) {
     var feature = e.layer.feature
-    var popupContent = '<h2>' + feature.properties.one + '</h2>' +
-                        '<h3>' + feature.properties.two + '</h3>'
+    var popupContent = '<h2>' + feature.opts.name + '</h2>' +
+                        '<h3>' + feature.opts.breed + '</h3>'
     // var popupContent = popupContent
     e.layer.bindPopup(popupContent,{closeButton: false,})
   })
