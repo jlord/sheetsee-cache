@@ -28,6 +28,42 @@ The server-side version is built with [Node.js](http://www.nodejs.org) and you'l
 4. Create a script tag that waits for the document to load and then executes any of the map, chart or tables you've specified in it.
 5. Set it and forget. Now all you need to do is edit the spreadsheet and visitors will get the latest information everytime they load the page.
 
+## Bare Minimum Setup
+
+Ignoring some HTML things to conserve space, you get the point. This gives you a page with a map of your spreadsheets points.
+
+    <html>
+        <head>
+            <script type="text/javascript" src="http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js"></script>
+            <script type="text/javascript" src="js/ICanHaz.js"></script>
+            <script type="text/javascript" src="js/jquery.js"></script>
+            <script type="text/javascript" src="js/d3.js"></script>
+            <script type="text/javascript" src="js/sheetsee.js"></script>
+            <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
+        </head>
+        <style> #map {height: 600px; width: 600px;} </style>
+        <body>
+        <div id="map"></div>
+        <script>
+            var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
+            var map = Sheetsee.loadMap("map")
+            Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
+            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
+        </script>
+        </body>
+    </html>
+
+## Awesome Possibilities
+
+1. Small newsrooms with data for stories but small dev teams.
+2. Friends or groups collaborating on data for a website/project.
+3. Using [iftt.com](http://www.ifttt.com) to auto populate spreadsheets which are hooked to a website with Sheetsee.js.
+
+## Examples
+1. Hack Spots
+2. Pennies
+3. [James Sconfitto](https://twitter.com/jugglingnutcase) make a [map of his relationship](https://github.com/jugglingnutcase/katiejamie) with his wife <3
+
 ## Getting Started
 
 This bit is the same for both client-side and server-side versions.
@@ -393,37 +429,6 @@ In a `<script>` tag set up your options.
 Then call the `d3PieChart()` function with your **data** and **options**.
 
     Sheetsee.d3PieChart(data, pieOptions)
-
-## Bare Minimum Setup
-
-Ignoring some HTML things to conserve space, you get the point. This gives you a page with a map of your spreadsheets points.
-
-    <html>
-        <head>
-            <script type="text/javascript" src="http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js"></script>
-            <script type="text/javascript" src="js/ICanHaz.js"></script>
-            <script type="text/javascript" src="js/jquery.js"></script>
-            <script type="text/javascript" src="js/d3.js"></script>
-            <script type="text/javascript" src="js/sheetsee.js"></script>
-            <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css' rel='stylesheet' />
-        </head>
-        <style> #map {height: 600px; width: 600px;} </style>
-        <body>
-        <div id="map"></div>
-        <script>
-            var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
-            var map = Sheetsee.loadMap("map")
-            Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
-            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
-        </script>
-        </body>
-    </html>
-
-## Awesome Possibilities
-
-1. Small newsrooms with data for stories but small dev teams.
-2. Friends or groups collaborating on data for a website/project.
-3. Using [iftt.com](http://www.ifttt.com) to auto populate spreadsheets which are hooked to a website with Sheetsee.js.
 
 ## Big Time Thanks
 

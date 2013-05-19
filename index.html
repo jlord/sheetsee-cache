@@ -15,15 +15,14 @@
 	<div id="menu"><ul>
 		<li><a href="#intro">Intro</a></li>
 		<li><a href="#shortsweet">Short + Sweet</a></li>
+		<li><a href="#possibilities">Possibilities + Examples</a></li>
 		<li><a href="#getstarted">Getting Started</a></li>
 		<li><a href="#workdata">Working with the Data</a></li>
 		<li><a href="#makemap">Make a Map</a></li>
 		<li><a href="#maketable">Make a Table</a></li>
 		<li><a href="#makechart">Make a Chart</a></li>
-		<li><a href="#">More info</a></li>
-		<li><a href="http://www.github.com/jllord/sheetsee.js" target="_blank">Source at GitHub</a></li>
-		<li><a href="#">Intro</a></li>
-		<li><a href="#">Intro</a></li></ul>
+		<li><a href="http://www.github.com/jllord/sheetsee.js" target="_blank" class="a2">Source at GitHub</a></li>
+		<li><a href="http://www.twitter.com/jllord" target="_blank" class="a2">I'm @jllord</a></li>
 	</div>
 	<div id="wrapper">
 		<p><img src="https://raw.github.com/jllord/sheetsee-cache/master/img/sheetsee-03.png" alt="sheetsee"></p>
@@ -48,6 +47,40 @@
 <li>Set it and forget. Now all you need to do is edit the spreadsheet and visitors will get the latest information everytime they load the page.</li>
 </ol>
 </div>
+<h2>Bare Minimum Setup</h2>
+<p>Ignoring some HTML things to conserve space, you get the point. This gives you a page with a map of your spreadsheets points.</p>
+<pre><code data-language="HTML">&lt;html&gt;
+    &lt;head&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;js/ICanHaz.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;js/d3.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;js/sheetsee.js&quot;&gt;&lt;/script&gt;
+        &lt;link href=&#39;http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css&#39; rel=&#39;stylesheet&#39; /&gt;
+    &lt;/head&gt;
+    &lt;style&gt; #map {height: 600px; width: 600px;} &lt;/style&gt;
+    &lt;body&gt;
+    &lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
+        var map = Sheetsee.loadMap(&quot;map&quot;)
+        Sheetsee.addTileLayer(map, &#39;examples.map-20v6611k&#39;)
+        var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
+    &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h2 id="possibilities">Awesome Possibilities</h2>
+<ol>
+<li>Small newsrooms with data for stories but small dev teams.</li>
+<li>Friends or groups collaborating on data for a website/project.</li>
+<li>Using <a href="http://www.ifttt.com">iftt.com</a> to auto populate spreadsheets which are hooked to a website with Sheetsee.js.</li>
+</ol>
+<h2>Examples</h2>
+<ol>
+<li>Small newsrooms with data for stories but small dev teams.</li>
+<li>Friends or groups collaborating on data for a website/project.</li>
+<li>Using <a href="http://www.ifttt.com">iftt.com</a> to auto populate spreadsheets which are hooked to a website with Sheetsee.js.</li>
+</ol>
 <h2 id="getstarted">Getting Started</h2>
 <p>This bit is the same for both client-side and server-side versions.</p>
 <h3>Your Data</h3>
@@ -262,34 +295,6 @@ var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)</code></pre>
 </ul>
 <p>Then call the <code data-language="javascript">d3PieChart()</code> function with your <strong>data</strong> and <strong>options</strong>.</p>
 <pre><code data-language="javascript">Sheetsee.d3PieChart(data, pieOptions)</code></pre>
-<h2>Bare Minimum Setup</h2>
-<p>Ignoring some HTML things to conserve space, you get the point. This gives you a page with a map of your spreadsheets points.</p>
-<pre><code data-language="HTML">&lt;html&gt;
-    &lt;head&gt;
-        &lt;script type=&quot;text/javascript&quot; src=&quot;http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.js&quot;&gt;&lt;/script&gt;
-        &lt;script type=&quot;text/javascript&quot; src=&quot;js/ICanHaz.js&quot;&gt;&lt;/script&gt;
-        &lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.js&quot;&gt;&lt;/script&gt;
-        &lt;script type=&quot;text/javascript&quot; src=&quot;js/d3.js&quot;&gt;&lt;/script&gt;
-        &lt;script type=&quot;text/javascript&quot; src=&quot;js/sheetsee.js&quot;&gt;&lt;/script&gt;
-        &lt;link href=&#39;http://api.tiles.mapbox.com/mapbox.js/v1.0.0/mapbox.css&#39; rel=&#39;stylesheet&#39; /&gt;
-    &lt;/head&gt;
-    &lt;style&gt; #map {height: 600px; width: 600px;} &lt;/style&gt;
-    &lt;body&gt;
-    &lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
-    &lt;script&gt;
-        var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
-        var map = Sheetsee.loadMap(&quot;map&quot;)
-        Sheetsee.addTileLayer(map, &#39;examples.map-20v6611k&#39;)
-        var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
-    &lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-<h2>Awesome Possibilities</h2>
-<ol>
-<li>Small newsrooms with data for stories but small dev teams.</li>
-<li>Friends or groups collaborating on data for a website/project.</li>
-<li>Using <a href="http://www.ifttt.com">iftt.com</a> to auto populate spreadsheets which are hooked to a website with Sheetsee.js.</li>
-</ol>
 <h2>Big Time Thanks</h2>
 <p>Thanks to <a href="http://www.codeforamerica.org">Code for America</a> for providing the platform me to build the first version of sheetsee.js for Macon, Georga.</p>
 <p>Thanks to <a href="http://www.twitter.com/dansinker">Dan Sinker</a> at <a href="http://www.mozillaopennews.org/">Open News</a> for having faith and getting things together to make this Code Sprint happen and thanks to <a href="https://twitter.com/whatsnewmedia">Matt Green</a> at WBEZ for being a willing partner.</p>
