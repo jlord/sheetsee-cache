@@ -65,6 +65,10 @@
   	Sheetsee.makeTable(calCoins, "#caliCoins")
 		Sheetsee.initiateTableFilter(calCoins, "#caliFilter", "#caliCoins")
   	// initiateTableFilter(data, filterDiv, tableDiv)
+
+  	var newData = Sheetsee.addUnitsLabels(gData, "placename", "year")
+  	console.log('gData', gData[0])
+  	// console.log('newData', newData[0])
    }) 
 	</script>
 
