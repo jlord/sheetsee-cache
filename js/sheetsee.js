@@ -298,8 +298,8 @@ function addMarkerLayer(geoJSON, map, zoomLevel) {
 function addPopups(map, markerLayer, popupContent) {
   markerLayer.on('click', function(e) {
     var feature = e.layer.feature
-    var popupContent = '<h2>' + feature.opts.name + '</h2>' +
-                        '<h3>' + feature.opts.breed + '</h3>'
+    var popupContent = '<img class="petThumbs" src="' + feature.opts.picurl + '">' +
+                        '<h3 style="text-align: center;">' + feature.opts.name + '</h3>'
     // var popupContent = popupContent
     e.layer.bindPopup(popupContent,{closeButton: false,})
   })

@@ -64,5 +64,26 @@
 		Sheetsee.addPopups(map, markerLayer)
 	</script>
 
+
+		<script type='text/javascript'>	
+    var optionsJSON = ["name", "picurl", "cuddlability"]
+    var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)
+		var map = Sheetsee.loadMap("map")
+		Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
+		var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, 11)
+
+		function addPopups(map, markerLayer, popupContent) {
+		  markerLayer.on('click', function(e) {
+		    var feature = e.layer.feature
+		    var popupContent = '<img class="petThumbs" src="' + feature.opts.picurl + '">' +
+		                        '<h4 style="text-align: center; font-family: Merriweather;">' + feature.opts.name + '</h4>'
+		    // var popupContent = popupContent
+		    e.layer.bindPopup(popupContent,{closeButton: false,})
+		  })
+		}
+
+		Sheetsee.addPopups(map, markerLayer)
+	</script>
+
 	<script type="text/javascript">
 	</script>

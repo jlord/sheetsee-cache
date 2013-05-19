@@ -28,10 +28,12 @@ ol {line-height: 24px;}
 #menu li a.a2 {background-color: #CCF4FF;}
 #menu li a:hover {background-color: #e7e7e7;}
 
-#wrapper {margin: 0px auto; max-width: 800px; padding-top: 40px; /*margin-left: 275px;*/}
+#wrapper {margin: 0px auto; max-width: 800px; padding-top: 40px; /*margin-left: 250px;*/}
 pre {word-wrap: break-word; padding: 14px; background: #F0F0F0; }
 code {font-family: "Consolas", "Ubuntu Mono", monospace; line-height: 22px; font-size: 13px; color: #636363; font-weight: normal;}
 .button {padding: 5px 4px; background-color: #E7E7E7; font-size: 10px;}
 .dotted {margin: 20px -28px; padding: 20px 28px; background-color: #CCF4FF; border: 8px solid #47CCFC; margin-top: 44px; padding-top: 0px;}
 .dotted li {padding: 0px 2px;}
 .dotted h2 {margin-top: inherit;}
+
+ .leaflet-popup-content h2 {margin-bottom: 4px; margin-top: auto;}

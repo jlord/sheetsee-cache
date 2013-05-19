@@ -21,7 +21,7 @@
 		<li><a href="#makemap">Make a Map</a></li>
 		<li><a href="#maketable">Make a Table</a></li>
 		<li><a href="#makechart">Make a Chart</a></li>
-		<li><a href="http://www.github.com/jllord/sheetsee.js" target="_blank" class="a2">Source at GitHub</a></li>
+		<li><a href="http://www.github.com/jllord/sheetsee.js" target="_blank" class="a2">Source on GitHub</a></li>
 		<li><a href="http://www.twitter.com/jllord" target="_blank" class="a2">I'm @jllord</a></li>
 	</div>
 	<div id="wrapper">
@@ -31,7 +31,7 @@
 <p>Using Google Spreadsheets as the backend database is awesome because it is easy to use, share and collaborate with.</p>
 <p>To use sheetsee.js you&#39;ll definitely need to know HTML, CSS and know JavaScript or be not afraid of it and just type what these docs tell you to type. Also, see <a href="http://www.jsforcats.com">JavaScript for Cats</a>, <a href="http://eloquentjavascript.net/">Eloquent JavaScript</a> or <a href="https://developer.mozilla.org/en-US/docs/JavaScript">Mozilla&#39;s Developer Network</a>.</p>
 <h3>Dependencies</h3>
-<p>Sheetsee.js depends on a few other awesome JavaScript libraries to make all this happen. First, <a href="http://builtbybalance.com/Tabletop/">Tabletop.js</a> gets the data from the Google Spreadsheet and makes it nice. Once you have your data Sheetsee.js makes it easy to set up tables or templates with <a href="http://mustache.github.io/">Mustache.js</a>, maps with <a href="http://mapbox.com/mapbox.js/example/v1.0.0/">Mapbox.js</a>, and charts with <a href="http://d3js.org/">d3.js</a>. And <a href="http://jquery.com/">jQuery</a> of course powers most of the interactions. It also has many sorting and filtering functions built in so that you can display different parts of your data if you want. Each of these are explained in more detail below.</p>
+<p>Sheetsee.js depends on a few other awesome JavaScript libraries to make all this happen. First, <a href="http://builtbybalance.com/Tabletop/">Tabletop.js</a> gets the data from the Google Spreadsheet and makes it nice. Once you have your data Sheetsee.js makes it easy to set up tables or templates with <a href="http://icanhazjs.com/">IChanHas.js</a> (built on <a href="http://mustache.github.io/">mustache.js</a>), maps with <a href="http://mapbox.com/mapbox.js/example/v1.0.0/">Mapbox.js</a>, and charts with <a href="http://d3js.org/">d3.js</a>. And <a href="http://jquery.com/">jQuery</a> of course powers most of the interactions. It also has many sorting and filtering functions built in so that you can display different parts of your data if you want. Each of these are explained in more detail below.</p>
 <h3>CSS</h3>
 <p>Sheetsee.js comes with a bare minimum stylesheet. This way you can customize your site to look the way you want to it or to match an existing site&#39;s design.</p>
 <h3>Client-side or Server-side</h3>
@@ -171,7 +171,9 @@ var kindData = makeColorArrayOfObjects(mostPopBreeds, breedColors)</code></pre>
 <pre><code data-language="javascript">Sheetsee.addUnitsLabels(gData, &quot;name&quot;, &quot;cuddlability&quot;)</code></pre>
 <p>Which will return an array, ready for the d3 charts:</p>
 <pre><code data-language="javascript">[{&quot;label&quot;: &quot;coco&quot;, &quot;kind&quot;: &quot;dog&quot;, &quot;units&quot;: 5}, {&quot;label&quot;: &quot;unagi&quot;, &quot;kind&quot;: &quot;cat&quot;, &quot;units&quot;: 0}]</code></pre>
+
 <h2 id="makemap">Make a Map</h2>
+<div id="map" class="container"></div>
 <p>Sheetsee.js uses <a href="http://mapbox.com/mapbox.js">Mapbox.js</a>, a <a href="http://leafletjs.com/">Leaflet.js</a> plugin, to make maps.</p>
 <p>Create an empty <code data-language="javascript">&lt;div&gt;</code> in your HTML, with an id.</p>
 <pre><code data-language="javascript">&lt;div id=&quot;map&quot;&gt;&lt;/div&gt;</code></pre>
@@ -230,9 +232,7 @@ var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)</code></pre>
 <pre><code data-language="javascript">&lt;div id=&quot;secondTable&quot;&gt;&lt;/div&gt;
 &lt;script id=&quot;secondTable&quot;&gt; // your table template here &lt;/script&gt;
 &lt;script&gt;Sheetsee.makeTable(otherData, &quot;#secondTable&quot;)&lt;/script&gt;</code></pre>
-<p> Learn more about the things you can do with <a href="">Handlebars</a>.</p>
-<p><strong>is it handlebars or mustache <a href="http://icanhazjs.com/">http://icanhazjs.com/</a></strong>
-<strong>how to set up non-tables yourself</strong></p>
+<p> Learn more about the things you can do with <a href="http://mustache.github.io/">mustache.js</a>.</p>
 <h3 class="functionH">Sheetsee.makeTable(data, targetDiv)</h3>
 <p>You&#39;ll call this to make a table out of a <strong>data</strong> and tell it what <strong>targetDiv</strong> in the html to render it in (this should also be the same id as your script template id).</p>
 <pre><code data-language="javascript">Sheetsee.makeTable(gData, &quot;#siteTable&quot;)</code></pre>
@@ -301,6 +301,7 @@ var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)</code></pre>
 <p>Thanks to <a href="http://www.twitter.com/maxogden">Max Ogden</a> for emotional support, teaching me JavaScript and working on the harder parts of Sheetsee.js - especially for making <a href="npmjs.org/tabletop">Tabletop.js for Node.js</a>.</p>
 <p>Thanks to all the authors and contributors to Tabletop.js, Mapbox.js, Leaflet.js, jQuery, ICanHas.js and d3.js. Thanks to Google and the Internet for existing and to all those who&#39;ve written tutorials or asked or answered a question on StackOverflow.</p>
 <p>Thanks to Mom and Dad for getting a computer in 1996 and the mIRC scripts I started writing that I suppose would eventually lead me here.</p>
+
 
 
 </body>
