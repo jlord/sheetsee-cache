@@ -278,29 +278,14 @@ function addMarkerLayer(geoJSON, map, zoomLevel) {
   map.setView(viewCoords, zoomLevel)
   // map.fitBounds(geoJSON)
   markerLayer.addTo(map)
-  // markerLayer.on('click', function(e) {
-  //   var feature = e.layer.feature
-  //   // $("td").css("background", "none")
-  //   // $("." + feature.properties.id).css("background", "#ff00ff")
-  //   console.log(feature.properties.id)
-  //   var popupContent = '<h2>' + feature.properties.title + '</h2>' + '<small>' + feature.properties.year + '</small>'
-  //   e.layer.bindPopup(popupContent,{
-  //   closeButton: false,
-  //   })
-  // })
-  // addPopups(geoJSON, map, markerLayer)
   return markerLayer
 }
-
-// var popupContent = '<h2>' + feature.properties.one + '</h2>' +
-//                     '<h3>' + feature.properties.two + '</h3>'
 
 function addPopups(map, markerLayer, popupContent) {
   markerLayer.on('click', function(e) {
     var feature = e.layer.feature
-    var popupContent = '<img class="petThumbs" src="' + feature.opts.picurl + '">' +
-                        '<h3 style="text-align: center;">' + feature.opts.name + '</h3>'
-    // var popupContent = popupContent
+    var popupContent = '<h2>' + feature.opts.city + '</h2>' +
+                        '<h3>' + feature.opts.placename + '</h3>'
     e.layer.bindPopup(popupContent,{closeButton: false,})
   })
 }
