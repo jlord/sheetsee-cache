@@ -62,9 +62,7 @@
 <h4>Geocoding</h4>
 <p>If you intend to map your data and only have addresses you&#39;ll need to geocode the addresses into lat/long coordinates. Mapbox built a <a href="http://mapbox.com/tilemill/docs/guides/google-docs/#geocoding">plugin</a>
  that does this for you in Google Docs. You can also use websites like <a href="http://www.latlong.net/">latlong.net</a> to get the coordinates and paste them into rows with column headers <em>lat</em> and <em>long</em>.</p>
-<blockquote>
-<p>image of lat and long column headers</p>
-</blockquote>
+<img src="https://raw.github.com/jllord/sheetsee-cache/master/img/latlong.png" alt="sheetsee">	
 <h4>Publishing Your Spreadsheet</h4>
 <p><img src="https://raw.github.com/jllord/sheetsee-cache/master/img/publish.png" alt="sheetsee"></p>
 <p>You need to do this in order to generate a unique key for your spreadsheet, which Tabletop.js will use to get your spreadsheet data. In your Google Spreadsheet, click <em>File</em> &gt; <em>Publish to the Web</em>. Then in the next window click <em>Start Publishing</em>; it will then turn into a <em>Stop Publishing</em> button.</p>
@@ -101,11 +99,11 @@
 <h3 class="functionH">Sheetsee.getMin(data, column)</h3>
 <p>This will return an <em>array</em> of <em>object</em> or <em>objects</em> (if there is a tie) of the element with the lowest number value in the <strong>column</strong> you specify from your <strong>data</strong>.</p>
 <pre><code data-language="javascript">getMin(gData, &quot;cuddlability&quot;)
-returns {breed: &quot;Fat&quot;, cuddlability: &quot;0&quot;, hexcolor: &quot;#CDCF83&quot;...}, {breed: &quot;Grey&quot;, cuddlability: &quot;0&quot;, hexcolor: &quot;#9C9B9A&quot;...}, {breed: &quot;Creepy&quot;, cuddlability: &quot;0&quot;, hexcolor: &quot;#918376&quot;...}</code></pre>
+// returns {breed: &quot;Fat&quot;, cuddlability: &quot;0&quot;, hexcolor: &quot;#CDCF83&quot;...}, {breed: &quot;Grey&quot;, cuddlability: &quot;0&quot;, hexcolor: &quot;#9C9B9A&quot;...}, {breed: &quot;Creepy&quot;, cuddlability: &quot;0&quot;, hexcolor: &quot;#918376&quot;...}</code></pre>
 <h3 class="functionH">Sheetsee.getMax(data, column)</h3>
 <p>This will return an <em>array</em> of <em>object</em> or <em>objects</em> (if there is a tie) of the element with the highest number value in the <strong>column</strong> you specify from your <strong>data</strong>.</p>
 <pre><code data-language="javascript">getMin(gData, &quot;cuddlability&quot;)
-returns {breed: &quot;Teacup Maltese&quot;, cuddlability: &quot;5&quot;, hexcolor: &quot;#ECECEC&quot;, kind: &quot;Dog&quot;, lat: &quot;37.74832&quot;, long: &quot;-122.402158&quot;, name: &quot;Coco&quot;...}</code></pre>
+// returns {breed: &quot;Teacup Maltese&quot;, cuddlability: &quot;5&quot;, hexcolor: &quot;#ECECEC&quot;, kind: &quot;Dog&quot;, lat: &quot;37.74832&quot;, long: &quot;-122.402158&quot;, name: &quot;Coco&quot;...}</code></pre>
 <h3>Don&#39;t Forget JavaScript Math</h3>
 <p>Create variables that are the sums, differences, multiples and so forth of others. Lots of info on that <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Math">here on MDN</a>.</p>
 <pre><code data-language="javascript">var profit09 = Sheetsee.getColumnTotal(gData, &quot;2009&quot;)
