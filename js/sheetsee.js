@@ -175,16 +175,6 @@ function mostFrequent(data, category) {
       // returns array of arrays, in order
 }
 
-// function addUnitsLabels(arrayObj, oldLabel, oldUnits) {
-//   for (var i = 0; i < arrayObj.length; i++) {
-//     arrayObj[i].label = arrayObj[i][oldLabel]
-//     arrayObj[i].units = arrayObj[i][oldUnits]
-//     delete arrayObj[i][oldLabel]
-//     delete arrayObj[i][oldUnits]
-//   }
-// return arrayObj
-// }
-
 // thank you! http://james.padolsey.com/javascript/deep-copying-of-objects-and-arrays/
 function deepCopy(obj) {
     if (Object.prototype.toString.call(obj) === '[object Array]') {
@@ -233,7 +223,7 @@ function makeColorArrayOfObject(data, colors) {
   var counter = 1
   var colorIndex
   return keys.map(function(key){ 
-    if (keys.length > colors.length) {
+    if (keys.length > colors.length || keys.length <= colors.length ) {
       colorIndex = counter % colors.length
     }
     var h = {label: key, units: data[key], hexcolor: colors[colorIndex]} 
@@ -242,6 +232,7 @@ function makeColorArrayOfObject(data, colors) {
     return h
   })
 }
+
 
 function makeArrayOfObject(data) {
   var keys = Object.keys(data)
