@@ -78,7 +78,16 @@
 		var map = Sheetsee.loadMap("map")
 		Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
 		var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, 11)
-		Sheetsee.addPopups(map, markerLayer)
+		addPopups(map, markerLayer)
+
+		function addPopups(map, markerLayer) {
+		  markerLayer.on('click', function(e) {
+		    var feature = e.layer.feature
+		    var popupContent = '<h2>' + feature.opts.city + '</h2>' +
+		                        '<h3>' + feature.opts.placename + '</h3>'
+		    e.layer.bindPopup(popupContent,{closeButton: false,})
+		  })
+		}
 	</script>
 
 	<script type="text/javascript">

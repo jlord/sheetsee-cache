@@ -196,7 +196,6 @@ function deepCopy(obj) {
 
 function addUnitsLabels(arrayObj, oldLabel, oldUnits) {
   var newArray = deepCopy(arrayObj)
-  console.log("newArray aUL", newArray)
   for (var i = 0; i < newArray.length; i++) {
     newArray[i].label = newArray[i][oldLabel]
     newArray[i].units = newArray[i][oldUnits]
@@ -303,14 +302,17 @@ function addMarkerLayer(geoJSON, map, zoomLevel) {
   return markerLayer
 }
 
-function addPopups(map, markerLayer, popupContent) {
-  markerLayer.on('click', function(e) {
-    var feature = e.layer.feature
-    var popupContent = '<h2>' + feature.opts.city + '</h2>' +
-                        '<h3>' + feature.opts.placename + '</h3>'
-    e.layer.bindPopup(popupContent,{closeButton: false,})
-  })
-}
+// moved to be used on the .html page for now
+// until I find a better way for users to pass in their
+// customized popup html styles
+// function addPopups(map, markerLayer, popupContent) {
+//   markerLayer.on('click', function(e) {
+//     var feature = e.layer.feature
+//     var popupContent = '<h2>' + feature.opts.city + '</h2>' +
+//                         '<h3>' + feature.opts.placename + '</h3>'
+//     e.layer.bindPopup(popupContent,{closeButton: false,})
+//   })
+// }
 
 // // // // // // // // // // // // // // // // // // // // // // //  // //
 // 
@@ -640,8 +642,8 @@ function d3LineChart(data, options){
         y.domain([d3.max(data, function(d) { return d.units }) + 2, 0])
 
     var line = d3.svg.line()
-       .x(function(d, i) { console.log("x", x(i)); return x(i) })
-       .y(function(d) { console.log("y", y(d)); return y(d) })
+       .x(function(d, i) { return x(i) })
+       .y(function(d) { return y(d) })
 
     var graph = d3.select(options.div).append("svg:svg")
           .attr("width", w + m[1] + m[3])
@@ -722,7 +724,7 @@ exports.d3PieChart = d3PieChart
 exports.d3BarChart = d3BarChart
 // maps
 exports.createGeoJSON = createGeoJSON
-exports.addPopups = addPopups
+// exports.addPopups = addPopups
 exports.addMarkerLayer = addMarkerLayer
 exports.addTileLayer = addTileLayer
 exports.loadMap = loadMap
