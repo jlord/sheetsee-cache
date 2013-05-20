@@ -1,5 +1,28 @@
 _This is the WIP server-side version, client side version is here: [github.com/jllord/sheetsee.js](http://github.com/jllord/sheetsee.js)_
 
+### Server-side Hookup
+
+The server-side version is in the repo [sheetsee-cache](http://www.github.com/jllord/sheetsee-cache). It uses [Node.js](http://www.nodejs.org) to go to Google, get the spreadsheet data (with a Node.js version of [Tabletop.js](http://npmjs.org/tabletop), thanks Max Ogden!) and save it on the server. This means every user that visits the page doesn't have to wait on Google's response to load the charts from the data.
+
+When the server builds your page, it will build in your data as the variable gData. All you need to do is add your scripts to the bottom of the page. For the tables/templating you'll need to wrap them in an event listener so that it doesn't try and build them before the data has settled. 
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
+            // table/templating things the rest can be in their own script tags if you'd like
+        }) 
+    </script>
+
+#### Running Locally
+
+You can run this locally and it will check your internet connection - if you're not online it will use the last saved data allowing you to develop offline, yay! 
+
+Once you download the repo, navigate there in Terminal and type:
+
+    npm install 
+    node server.js
+
+This will launch a local server you can visit and develop locally with in your browser. 
+
 ![sheetsee](https://raw.github.com/jllord/sheetsee-cache/master/img/sheetsee-03.png)
 # Sheetsee.js
 Sheetsee.js is a JavaScript library, or box of goodies, if you will, that makes it easy to use a Google Spreadsheet as the database feeding the tables, charts and maps on a website. Once set up, any changes to the spreadsheet will auto-saved by Google and be live on your site when a visitor refreshes the page.
