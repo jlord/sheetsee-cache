@@ -46,11 +46,19 @@ Ignoring some HTML things to conserve space, you get the point. This gives you a
         <style> #map {height: 600px; width: 600px;} </style>
         <body>
         <div id="map"></div>
-        <script>
-            var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
-            var map = Sheetsee.loadMap("map")
-            Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
-            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+                var gData
+                var URL = "0AvFUWxii39gXdFhqZzdTeU5DTWtOdENkQ1Y5bHdqT0E"
+                Tabletop.init( { key: URL, callback: showInfo, simpleSheet: true } ) 
+            }) 
+            function showInfo(data) {
+                gData = data
+                var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
+                var map = Sheetsee.loadMap("map")
+                Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
+                var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
+            }
         </script>
         </body>
     </html>
