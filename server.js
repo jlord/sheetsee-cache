@@ -1,7 +1,7 @@
 // dependencies
 var fs = require('fs')
 var http = require('http')
-var Tabletop = require('tabletop').Tabletop
+var Tabletop = require('tabletop')
 var dns = require('dns')
 var hasInternet = require('hasinternet')
 var cheerio = require('cheerio')
