@@ -42,7 +42,7 @@ Sheetsee.js comes with a bare minimum stylesheet. This way you can customize you
 
 ### Client-side or Server-side
 
-Sheetsee.js comes in two flavors, [client-side]() and [server-side](). The client-side is the most approachable and straightforward, you just include sheetsee.js and the dependencies on your page and use sheetsee.js as normal.
+Sheetsee.js comes in two flavors, client-side (this repo) and server-side ([sheetsee-cache](http://www.github.com/jlord/sheetsee-cache). The client-side is the most approachable and straightforward, you just include sheetsee.js and the dependencies on your page and use sheetsee.js as normal.
 
 The server-side version is built with [Node.js](http://www.nodejs.org) and you'll need to understand Node and be publishing to a server that runs Node.js apps. This version saves the data on the server so that the browser doesn't have to fetch from Google at every request, which can sometimes be slow. You can set when the cache expires. It also allows for offline development, huzzah!
 
@@ -70,19 +70,12 @@ Ignoring some HTML things to conserve space, you get the point. This gives you a
         <style> #map {height: 600px; width: 600px;} </style>
         <body>
         <div id="map"></div>
-        <script type="text/javascript">
-            document.addEventListener('DOMContentLoaded', function() {
-                var gData
-                var URL = "0AvFUWxii39gXdFhqZzdTeU5DTWtOdENkQ1Y5bHdqT0E"
-                Tabletop.init( { key: URL, callback: showInfo, simpleSheet: true } ) 
-            }) 
-            function showInfo(data) {
-                gData = data
-                var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
-                var map = Sheetsee.loadMap("map")
-                Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
-                var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
-            }
+        <script>
+            optionsJSON = ["something", "something"]
+            var geoJSON = Sheetsee.createGeoJSON(gData, featureElements)
+            var map = Sheetsee.loadMap("map")
+            Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
+            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map)
         </script>
         </body>
     </html>
@@ -94,9 +87,8 @@ Ignoring some HTML things to conserve space, you get the point. This gives you a
 3. Using [iftt.com](http://www.ifttt.com) to auto populate spreadsheets which are hooked to a website with Sheetsee.js.
 
 ## Examples
-1. Hack Spots
-2. Pennies
-3. [James Sconfitto](https://twitter.com/jugglingnutcase) make a [map of his relationship](https://github.com/jugglingnutcase/katiejamie) with his wife <3
+1. [Hack Spots](http://jlord.github.io/hack-spots)
+2. [James Sconfitto](https://twitter.com/jugglingnutcase) make a [map of his relationship](https://github.com/jugglingnutcase/katiejamie) with his wife <3
 
 ## Getting Started
 
@@ -174,7 +166,7 @@ The server-side version is in the repo [sheetsee-cache](http://www.github.com/jl
 When the server builds your page, it will build in your data as the variable gData. All you need to do is add your scripts to the bottom of the page. For the tables/templating you'll need to wrap them in an event listener so that it doesn't try and build them before the data has settled. 
 
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() { 
             // table/templating things the rest can be in their own script tags if you'd like
         }) 
     </script>
@@ -183,8 +175,9 @@ When the server builds your page, it will build in your data as the variable gDa
 
 You can run this locally and it will check your internet connection - if you're not online it will use the last saved data allowing you to develop offline, yay! 
 
-Once you download the repo, navigate there in Terminal and type:
+Once you [clone the repo](http://www.github.com/jllord/sheetsee-cache), navigate there in Terminal, install the node modules and launch the server.
 
+    cd sheetsee-cache
     npm install 
     node server.js
 
@@ -194,12 +187,12 @@ This will launch a local server you can visit and develop locally with in your b
 
 Tabletop.js will return all of your data and it will be passed into your site as an _array of objects_ called **gData**. Sheetsee.js has functions built in to help you filter or use that data in other ways if you'd like.
 
-### Sheetsee.getGroupCount(data, groupTerm)
+### Sheetsee.getKeyword(data, keyword)
 
-This takes in your data, an _array of objects_, and searches for a _string_, **groupTerm**, in each piece of your **data** (formerly the cells of your spreadsheet). It returns the number of times it found the **groupTerm**.
+This takes in your data, an _array of objects_, and searches for a _string_, **keyword**, in each piece of your **data** (formerly the cells of your spreadsheet). It returns an array of each element containing a **keyword** match. Similarly, using `getKeywordCount(data, "keyword)` will return the just the number of times the **keyword** occured.
 
-    getGroupCount(gData, "cat")
-    // returns 2
+    getKeyword(gData, "cat")
+    // returns [{breed: "Fat", kind: "cat", hexcolor: "#CDCF83"...}, {breed: "Grey", kind: "cat", hexcolor: "#9C9B9A"...}, {breed: "Creepy", kind: "cat", hexcolor: "#918376"...}]
 
 ### Sheetsee.getColumnTotal(data, column)
 
@@ -220,7 +213,7 @@ A really simple function that builds on `getColumnTotal()` by returning the aver
 This will return an _array_ of _object_ or _objects_ (if there is a tie) of the element with the lowest number value in the **column** you specify from your **data**.
 
     getMin(gData, "cuddlability")
-    // returns {breed: "Fat", cuddlability: "0", hexcolor: "#CDCF83"...}, {breed: "Grey", cuddlability: "0", hexcolor: "#9C9B9A"...}, {breed: "Creepy", cuddlability: "0", hexcolor: "#918376"...}
+    // returns [{breed: "Fat", cuddlability: "0", hexcolor: "#CDCF83"...}, {breed: "Grey", cuddlability: "0", hexcolor: "#9C9B9A"...}, {breed: "Creepy", cuddlability: "0", hexcolor: "#918376"...}]
 
 ### Sheetsee.getMax(data, column)
 
