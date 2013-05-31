@@ -7,7 +7,7 @@ The server-side version is in the repo [sheetsee-cache](http://www.github.com/jl
 When the server builds your page, it will build in your data as the variable gData. All you need to do is add your scripts to the bottom of the page. For the tables/templating you'll need to wrap them in an event listener so that it doesn't try and build them before the data has settled. 
 
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() { // IE6 doesn't do DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
             // table/templating things the rest can be in their own script tags if you'd like
         }) 
     </script>
@@ -16,8 +16,9 @@ When the server builds your page, it will build in your data as the variable gDa
 
 You can run this locally and it will check your internet connection - if you're not online it will use the last saved data allowing you to develop offline, yay! 
 
-Once you download the repo, navigate there in Terminal and type:
+Once you clone the repo, navigate there in Terminal and type:
 
+    cd sheetsee-cache
     npm install 
     node server.js
 
