@@ -353,7 +353,7 @@ You will edit the **popupContent** variable however you'd like your popups to lo
 
 ## Make a Table
 
-Sheetsee.js supports making multiple tables or templates with IcanHas.js. It currently supports sorting and filtering on just one table. For each of these you'll need a `<div>` in your html, a `<script>` template and a `<script>` that calls table making functions.
+Sheetsee.js supports making multiple tables or templates with IcanHas.js. The tables can have multiple inputs for filtering and table headers can be used to sort the data in that column. For each of these you'll need a `<div>` in your html, a `<script>` template and a `<script>` that calls table functions.
 
 #### Your HTML Placeholder `<div>`
 
@@ -385,11 +385,14 @@ The variables inside the {{}} must match the column headers in your spreadsheet.
         })
     </script>
 
-To create another table, simply repeat the steps except for `initiateTableFilter()`
+To create another table, simply repeat the steps.
 
     <div id="secondTable"></div>
     <script id="secondTable"> // your table template here </script>
-    <script>Sheetsee.makeTable(otherData, "#secondTable")</script>
+    <script>
+      Sheetsee.makeTable(otherData, "#secondTable")
+      Sheetsee.initiateTableFilter(otherData, "#secondFilter", "#secondTable")
+    </script>
 
  Learn more about the things you can do with [mustache.js](http://mustache.github.io/).
 
@@ -499,7 +502,7 @@ Thanks to [Code for America](http://www.codeforamerica.org) for providing the pl
 
 Thanks to [Dan Sinker](http://www.twitter.com/dansinker) at [Open News](http://www.mozillaopennews.org/) for having faith and getting things together to make this Code Sprint happen and thanks to [Matt Green](https://twitter.com/whatsnewmedia) at WBEZ for being a willing partner.
 
-Thanks to [Max Ogden](http://www.twitter.com/maxogden) for emotional support, teaching me JavaScript and working on the harder parts of Sheetsee.js - especially for making [Tabletop.js for Node.js](npmjs.org/tabletop).
+Thanks to [Max Ogden](http://www.twitter.com/maxogden) for emotional support, teaching me JavaScript and working on the harder parts of Sheetsee.js - especially for making [Tabletop.js for Node.js](https://npmjs.org/tabletop).
 
 Thanks to all the authors and contributors to Tabletop.js, Mapbox.js, Leaflet.js, jQuery, ICanHas.js and d3.js. Thanks to Google and the Internet for existing and to all those who've written tutorials or asked or answered a question on StackOverflow.
 
